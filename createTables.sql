@@ -1,0 +1,81 @@
+CREATE TABLE IF NOT EXISTS Jogadores (
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    estado ENUM('ativo', 'inativo', 'banido') NOT NULL DEFAULT 'ativo',
+    regiao VARCHAR(255) FOREIGN KEY REFERENCES Regioes(nome),
+);
+
+CREATE TABLE IF NOT EXISTS Amigos (
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    id_jogador1 INT NOT NULL FOREIGN KEY REFERENCES Jogadores(id),
+    id_jogador2 INT NOT NULL FOREIGN KEY REFERENCES Jogadores(id),
+);
+
+CREATE TABLE IF NOT EXISTS Regioes (
+    nome VARCHAR(255) NOT NULL PRIMARY KEY,
+);
+
+CREATE TABLE IF NOT EXISTS Jogos (
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(255) NOT NULL,
+    url VARCHAR(255) NOT NULL,
+);
+
+CREATE TABLE IF NOT EXISTS Compras (
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    id_jogo INT NOT NULL FOREIGN KEY REFERENCES Jogos(id),
+    id_jogador INT NOT NULL FOREIGN KEY REFERENCES Jogadores(id),
+    data DATETIME NOT NULL,
+    preco FLOAT NOT NULL,
+);
+
+CREATE TABLE IF NOT EXISTS Crachas (
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    id_jogo INT NOT NULL FOREIGN KEY REFERENCES Jogos(id),
+    nome VARCHAR(255) NOT NULL,
+    url VARCHAR(255) NOT NULL,
+    limite_pontos INT NOT NULL,
+    data DATETIME NOT NULL,
+);
+
+CREATE TABLE IF NOT EXISTS Estatisticas_Jogador (
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    id_jogador INT NOT NULL FOREIGN KEY REFERENCES Jogadores(id),
+    num_jogos INT NOT NULL,
+    total_pontos INT NOT NULL,
+    num_partidas INT NOT NULL,
+);
+
+CREATE TABLE IF NOT EXISTS Estatisticas_Jogo (
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    id_jogo INT NOT NULL FOREIGN KEY REFERENCES Jogos(id),
+    num_jogadores INT NOT NULL,
+    total_pontos INT NOT NULL,
+    num_partidas INT NOT NULL,
+);
+
+CREATE TABLE IF NOT EXISTS Partida_Normal (
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    id_jogo INT NOT NULL FOREIGN KEY REFERENCES Jogos(id),
+    data_inicio DATETIME NOT NULL,
+    data_fim DATETIME NOT NULL,
+    regiao VARCHAR(255) NOT NULL FOREIGN KEY REFERENCES Regioes(nome),
+    dificuldade ENUM('facil', 'medio', 'dificil') NOT NULL,
+);
+
+CREATE TABLE IF NOT EXISTS Partida_Multi_Jogador (
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    id_jogo INT NOT NULL FOREIGN KEY REFERENCES Jogos(id),
+    data_inicio DATETIME NOT NULL,
+    data_fim DATETIME NOT NULL,
+    regiao VARCHAR(255) NOT NULL FOREIGN KEY REFERENCES Regioes(nome),
+    estado ENUM('aberta', 'fechada') NOT NULL,
+);
+
+CREATE TABLE IF NOT EXISTS Pontos (
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    id_jogador INT NOT NULL FOREIGN KEY REFERENCES Jogadores(id),
+    id_partida INT NOT NULL FOREIGN KEY REFERENCES Partida_Normal(id),
+    pontos INT NOT NULL,
+);
