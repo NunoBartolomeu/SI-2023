@@ -1,0 +1,47 @@
+# SI Projeto Part 1
+First half of the SI project
+
+### Exercicios
+- [ ] A. Create table @All  
+  - [ ] Implementation
+  - [ ] Run & Test
+- [ ] B. Delete table @All  
+  - [ ] Implementation
+- [ ] C. Insert values @Nuno  
+  - [ ] Implementation
+  - [ ] Test
+- [ ] D. Criar Jogado @Mike  
+  - [ ] Implementation
+  - [ ] Test
+- [ ] E. totalPontosJogador @Viegas  
+  - [ ] Implementation
+  - [ ] Test
+- [ ] F. totalJogosJogador @Nuno  
+  - [ ] Implementation
+  - [ ] Test
+- [ ] G. PontosJogoPorJogador @Mike  
+  - [ ] Implementation
+  - [ ] Test
+- [ ] H. associarCrachá @Viegas  
+  - [ ] Implementation
+  - [ ] Test
+- [ ] I. iniciarConversa @Nuno  
+  - [ ] Implementation
+  - [ ] Test
+- [ ] J. juntarConversa @Mike  
+  - [ ] Implementation
+  - [ ] Test
+- [ ] K. enviarMensagem @Viegas  
+  - [ ] Implementation
+  - [ ] Test
+- [ ] L. jogadorTotalInfo @Nuno  
+  - [ ] Implementation
+  - [ ] Test
+- [ ] M. atribuiçãoAutomáticaDeCrachás @Mike  
+  - [ ] Implementation
+  - [ ] Test
+- [ ] N. banimentoAutomático @Viegas  
+  - [ ] Implementation
+  - [ ] Test
+- [ ] O. Testes @All
+  - [ ] Implementation
