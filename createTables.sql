@@ -117,10 +117,8 @@ CREATE TABLE IF NOT EXISTS Crachas_Obtidos (
     CONSTRAINT fk_cracha FOREIGN KEY (nome_cracha, id_jogo) REFERENCES Crachas(nome, id_jogo)
 );
 
-CREATE SEQUENCE partida_id_seq START 1;
-
 CREATE TABLE IF NOT EXISTS Partida (
-    id INT NOT NULL DEFAULT nextval('partida_id_seq'),
+    id INT NOT NULL,
     id_jogo VARCHAR(10) NOT NULL,
     data_inicio TIMESTAMP NOT NULL,
     data_fim TIMESTAMP NOT NULL,
@@ -130,21 +128,6 @@ CREATE TABLE IF NOT EXISTS Partida (
     CONSTRAINT fk_regiao FOREIGN KEY (regiao) REFERENCES Regioes(nome),
     CONSTRAINT pk_jogo_partida PRIMARY KEY (id, id_jogo)
 );
-
-CREATE OR REPLACE FUNCTION reset_partida_id_seq() RETURNS TRIGGER AS $$
-BEGIN
-    IF NEW.id_jogo <> OLD.id_jogo THEN
-        -- When id_jogo changes, reset the sequence to 1
-        SELECT setval('partida_id_seq', 1);
-    END IF;
-    RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
-
-CREATE TRIGGER reset_partida_id_seq_trigger
-BEFORE INSERT ON Partida
-FOR EACH ROW
-EXECUTE FUNCTION reset_partida_id_seq();
 
 CREATE TABLE IF NOT EXISTS Partida_Normal (
     id_partida INT NOT NULL,
