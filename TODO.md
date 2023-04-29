@@ -2,15 +2,15 @@
 First half of the SI project
 
 ### Exercicios
-- [ ] A. Create table @All  
-  - [ ] Implementation
-  - [ ] Run & Test
-- [ ] B. Delete table @All  
-  - [ ] Implementation
-- [ ] C. Insert values @Nuno  
-  - [ ] Implementation
-  - [ ] Test
-- [ ] D. Criar Jogado @Mike  
+- [X] A. Create table @All  
+  - [X] Implementation
+  - [X] Run & Test
+- [X] B. Delete table @All  
+  - [X] Implementation
+- [X] C. Insert values @Nuno  
+  - [X] Implementation
+  - [X] Test
+- [ ] D. Criar Jogador @Mike  
   - [ ] Implementation
   - [ ] Test
 - [ ] E. totalPontosJogador @Viegas  
