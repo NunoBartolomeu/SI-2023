@@ -67,7 +67,9 @@ CREATE TABLE IF NOT EXISTS Mensagens (
 CREATE TABLE IF NOT EXISTS Jogos (
     id VARCHAR(10) PRIMARY KEY,
     nome VARCHAR(255) NOT NULL,
-    url VARCHAR(255) NOT NULL
+    url VARCHAR(255) NOT NULL,
+	
+	CONSTRAINT id_length_10 CHECK (LENGTH(id) = 10)
 );
 
 CREATE TABLE IF NOT EXISTS Estatisticas_Jogo (
@@ -133,7 +135,9 @@ CREATE TABLE IF NOT EXISTS Partida_Normal (
     dificuldade INT NOT NULL,
 
     CONSTRAINT fk_partida FOREIGN KEY (id_partida, id_jogo) REFERENCES Partida(id, id_jogo),
-    CONSTRAINT pk_partida PRIMARY KEY (id_partida, id_jogo)
+    CONSTRAINT pk_partida PRIMARY KEY (id_partida, id_jogo),
+	
+	CONSTRAINT dificuldade_1_a_5 CHECK (dificuldade BETWEEN 1 AND 5)
 );
 
 DROP TYPE IF EXISTS ESTADO_PARTIDA;
