@@ -23,7 +23,7 @@ First half of the SI project
   - [ ] Implementation
   - [ ] Test
 - [ ] H. associarCrachá @Viegas  
-  - [ ] Implementation
+  - [X] Implementation
   - [ ] Test
 - [ ] I. iniciarConversa @Nuno  
   - [ ] Implementation
