@@ -32,7 +32,7 @@ First half of the SI project
   - [ ] Implementation
   - [ ] Test
 - [ ] K. enviarMensagem @Viegas  
-  - [ ] Implementation
+  - [X] Implementation
   - [ ] Test
 - [ ] L. jogadorTotalInfo @Nuno  
   - [ ] Implementation
