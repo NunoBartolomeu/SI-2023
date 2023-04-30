@@ -14,7 +14,7 @@ First half of the SI project
   - [ ] Implementation
   - [ ] Test
 - [ ] E. totalPontosJogador @Viegas  
-  - [ ] Implementation
+  - [X] Implementation
   - [ ] Test
 - [ ] F. totalJogosJogador @Nuno  
   - [ ] Implementation
