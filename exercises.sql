@@ -106,7 +106,7 @@ $$;
 CREATE OR REPLACE PROCEDURE enviarMensagem(jogador_id INT, conversa_id INT, mensagem_texto VARCHAR(255)) AS $$
 BEGIN
     INSERT INTO Mensagens (id_conversa, id_jogador, texto, data)
-    VALUES (conversa_id, jogador_id, mensagem_texto, NOW()::timestamp(0));
+    VALUES (conversa_id, jogador_id, mensagem_texto);
 END;
 $$ LANGUAGE plpgsql;
 
