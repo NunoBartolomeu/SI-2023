@@ -17,7 +17,7 @@ First half of the SI project
   - [X] Implementation
   - [ ] Test
 - [ ] F. totalJogosJogador @Nuno  
-  - [ ] Implementation
+  - [X] Implementation
   - [ ] Test
 - [ ] G. PontosJogoPorJogador @Mike  
   - [ ] Implementation
@@ -26,7 +26,7 @@ First half of the SI project
   - [X] Implementation
   - [ ] Test
 - [ ] I. iniciarConversa @Nuno  
-  - [ ] Implementation
+  - [X] Implementation
   - [ ] Test
 - [ ] J. juntarConversa @Mike  
   - [ ] Implementation
