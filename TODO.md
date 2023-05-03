@@ -14,7 +14,7 @@ First half of the SI project
   - [ ] Implementation
   - [ ] Test
 - [ ] E. totalPontosJogador @Viegas  
-  - [ ] Implementation
+  - [X] Implementation
   - [ ] Test
 - [ ] F. totalJogosJogador @Nuno  
   - [ ] Implementation
@@ -23,7 +23,7 @@ First half of the SI project
   - [ ] Implementation
   - [ ] Test
 - [ ] H. associarCrachá @Viegas  
-  - [ ] Implementation
+  - [X] Implementation
   - [ ] Test
 - [ ] I. iniciarConversa @Nuno  
   - [ ] Implementation
@@ -32,7 +32,7 @@ First half of the SI project
   - [ ] Implementation
   - [ ] Test
 - [ ] K. enviarMensagem @Viegas  
-  - [ ] Implementation
+  - [X] Implementation
   - [ ] Test
 - [ ] L. jogadorTotalInfo @Nuno  
   - [ ] Implementation
