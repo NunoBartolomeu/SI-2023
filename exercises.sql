@@ -112,6 +112,24 @@ $$ LANGUAGE plpgsql;
 
 -- Exercise L
 
+--DROP VIEW jogadorTotalInfo;
+CREATE OR REPLACE VIEW jogadorTotalInfo AS
+	SELECT 
+		id, 
+		estado, 
+		email, 
+		username, 
+		COUNT(DISTINCT c.id_jogo) as totalJogos,
+		COUNT(p.id_partida) as totalPartidas,
+		SUM(p.pontos) as totalPontos
+	FROM Jogadores
+		INNER JOIN Compras c on id=c.id_jogador
+		INNER JOIN Pontuacao p on id=p.id_jogador
+	WHERE estado != 'banido'
+	GROUP BY jogadores.id;
+	
+SELECT * FROM jogadorTotalInfo;
+
 -- Exercise M
 
 -- Exercise N

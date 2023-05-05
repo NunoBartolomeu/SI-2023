@@ -4,12 +4,10 @@ First half of the SI project
 ### Exercicios
 - [X] A. Create table @All  
   - [X] Implementation
-  - [X] Run & Test
 - [X] B. Delete table @All  
   - [X] Implementation
 - [X] C. Insert values @Nuno  
   - [X] Implementation
-  - [X] Test
 - [ ] D. Criar Jogador @Mike  
   - [ ] Implementation
   - [ ] Test
@@ -35,7 +33,7 @@ First half of the SI project
   - [X] Implementation
   - [ ] Test
 - [ ] L. jogadorTotalInfo @Nuno  
-  - [ ] Implementation
+  - [X] Implementation
   - [ ] Test
 - [ ] M. atribuiçãoAutomáticaDeCrachás @Mike  
   - [ ] Implementation
