@@ -119,11 +119,10 @@ CREATE OR REPLACE VIEW jogadorTotalInfo AS
 		estado, 
 		email, 
 		username, 
-		COUNT(DISTINCT c.id_jogo) as totalJogos,
+		count(DISTINCT p.id_jogo) INTO totalJogos,
 		COUNT(p.id_partida) as totalPartidas,
 		SUM(p.pontos) as totalPontos
 	FROM Jogadores
-		INNER JOIN Compras c on id=c.id_jogador
 		INNER JOIN Pontuacao p on id=p.id_jogador
 	WHERE estado != 'banido'
 	GROUP BY jogadores.id;
