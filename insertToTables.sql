@@ -69,21 +69,22 @@ INSERT INTO Crachas_Obtidos (id_jogador, nome_cracha, id_jogo) VALUES
 (4, 'intermediate','MC12345678'),
 (4, 'advanced', 'MC12345678');
 
-INSERT INTO Partida (id, id_jogo, data_inicio, data_fim, regiao) VALUES
+INSERT INTO Partidas (id, id_jogo, data_inicio, data_fim, regiao) VALUES
 (1, 'LOL1234567', '2017-01-03 10:10', '2017-01-03 10:20', 'Portugal'),
 (2, 'LOL1234567', '2017-01-04 12:12', '2017-01-04 12:22', 'Portugal'),
 (3, 'LOL1234567', '2017-01-05 14:14', '2017-01-05 14:24', 'Portugal'),
+(3, 'MC12345678', '2017-01-05 14:14', '2017-01-05 14:24', 'Portugal'),
 (1, 'MC12345678', '2017-01-06 16:16', '2017-01-06 16:26', 'Espanha');
 
-INSERT INTO Partida_Normal (id_partida, id_jogo, dificuldade) VALUES
+INSERT INTO Partidas_Normais (id_partida, id_jogo, dificuldade) VALUES
 (1, 'MC12345678', 5);
 
-INSERT INTO Partida_Multi_Jogador (id_partida, id_jogo, estado) VALUES
+INSERT INTO Partidas_Multi_Jogador (id_partida, id_jogo, estado) VALUES
 (1, 'LOL1234567', 'terminada'),
 (2, 'LOL1234567', 'em curso'),
 (3, 'LOL1234567', 'em curso');
 
-INSERT INTO Pontuacao (id_partida, id_jogo, id_jogador, pontos) VALUES
+INSERT INTO Pontuacoes (id_partida, id_jogo, id_jogador, pontos) VALUES
 (1, 'LOL1234567', 1, 50),
 (1, 'LOL1234567', 2, 50),
 (2, 'LOL1234567', 3, 100),

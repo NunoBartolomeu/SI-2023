@@ -56,7 +56,7 @@ CREATE TABLE IF NOT EXISTS Mensagens (
     id_conversa INT NOT NULL,
     id_jogador INT NOT NULL,
     texto VARCHAR(255) NOT NULL,
-    data TIMESTAMP NOT NULL = NOW(),
+    data TIMESTAMP NOT NULL DEFAULT NOW(),
 
     CONSTRAINT pk_mensagens PRIMARY KEY (numero, id_conversa),
 
@@ -117,7 +117,7 @@ CREATE TABLE IF NOT EXISTS Crachas_Obtidos (
     CONSTRAINT fk_cracha FOREIGN KEY (nome_cracha, id_jogo) REFERENCES Crachas(nome, id_jogo)
 );
 
-CREATE TABLE IF NOT EXISTS Partida (
+CREATE TABLE IF NOT EXISTS Partidas (
     id INT NOT NULL,
     id_jogo VARCHAR(10) NOT NULL,
     data_inicio TIMESTAMP NOT NULL,
@@ -126,16 +126,16 @@ CREATE TABLE IF NOT EXISTS Partida (
 
     CONSTRAINT fk_jogo FOREIGN KEY (id_jogo) REFERENCES Jogos(id),
     CONSTRAINT fk_regiao FOREIGN KEY (regiao) REFERENCES Regioes(nome),
-    CONSTRAINT pk_jogo_partida PRIMARY KEY (id, id_jogo)
+    CONSTRAINT pk_jogo_partidas PRIMARY KEY (id, id_jogo)
 );
 
-CREATE TABLE IF NOT EXISTS Partida_Normal (
+CREATE TABLE IF NOT EXISTS Partidas_Normais (
     id_partida INT NOT NULL,
     id_jogo VARCHAR(10) NOT NULL,
     dificuldade INT NOT NULL,
 
-    CONSTRAINT fk_partida FOREIGN KEY (id_partida, id_jogo) REFERENCES Partida(id, id_jogo),
-    CONSTRAINT pk_partida PRIMARY KEY (id_partida, id_jogo),
+    CONSTRAINT fk_partidasNorm FOREIGN KEY (id_partida, id_jogo) REFERENCES Partidas(id, id_jogo),
+    CONSTRAINT pk_partidas PRIMARY KEY (id_partida, id_jogo),
 	
 	CONSTRAINT dificuldade_1_a_5 CHECK (dificuldade BETWEEN 1 AND 5)
 );
@@ -143,22 +143,22 @@ CREATE TABLE IF NOT EXISTS Partida_Normal (
 DROP TYPE IF EXISTS ESTADO_PARTIDA;
 CREATE TYPE ESTADO_PARTIDA AS ENUM ('em curso', 'terminada');
 
-CREATE TABLE IF NOT EXISTS Partida_Multi_Jogador (
+CREATE TABLE IF NOT EXISTS Partidas_Multi_Jogador (
     id_partida INT NOT NULL,
     id_jogo VARCHAR(10) NOT NULL,
     estado ESTADO_PARTIDA NOT NULL DEFAULT 'em curso',
 
-    CONSTRAINT fk_partida FOREIGN KEY (id_partida, id_jogo) REFERENCES Partida(id, id_jogo),
-    CONSTRAINT pk_partidaMult PRIMARY KEY (id_partida, id_jogo)
+    CONSTRAINT fk_partidas FOREIGN KEY (id_partida, id_jogo) REFERENCES Partidas(id, id_jogo),
+    CONSTRAINT pk_partidasMult PRIMARY KEY (id_partida, id_jogo)
 );
 
-CREATE TABLE IF NOT EXISTS Pontuacao (
+CREATE TABLE IF NOT EXISTS Pontuacoes (
     id_partida INT NOT NULL,
     id_jogador INT NOT NULL,
     id_jogo VARCHAR(10) NOT NULL,
     pontos INT NOT NULL,
 
-    CONSTRAINT fk_partida FOREIGN KEY (id_partida, id_jogo) REFERENCES Partida(id, id_jogo),
+    CONSTRAINT fk_partidas FOREIGN KEY (id_partida, id_jogo) REFERENCES Partidas(id, id_jogo),
     CONSTRAINT fk_jogador FOREIGN KEY (id_jogador) REFERENCES Jogadores(id),
     CONSTRAINT pk_pontuaçao PRIMARY KEY (id_partida, id_jogador, id_jogo)
 );

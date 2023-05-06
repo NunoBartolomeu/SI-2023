@@ -25,7 +25,7 @@ AS $$
 DECLARE    
     total INT;    
 BEGIN
-    SELECT count(DISTINCT id_jogo) INTO total FROM Pontuacao p WHERE jogador = p.id_jogador;
+    SELECT count(DISTINCT id_jogo) INTO total FROM Pontuacoes p WHERE jogador = p.id_jogador;
     RETURN (total);    
 END;   
 $$;
@@ -119,11 +119,11 @@ CREATE OR REPLACE VIEW jogadorTotalInfo AS
 		estado, 
 		email, 
 		username, 
-		count(DISTINCT p.id_jogo) INTO totalJogos,
+		count(DISTINCT p.id_jogo) as totalJogos,
 		COUNT(p.id_partida) as totalPartidas,
 		SUM(p.pontos) as totalPontos
 	FROM Jogadores
-		INNER JOIN Pontuacao p on id=p.id_jogador
+		INNER JOIN Pontuacoes p on id=p.id_jogador
 	WHERE estado != 'banido'
 	GROUP BY jogadores.id;
 	
