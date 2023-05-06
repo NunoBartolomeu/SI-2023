@@ -94,9 +94,16 @@ $$;
 -- Exercise K
 
 CREATE OR REPLACE PROCEDURE enviarMensagem(jogador_id INT, conversa_id INT, mensagem_texto VARCHAR(255)) AS $$
+declare
+	mensagem_id Integer;
 BEGIN
-    INSERT INTO Mensagens (id_conversa, id_jogador, texto, data)
-    VALUES (conversa_id, jogador_id, mensagem_texto);
+	select max(numero) into mensagem_id
+	from mensagens
+	where id_conversa = conversa_id;
+	if mensagem_id is null then mensagem_id = 0;
+	end if;
+    INSERT INTO Mensagens (numero, id_conversa, id_jogador, texto, data)
+    VALUES (mensagem_id + 1, conversa_id, jogador_id, mensagem_texto, NOW()::timestamp(0));
 END;
 $$ LANGUAGE plpgsql;
 

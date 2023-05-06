@@ -1,5 +1,35 @@
 -- Exercise D
-
+do
+$$
+declare resultado integer;
+        code char(5) default '00000';
+		msg text;
+begin
+   raise notice 'Teste da função totalPontosJogador'; 
+   rollback;
+   set transaction isolation level serializable;
+   begin
+    Insert into jogadores values (7, 'JayVee', 'jayvee@sapo.pt', 'ativo', 'Portugal');
+	Insert into compras values (7, 'MC12345678', NOW()::timestamp(0), 20);
+	Insert into partida values (2, 'MC12345678', '2023-05-05 10:10:00', '2023-05-05 12:10:00', 'Portugal');
+	Insert into partida_normal values (2, 'MC12345678', 4);
+	Insert into pontuacao values (2, 7, 'MC12345678', 300);
+	select totalPontosJogador(7) into resultado;
+	  if resultado = 300 then
+	      raise notice 'teste da função totalPontosJogador(d) passou, resultado = %', resultado;
+	  else
+	      raise notice 'teste da função totalPontosJogador(d) não passou, resultado = %', resultado;
+	  end if;
+      exception
+      when others then
+		      GET stacked DIAGNOSTICS 
+                          code = RETURNED_SQLSTATE, msg = MESSAGE_TEXT;   
+		      raise notice 'code=%, msg=%',code,msg;
+			  raise notice 'teste da função totalPontosJogador(d) não passou, resultado = %', resultado;
+	end;
+   rollback;
+  -- commit;
+end; $$;
 -- Exercise E
 
 -- Exercise F
@@ -39,6 +69,38 @@ END; $$;
 
 -- Exercise H
 
+do
+$$
+declare resultado integer;
+        code char(5) default '00000';
+		msg text;
+begin
+   raise notice 'Teste do procedimento associarCracha'; 
+   rollback;
+   set transaction isolation level serializable;
+   begin
+    Insert into jogadores values (7, 'JayVee', 'jayvee@sapo.pt', 'ativo', 'Portugal');
+	Insert into compras values (7, 'MC12345678', NOW()::timestamp(0), 20);
+	Insert into partida values (2, 'MC12345678', '2023-05-05 10:10:00', '2023-05-05 12:10:00', 'Portugal');
+	Insert into partida_normal values (2, 'MC12345678', 4);
+	Insert into pontuacao values (2, 7, 'MC12345678', 300);
+	call associarCracha(7, 'MC12345678', 'begin'); 
+	  if exists (select * from crachas_obtidos where id_jogador = 7 and nome_cracha = 'begin' and id_jogo = 'MC12345678') then
+	      raise notice 'teste da função associarCracha(h) passou';
+	  else
+	      raise notice 'teste da função associarCracha(h) não passou';
+	  end if;
+      exception
+      when others then
+		      GET stacked DIAGNOSTICS 
+                          code = RETURNED_SQLSTATE, msg = MESSAGE_TEXT;   
+		      raise notice 'code=%, msg=%',code,msg;
+			  raise notice 'teste da função associarCracha(h) não passou';
+	end;
+   rollback;
+  -- commit;
+end; $$;
+
 -- Exercise I
 
 DO
@@ -71,6 +133,36 @@ END; $$;
 -- Exercise J
 
 -- Exercise K
+
+do
+$$
+declare resultado integer;
+        code char(5) default '00000';
+		msg text;
+		conversa_id Integer;
+begin
+   raise notice 'Teste do procedimento enviarMensagem'; 
+   rollback;
+   set transaction isolation level serializable;
+   begin
+    Insert into jogadores values (7, 'JayVee', 'jayvee@sapo.pt', 'ativo', 'Portugal');
+	call iniciarConversa(7, 'Conversa Teste', conversa_id);
+	call enviarMensagem(7, conversa_id, 'Bom dia Teste'); 
+	  if exists (select * from mensagens where id_jogador = 7 and id_conversa = conversa_id and texto = 'Bom dia Teste') then
+	      raise notice 'teste da função enviarMensagem(k) passou';
+	  else
+	      raise notice 'teste da função enviarMensagem(k) não passou';
+	  end if;
+      exception
+      when others then
+		      GET stacked DIAGNOSTICS 
+                          code = RETURNED_SQLSTATE, msg = MESSAGE_TEXT;   
+		      raise notice 'code=%, msg=%',code,msg;
+			  raise notice 'teste da função enviarMensagem(k) não passou';
+	end;
+   rollback;
+  -- commit;
+end; $$;
 
 -- Exercise L
 
