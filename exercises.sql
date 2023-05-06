@@ -84,18 +84,8 @@ BEGIN
 	SELECT id INTO id_conversa FROM conversas WHERE nome = nome_conversa;
 	SELECT username INTO nome_jogador FROM jogadores WHERE id = id_jogador;
 	INSERT INTO participantes_conversa(id_conversa, id_jogador) VALUES (id_conversa, id_jogador);
-	SELECT nome_jogador || 'criou esta conversa' INTO mensagem_criacao;
+	SELECT nome_jogador || ' criou esta conversa' INTO mensagem_criacao;
 	INSERT INTO mensagens (id_conversa, id_jogador, texto) VALUES (id_conversa, id_jogador, mensagem_criacao);
-END;
-$$;
-
-DO 
-$$
-DECLARE
-	result int;
-BEGIN
-	CALL iniciarConversa(1, 'Nova Conversa', result);
-	RAISE NOTICE '%', result;
 END;
 $$;
 

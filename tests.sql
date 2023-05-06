@@ -3,6 +3,7 @@
 -- Exercise E
 
 -- Exercise F
+
 DO
 LANGUAGE plpgsql 
 $$
@@ -32,13 +33,40 @@ BEGIN
     END IF;
 
     ROLLBACK;
-END; $$
+END; $$;
 
 -- Exercise G
 
 -- Exercise H
 
 -- Exercise I
+
+DO
+LANGUAGE plpgsql
+$$
+#variable_conflict use_variable
+DECLARE
+    id_jogador INT;
+    id_conversa INT;
+BEGIN
+    raise notice 'Testing I';
+    ROLLBACK;
+    SET TRANSACTION ISOLATION LEVEL SERIALIZABLE;
+    -- Criar um jogador
+    INSERT INTO Jogadores (username, email, regiao) VALUES ('TestUser', 'testuser@gmail.com', 'Portugal');
+    SELECT id INTO id_jogador FROM Jogadores WHERE username = 'TestUser';
+    
+    -- Chamar a procedure iniciarConversa e verificar o resultado
+    CALL iniciarConversa(id_jogador, 'Conversa Test', id_conversa);
+    -- Verificar se a conversa foi criada vendo se existe a mensagem de boas vindas
+    IF EXISTS (SELECT * FROM Mensagens m WHERE m.id_conversa = id_conversa AND texto = 'TestUser criou esta conversa') THEN
+        RAISE NOTICE 'Teste I passou!';
+    ELSE
+        RAISE NOTICE 'Teste I falhou!';
+    END IF;
+	
+    ROLLBACK;
+END; $$;
 
 -- Exercise J
 
