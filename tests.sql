@@ -74,6 +74,45 @@ END; $$;
 
 -- Exercise L
 
+DO
+LANGUAGE plpgsql
+$$
+DECLARE
+    id_jogador INT;
+    id_conversa INT;
+    jogador RECORD;
+BEGIN
+    raise notice 'Testing L';
+    ROLLBACK;
+    SET TRANSACTION ISOLATION LEVEL SERIALIZABLE;
+    -- Criar um jogador
+    INSERT INTO Jogadores (username, email, regiao) VALUES ('TestUser', 'testuser@gmail.com', 'Portugal');
+    SELECT id INTO id_jogador FROM Jogadores WHERE username = 'TestUser';
+
+    -- Criar um jogo
+    INSERT INTO Jogos (id, nome, url) VALUES ('0123456789', 'TestGame00', 'www.testgame.com');
+
+    -- Criar 5 partidas
+    FOR i IN 1..5 LOOP
+        INSERT INTO Partidas (id, id_jogo, data_inicio, data_fim, regiao) VALUES (i, '0123456789', '2017-01-01 12:31:59', '2017-01-01 12:31:59', 'Portugal');
+    END LOOP;
+
+    -- Criar as 5 pontuações
+    FOR i IN 1..5 LOOP
+        INSERT INTO Pontuacoes (id_partida, id_jogo, id_jogador, pontos) VALUES (i, '0123456789', id_jogador, 100);
+    END LOOP;
+
+    -- Ver a view jogadorTotalInfo e verificar o resultado
+    SELECT * FROM jogadorTotalInfo WHERE username = 'TestUser' INTO jogador;
+    IF jogador.id = id_jogador AND jogador.username = 'TestUser' AND jogador.email = 'testuser@gmail.com' AND jogador.totalJogos = 1 AND jogador.totalPartidas = 5 AND jogador.totalPontos = 500 THEN
+        RAISE NOTICE 'Teste L passou!';
+    ELSE
+        RAISE NOTICE 'Teste L falhou!';
+    END IF;
+    
+    ROLLBACK;
+END; $$;
+
 -- Exercise M
 
 -- Exercise N
