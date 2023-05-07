@@ -86,7 +86,7 @@ CREATE TABLE IF NOT EXISTS Estatisticas_Jogo (
 CREATE TABLE IF NOT EXISTS Compras (
     id_jogador INT NOT NULL,
     id_jogo VARCHAR(10) NOT NULL,
-    data_de_compra TIMESTAMP NOT NULL,
+    data_de_compra TIMESTAMP NOT NULL DEFAULT NOW(),
     preco FLOAT NOT NULL,
 
     CONSTRAINT pk_jogo_jogador PRIMARY KEY (id_jogador, id_jogo),

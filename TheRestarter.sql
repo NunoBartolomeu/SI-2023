@@ -1,7 +1,9 @@
-DROP TABLE IF EXISTS Pontuacao;
-DROP TABLE IF EXISTS Partida_Multi_Jogador;
-DROP TABLE IF EXISTS Partida_Normal;
-DROP TABLE IF EXISTS Partida;
+DROP VIEW IF EXISTS jogadorTotalInfo;
+
+DROP TABLE IF EXISTS Pontuacoes;
+DROP TABLE IF EXISTS Partidas_Multi_Jogador;
+DROP TABLE IF EXISTS Partidas_Normais;
+DROP TABLE IF EXISTS Partidas;
 DROP TABLE IF EXISTS Crachas_Obtidos;
 DROP TABLE IF EXISTS Crachas;
 DROP TABLE IF EXISTS Compras;
@@ -14,11 +16,6 @@ DROP TABLE IF EXISTS Amigos;
 DROP TABLE IF EXISTS Estatisticas_Jogador;
 DROP TABLE IF EXISTS Jogadores;
 DROP TABLE IF EXISTS Regioes;
-
-
-
-
-
 
 
 
@@ -141,7 +138,7 @@ CREATE TABLE IF NOT EXISTS Crachas_Obtidos (
     CONSTRAINT fk_cracha FOREIGN KEY (nome_cracha, id_jogo) REFERENCES Crachas(nome, id_jogo)
 );
 
-CREATE TABLE IF NOT EXISTS Partida (
+CREATE TABLE IF NOT EXISTS Partidas (
     id INT NOT NULL,
     id_jogo VARCHAR(10) NOT NULL,
     data_inicio TIMESTAMP NOT NULL,
@@ -150,16 +147,16 @@ CREATE TABLE IF NOT EXISTS Partida (
 
     CONSTRAINT fk_jogo FOREIGN KEY (id_jogo) REFERENCES Jogos(id),
     CONSTRAINT fk_regiao FOREIGN KEY (regiao) REFERENCES Regioes(nome),
-    CONSTRAINT pk_jogo_partida PRIMARY KEY (id, id_jogo)
+    CONSTRAINT pk_jogo_partidas PRIMARY KEY (id, id_jogo)
 );
 
-CREATE TABLE IF NOT EXISTS Partida_Normal (
+CREATE TABLE IF NOT EXISTS Partidas_Normais (
     id_partida INT NOT NULL,
     id_jogo VARCHAR(10) NOT NULL,
     dificuldade INT NOT NULL,
 
-    CONSTRAINT fk_partida FOREIGN KEY (id_partida, id_jogo) REFERENCES Partida(id, id_jogo),
-    CONSTRAINT pk_partida PRIMARY KEY (id_partida, id_jogo),
+    CONSTRAINT fk_partidasNorm FOREIGN KEY (id_partida, id_jogo) REFERENCES Partidas(id, id_jogo),
+    CONSTRAINT pk_partidas PRIMARY KEY (id_partida, id_jogo),
 	
 	CONSTRAINT dificuldade_1_a_5 CHECK (dificuldade BETWEEN 1 AND 5)
 );
@@ -167,33 +164,25 @@ CREATE TABLE IF NOT EXISTS Partida_Normal (
 DROP TYPE IF EXISTS ESTADO_PARTIDA;
 CREATE TYPE ESTADO_PARTIDA AS ENUM ('em curso', 'terminada');
 
-CREATE TABLE IF NOT EXISTS Partida_Multi_Jogador (
+CREATE TABLE IF NOT EXISTS Partidas_Multi_Jogador (
     id_partida INT NOT NULL,
     id_jogo VARCHAR(10) NOT NULL,
     estado ESTADO_PARTIDA NOT NULL DEFAULT 'em curso',
 
-    CONSTRAINT fk_partida FOREIGN KEY (id_partida, id_jogo) REFERENCES Partida(id, id_jogo),
-    CONSTRAINT pk_partidaMult PRIMARY KEY (id_partida, id_jogo)
+    CONSTRAINT fk_partidas FOREIGN KEY (id_partida, id_jogo) REFERENCES Partidas(id, id_jogo),
+    CONSTRAINT pk_partidasMult PRIMARY KEY (id_partida, id_jogo)
 );
 
-CREATE TABLE IF NOT EXISTS Pontuacao (
+CREATE TABLE IF NOT EXISTS Pontuacoes (
     id_partida INT NOT NULL,
     id_jogador INT NOT NULL,
     id_jogo VARCHAR(10) NOT NULL,
     pontos INT NOT NULL,
 
-    CONSTRAINT fk_partida FOREIGN KEY (id_partida, id_jogo) REFERENCES Partida(id, id_jogo),
+    CONSTRAINT fk_partidas FOREIGN KEY (id_partida, id_jogo) REFERENCES Partidas(id, id_jogo),
     CONSTRAINT fk_jogador FOREIGN KEY (id_jogador) REFERENCES Jogadores(id),
     CONSTRAINT pk_pontuaçao PRIMARY KEY (id_partida, id_jogador, id_jogo)
 );
-
-
-
-
-
-
-
-
 
 
 
@@ -269,26 +258,27 @@ INSERT INTO Crachas_Obtidos (id_jogador, nome_cracha, id_jogo) VALUES
 (4, 'intermediate','MC12345678'),
 (4, 'advanced', 'MC12345678');
 
-INSERT INTO Partida (id, id_jogo, data_inicio, data_fim, regiao) VALUES
+INSERT INTO Partidas (id, id_jogo, data_inicio, data_fim, regiao) VALUES
 (1, 'LOL1234567', '2017-01-03 10:10', '2017-01-03 10:20', 'Portugal'),
 (2, 'LOL1234567', '2017-01-04 12:12', '2017-01-04 12:22', 'Portugal'),
 (3, 'LOL1234567', '2017-01-05 14:14', '2017-01-05 14:24', 'Portugal'),
+(3, 'MC12345678', '2017-01-05 14:14', '2017-01-05 14:24', 'Portugal'),
 (1, 'MC12345678', '2017-01-06 16:16', '2017-01-06 16:26', 'Espanha');
 
-INSERT INTO Partida_Normal (id_partida, id_jogo, dificuldade) VALUES
+INSERT INTO Partidas_Normais (id_partida, id_jogo, dificuldade) VALUES
 (1, 'MC12345678', 5);
 
-INSERT INTO Partida_Multi_Jogador (id_partida, id_jogo, estado) VALUES
+INSERT INTO Partidas_Multi_Jogador (id_partida, id_jogo, estado) VALUES
 (1, 'LOL1234567', 'terminada'),
 (2, 'LOL1234567', 'em curso'),
 (3, 'LOL1234567', 'em curso');
 
-INSERT INTO Pontuacao (id_partida, id_jogo, id_jogador, pontos) VALUES
+INSERT INTO Pontuacoes (id_partida, id_jogo, id_jogador, pontos) VALUES
 (1, 'LOL1234567', 1, 50),
 (1, 'LOL1234567', 2, 50),
 (2, 'LOL1234567', 3, 100),
 (2, 'LOL1234567', 4, 100),
-(3, 'LOL1234567', 1, 50),
+(3, 'MC12345678', 1, 50),
 (3, 'LOL1234567', 2, 50),
-(1, 'MC12345678', 3, 100),
+(1, 'LOL1234567', 3, 100),
 (1, 'MC12345678', 4, 100);
