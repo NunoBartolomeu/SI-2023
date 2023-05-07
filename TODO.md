@@ -9,7 +9,7 @@ First half of the SI project
 - [X] C. Insert values @Nuno  
   - [X] Implementation
 - [ ] D. Criar Jogador @Mike  
-  - [ ] Implementation
+  - [X] Implementation
   - [ ] Test
 - [ ] E. totalPontosJogador @Viegas  
   - [X] Implementation
@@ -18,7 +18,7 @@ First half of the SI project
   - [X] Implementation
   - [X] Test
 - [ ] G. PontosJogoPorJogador @Mike  
-  - [ ] Implementation
+  - [X] Implementation
   - [ ] Test
 - [ ] H. associarCrachá @Viegas  
   - [X] Implementation
@@ -27,7 +27,7 @@ First half of the SI project
   - [X] Implementation
   - [X] Test
 - [ ] J. juntarConversa @Mike  
-  - [ ] Implementation
+  - [X] Implementation
   - [ ] Test
 - [ ] K. enviarMensagem @Viegas  
   - [X] Implementation
@@ -36,7 +36,7 @@ First half of the SI project
   - [X] Implementation
   - [X] Test
 - [ ] M. atribuiçãoAutomáticaDeCrachás @Mike  
-  - [ ] Implementation
+  - [X] Implementation
   - [ ] Test
 - [ ] N. banimentoAutomático @Viegas  
   - [ ] Implementation

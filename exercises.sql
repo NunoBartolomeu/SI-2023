@@ -1,4 +1,26 @@
 -- Exercise D
+CREATE OR REPLACE FUNCTION criarJogador(player_email TEXT, player_username TEXT) RETURNS VOID AS $$
+BEGIN
+    INSERT INTO Jogadores(id, username, email, estado, regiao)
+    VALUES(DEFAULT, player_username, player_email, 'ativo', 'Alentejo');
+END;
+$$ language plpgsql;
+
+CREATE OR REPLACE FUNCTION desativarJogador(player_email TEXT, player_username TEXT) RETURNS VOID AS $$
+BEGIN
+    UPDATE Jogadores 
+    SET estado = 'inativo'
+    WHERE email = player_email AND username = player_username;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION banirJogador(player_email TEXT, player_username TEXT) RETURNS VOID AS $$
+BEGIN
+    UPDATE Jogadores 
+    SET estado = 'banido'
+    WHERE email = player_email AND username = player_username;
+END;
+$$ LANGUAGE plpgsql;
 
 -- Exercise E
 
@@ -33,6 +55,19 @@ $$;
 SELECT totalJogosJogador(4);
 
 -- Exercise G
+CREATE OR REPLACE FUNCTION PontosJogoPorJogador(referencia_jogo text) RETURNS TABLE(id_jogador INT, total_pontos INT) as $$
+BEGIN
+    RETURN QUERY
+    select P.id_jogador, sum(pontos)
+    from pontuacoes as P
+    where P.id_jogo = referencia_jogo
+    group by P.id_jogador;
+
+end
+$$ LANGUAGE plpgsql;
+
+SELECT * FROM PontosJogoPorJogador('LOL1234567');
+
 
 -- Exercise H
 
@@ -90,6 +125,12 @@ END;
 $$;
 
 -- Exercise J
+CREATE OR REPLACE PROCEDURE juntarConversa(jogador_id INT, conversa_id INT) AS $$
+BEGIN
+    INSERT INTO Participantes_Conversa(id_conversa, id_jogador) 
+    VALUES(conversa_id, jogador_id);
+END;
+$$ LANGUAGE plpgsql;
 
 -- Exercise K
 
@@ -127,5 +168,25 @@ CREATE OR REPLACE VIEW jogadorTotalInfo AS
 SELECT * FROM jogadorTotalInfo;
 
 -- Exercise M
+CREATE OR REPLACE FUNCTION atribuirCrachaAutomatico() RETURNS trigger AS
+$$
+DECLARE
+    crachas_jogo cursor FOR SELECT nome, id_jogo FROM crachas WHERE id_jogo = NEW.id_jogo;
+    partida partidas%ROWTYPE;
+BEGIN
+    FOR cracha_jogo IN crachas_jogo LOOP
+        SELECT * INTO partida
+            FROM PARTIDAS
+            WHERE id_jogo = NEW.id_jogo
+            AND nome_cracha = cracha_jogo.nome
+            AND id_jogo = cracha_jogo.id_jogo;
+        IF partida.data_fim IS NULL THEN
+            INSERT INTO crachas_obtidos(id_jogador, nome_cracha, id_jogo)
+            VALUES(NEW.id_jogador, cracha_jogo.nome, cracha_jogo.id_jogo);
+        end if;
+    end loop;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
 
 -- Exercise N
