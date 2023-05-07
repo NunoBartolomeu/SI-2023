@@ -121,7 +121,7 @@ CREATE TABLE IF NOT EXISTS Partidas (
     id INT NOT NULL,
     id_jogo VARCHAR(10) NOT NULL,
     data_inicio TIMESTAMP NOT NULL,
-    data_fim TIMESTAMP NOT NULL,
+    data_fim TIMESTAMP,
     regiao VARCHAR(255) NOT NULL,
 
     CONSTRAINT fk_jogo FOREIGN KEY (id_jogo) REFERENCES Jogos(id),

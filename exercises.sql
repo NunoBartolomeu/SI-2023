@@ -55,7 +55,7 @@ $$;
 SELECT totalJogosJogador(4);
 
 -- Exercise G
-CREATE OR REPLACE FUNCTION PontosJogoPorJogador(referencia_jogo text) RETURNS TABLE(id_jogador INT, total_pontos INT) as $$
+CREATE OR REPLACE FUNCTION PontosJogoPorJogador(referencia_jogo text) RETURNS TABLE(id_jogador INT, total_pontos bigint) as $$
 BEGIN
     RETURN QUERY
     select P.id_jogador, sum(pontos)
@@ -168,25 +168,26 @@ CREATE OR REPLACE VIEW jogadorTotalInfo AS
 SELECT * FROM jogadorTotalInfo;
 
 -- Exercise M
-CREATE OR REPLACE FUNCTION atribuirCrachaAutomatico() RETURNS trigger AS
+CREATE OR REPLACE FUNCTION atribuirCrachaAutomatico() RETURNS TRIGGER AS
 $$
 DECLARE
-    crachas_jogo cursor FOR SELECT nome, id_jogo FROM crachas WHERE id_jogo = NEW.id_jogo;
-    partida partidas%ROWTYPE;
+    pontuacao pontuacoes%ROWTYPE;
+    cracha crachas%ROWTYPE;
 BEGIN
-    FOR cracha_jogo IN crachas_jogo LOOP
-        SELECT * INTO partida
-            FROM PARTIDAS
-            WHERE id_jogo = NEW.id_jogo
-            AND nome_cracha = cracha_jogo.nome
-            AND id_jogo = cracha_jogo.id_jogo;
-        IF partida.data_fim IS NULL THEN
-            INSERT INTO crachas_obtidos(id_jogador, nome_cracha, id_jogo)
-            VALUES(NEW.id_jogador, cracha_jogo.nome, cracha_jogo.id_jogo);
-        end if;
-    end loop;
+    FOR pontuacao in SELECT * FROM pontuacoes LOOP
+        FOR cracha in SELECT * FROM crachas LOOP
+            IF cracha.limite_pontos > pontuacao.pontos then
+                INSERT INTO crachas_obtidos(id_jogador, nome_cracha, id_jogo)
+                VALUES(pontuacao.id_jogador, cracha.nome, pontuacao.id_jogo);
+            END IF;
+        END LOOP;
+    END LOOP;
     RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
 
+CREATE TRIGGER cracha_automatico_trigger
+    AFTER UPDATE on partidas
+    FOR EACH ROW
+    EXECUTE PROCEDURE atribuirCrachaAutomatico();
 -- Exercise N

@@ -1,6 +1,94 @@
 -- Exercise D
 do
 $$
+declare
+    resultado integer;
+    code char(5) default '00000';
+    msg text;
+begin
+    raise notice 'Teste da funçao criarJogador';
+    rollback;
+    set transaction isolation level serializable;
+    begin
+        PERFORM criarJogador('mike@gmail.com', 'mikemreira');
+        if exists (select * from jogadores where email='mike@gmail.com' and username='mikemreira')
+            then raise notice 'Teste da funçao criarJogador passou!';
+        else
+            raise notice 'Teste da funçao criarJogador falhou.';
+        end if;
+        exception
+            when others then
+                GET stacked DIAGNOSTICS
+                    code = RETURNED_SQLSTATE, msg = MESSAGE_TEXT;
+                raise notice 'code=%, msg=%',code,msg;
+                raise notice 'teste da função criarJogador falhou';
+    end;
+    rollback;
+end;
+$$;
+
+do
+$$
+    declare
+        resultado text;
+        code char(5) default '00000';
+        msg text;
+    begin
+        raise notice 'Teste da funçao desativarJogador';
+        rollback;
+        set transaction isolation level serializable;
+        begin
+            PERFORM criarjogador('mike@gmail.com', 'mikemreira');
+            PERFORM desativarjogador('mike@gmail.com', 'mikemreira');
+            select estado into resultado from jogadores where email='mike@gmail.com' and username='mikemreira';
+            if resultado = 'inativo'
+            then raise notice 'Teste da funçao desativarJogador passou!';
+            else
+                raise notice 'Teste da funçao desativarJogador falhou.';
+            end if;
+        exception
+            when others then
+                GET stacked DIAGNOSTICS
+                    code = RETURNED_SQLSTATE, msg = MESSAGE_TEXT;
+                raise notice 'code=%, msg=%',code,msg;
+                raise notice 'teste da função desativarJogador falhou';
+        end;
+        rollback;
+    end;
+$$;
+
+do
+$$
+    declare
+        resultado text;
+        code char(5) default '00000';
+        msg text;
+    begin
+        raise notice 'Teste da funçao banirJogador';
+        rollback;
+        set transaction isolation level serializable;
+        begin
+            PERFORM criarjogador('mike@gmail.com', 'mikemreira');
+            PERFORM banirjogador('mike@gmail.com', 'mikemreira');
+            select estado into resultado from jogadores where email='mike@gmail.com' and username='mikemreira';
+            if resultado = 'banido'
+            then raise notice 'Teste da funçao banirJogador passou!';
+            else
+                raise notice 'Teste da funçao banirJogador falhou.';
+            end if;
+        exception
+            when others then
+                GET stacked DIAGNOSTICS
+                    code = RETURNED_SQLSTATE, msg = MESSAGE_TEXT;
+                raise notice 'code=%, msg=%',code,msg;
+                raise notice 'teste da função banirJogador falhou';
+        end;
+        rollback;
+    end;
+$$;
+
+do
+$$
 declare resultado integer;
         code char(5) default '00000';
 		msg text;
@@ -66,6 +154,43 @@ BEGIN
 END; $$;
 
 -- Exercise G
+do
+$$
+    declare
+        resultado INT;
+        code char(5) default '00000';
+        msg text;
+    begin
+        raise notice 'Teste da funçao PontosJogoPorJogador';
+        rollback;
+        set transaction isolation level serializable;
+        begin
+            INSERT INTO jogos(id, nome, url) VALUES('abc1234567', 'Game1', 'abc.com');
+            INSERT INTO Partidas(id, id_jogo, data_inicio, data_fim, regiao) VALUES(1, 'abc1234567', NOW(), NOW(), 'Portugal');
+            INSERT INTO Partidas(id, id_jogo, data_inicio, data_fim, regiao) VALUES(2, 'abc1234567', NOW(), NOW(), 'Portugal');
+            INSERT INTO Partidas(id, id_jogo, data_inicio, data_fim, regiao) VALUES(3, 'abc1234567', NOW(), NOW(), 'Portugal');
+            INSERT INTO pontuacoes(id_partida, id_jogador, id_jogo, pontos) VALUES(1, 5, 'abc1234567', 10);
+            INSERT INTO pontuacoes(id_partida, id_jogador, id_jogo, pontos) VALUES(1, 6, 'abc1234567', 10);
+            INSERT INTO pontuacoes(id_partida, id_jogador, id_jogo, pontos) VALUES(2, 5, 'abc1234567', 30);
+            INSERT INTO pontuacoes(id_partida, id_jogador, id_jogo, pontos) VALUES(2, 6, 'abc1234567', 15);
+            INSERT INTO pontuacoes(id_partida, id_jogador, id_jogo, pontos) VALUES(3, 5, 'abc1234567', 10);
+            INSERT INTO pontuacoes(id_partida, id_jogador, id_jogo, pontos) VALUES(3, 6, 'abc1234567', 20);
+            SELECT total_pontos INTO resultado FROM PontosJogoPorJogador('abc1234567');
+            if sum(resultado) != 95 AND max(resultado) = 50
+            then raise notice 'Teste da funçao desativarJogador passou!';
+            else
+                raise notice 'Teste da funçao desativarJogador falhou.';
+            end if;
+        exception
+            when others then
+                GET stacked DIAGNOSTICS
+                    code = RETURNED_SQLSTATE, msg = MESSAGE_TEXT;
+                raise notice 'code=%, msg=%',code,msg;
+                raise notice 'teste da função desativarJogador falhou';
+        end;
+        rollback;
+    end;
+$$;
 
 -- Exercise H
 
@@ -131,6 +256,31 @@ BEGIN
 END; $$;
 
 -- Exercise J
+do
+$$
+    declare
+        code char(5) default '00000';
+        msg text;
+    begin
+        raise notice 'Teste da funçao PontosJogoPorJogador';
+        rollback;
+        set transaction isolation level serializable;
+        begin
+            CALL juntarconversa(5, 2);
+            if exists(SELECT * FROM participantes_conversa where id_jogador=5 and id_conversa=2)
+            then raise notice 'Teste da funçao juntarConversa passou!';
+            else raise notice 'Teste da funçao juntarConversa falhou';
+            end if;
+        exception
+            when others then
+                GET stacked DIAGNOSTICS
+                    code = RETURNED_SQLSTATE, msg = MESSAGE_TEXT;
+                raise notice 'code=%, msg=%',code,msg;
+                raise notice 'teste da função desativarJogador falhou';
+        end;
+        rollback;
+    end;
+$$;
 
 -- Exercise K
 
@@ -206,5 +356,30 @@ BEGIN
 END; $$;
 
 -- Exercise M
+do
+$$
+    declare
+        code char(5) default '00000';
+        msg text;
+    begin
+        raise notice 'Teste da funçao atribuir crachas automaticos';
+        rollback;
+        set transaction isolation level serializable;
+        begin
+            UPDATE Partidas SET data_fim = NOW() WHERE id=1 OR id=2 OR id=3;
+            if exists(SELECT * FROM crachas_obtidos)
+            then raise notice 'Teste da funçao crachas automaticos passou!';
+            else raise notice 'Teste da funçao crachas automaticos falhou';
+            end if;
+        exception
+            when others then
+                GET stacked DIAGNOSTICS
+                    code = RETURNED_SQLSTATE, msg = MESSAGE_TEXT;
+                raise notice 'code=%, msg=%',code,msg;
+                raise notice 'teste da função crachas automaticos falhou';
+        end;
+        rollback;
+    end;
+$$;
 
 -- Exercise N

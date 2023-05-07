@@ -8,36 +8,36 @@ First half of the SI project
   - [X] Implementation
 - [X] C. Insert values @Nuno  
   - [X] Implementation
-- [ ] D. Criar Jogador @Mike  
+- [X] D. Criar Jogador @Mike  
   - [X] Implementation
-  - [ ] Test
+  - [X] Test
 - [ ] E. totalPontosJogador @Viegas  
   - [X] Implementation
   - [ ] Test
 - [ ] F. totalJogosJogador @Nuno  
   - [X] Implementation
   - [X] Test
-- [ ] G. PontosJogoPorJogador @Mike  
+- [X] G. PontosJogoPorJogador @Mike  
   - [X] Implementation
-  - [ ] Test
+  - [X] Test
 - [ ] H. associarCrachá @Viegas  
   - [X] Implementation
   - [ ] Test
 - [ ] I. iniciarConversa @Nuno  
   - [X] Implementation
   - [X] Test
-- [ ] J. juntarConversa @Mike  
+- [X] J. juntarConversa @Mike  
   - [X] Implementation
-  - [ ] Test
+  - [X] Test
 - [ ] K. enviarMensagem @Viegas  
   - [X] Implementation
   - [ ] Test
 - [ ] L. jogadorTotalInfo @Nuno  
   - [X] Implementation
   - [X] Test
-- [ ] M. atribuiçãoAutomáticaDeCrachás @Mike  
+- [X] M. atribuiçãoAutomáticaDeCrachás @Mike  
   - [X] Implementation
-  - [ ] Test
+  - [X] Test
 - [ ] N. banimentoAutomático @Viegas  
   - [ ] Implementation
   - [ ] Test
