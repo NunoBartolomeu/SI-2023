@@ -87,26 +87,27 @@ $$
     end;
 $$;
 
+-- Teste E
 do
 $$
 declare resultado integer;
         code char(5) default '00000';
 		msg text;
 begin
-   raise notice 'Teste da função totalPontosJogador'; 
+   raise notice 'Teste da função totalPontosJogador(e)'; 
    rollback;
    set transaction isolation level serializable;
    begin
     Insert into jogadores values (7, 'JayVee', 'jayvee@sapo.pt', 'ativo', 'Portugal');
 	Insert into compras values (7, 'MC12345678', NOW()::timestamp(0), 20);
-	Insert into partida values (2, 'MC12345678', '2023-05-05 10:10:00', '2023-05-05 12:10:00', 'Portugal');
-	Insert into partida_normal values (2, 'MC12345678', 4);
-	Insert into pontuacao values (2, 7, 'MC12345678', 300);
+	Insert into partidas values (2, 'MC12345678', '2023-05-05 10:10:00', '2023-05-05 12:10:00', 'Portugal');
+	Insert into partidas_normais values (2, 'MC12345678', 4);
+	Insert into pontuacoes values (2, 7, 'MC12345678', 300);
 	select totalPontosJogador(7) into resultado;
 	  if resultado = 300 then
-	      raise notice 'teste da função totalPontosJogador(d) passou, resultado = %', resultado;
+	      raise notice 'teste da função totalPontosJogador(e) passou, resultado = %', resultado;
 	  else
-	      raise notice 'teste da função totalPontosJogador(d) não passou, resultado = %', resultado;
+	      raise notice 'teste da função totalPontosJogador(e) não passou, resultado = %', resultado;
 	  end if;
       exception
       when others then
@@ -118,7 +119,6 @@ begin
    rollback;
   -- commit;
 end; $$;
--- Exercise E
 
 -- Exercise F
 
@@ -206,9 +206,9 @@ begin
    begin
     Insert into jogadores values (7, 'JayVee', 'jayvee@sapo.pt', 'ativo', 'Portugal');
 	Insert into compras values (7, 'MC12345678', NOW()::timestamp(0), 20);
-	Insert into partida values (2, 'MC12345678', '2023-05-05 10:10:00', '2023-05-05 12:10:00', 'Portugal');
-	Insert into partida_normal values (2, 'MC12345678', 4);
-	Insert into pontuacao values (2, 7, 'MC12345678', 300);
+	Insert into partidas values (2, 'MC12345678', '2023-05-05 10:10:00', '2023-05-05 12:10:00', 'Portugal');
+	Insert into partidas_normais values (2, 'MC12345678', 4);
+	Insert into pontuacoes values (2, 7, 'MC12345678', 300);
 	call associarCracha(7, 'MC12345678', 'begin'); 
 	  if exists (select * from crachas_obtidos where id_jogador = 7 and nome_cracha = 'begin' and id_jogo = 'MC12345678') then
 	      raise notice 'teste da função associarCracha(h) passou';
@@ -383,3 +383,36 @@ $$
 $$;
 
 -- Exercise N
+
+do
+$$
+declare resultado integer;
+        code char(5) default '00000';
+		msg Text;
+begin
+   raise notice 'Teste do gatilho para banir jogadores presentes na view jogadorTotalInfo'; 
+   rollback;
+   set transaction isolation level serializable;
+   begin
+   	Insert into jogadores values (7, 'JayVee', 'jayvee@sapo.pt', 'ativo', 'Portugal');
+	Insert into compras values (7, 'MC12345678', NOW()::timestamp(0), 20);
+	Insert into partidas values (2, 'MC12345678', '2023-05-05 10:10:00', '2023-05-05 12:10:00', 'Portugal');
+	Insert into partidas_normais values (2, 'MC12345678', 4);
+	Insert into pontuacoes values (2, 7, 'MC12345678', 300);
+	delete from jogadorTotalInfo
+	where id = 7;
+	  if exists (select * from jogadores where id = 7 and estado = 'banido') then
+	      raise notice 'Teste do gatilho para banir jogadores presentes na view jogadorTotalInfo(n) passou';
+	  else
+	      raise notice 'Teste do gatilho para banir jogadores presentes na view jogadorTotalInfo(n) não passou';
+	  end if;
+      exception
+      when others then
+		      GET stacked DIAGNOSTICS 
+                          code = RETURNED_SQLSTATE, msg = MESSAGE_TEXT;   
+		      raise notice 'code=%, msg=%',code,msg;
+			  raise notice 'teste da função enviarMensagem(k) não passou';
+	end;
+   rollback;
+  -- commit;
+end; $$;

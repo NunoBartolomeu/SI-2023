@@ -83,7 +83,7 @@ BEGIN
 
 	-- Pontos totais do jogador nesse jogo
     SELECT SUM(pontos) INTO pontos_jogador
-    FROM Pontuacao
+    FROM Pontuacoes
     WHERE id_jogador = jogador_id AND id_jogo = jogo_id;
 
     IF pontos_jogador >= limite_pontos_cracha THEN
@@ -143,8 +143,8 @@ BEGIN
 	where id_conversa = conversa_id;
 	if mensagem_id is null then mensagem_id = 0;
 	end if;
-    INSERT INTO Mensagens (numero, id_conversa, id_jogador, texto, data)
-    VALUES (mensagem_id + 1, conversa_id, jogador_id, mensagem_texto, NOW()::timestamp(0));
+	INSERT INTO Mensagens (numero, id_conversa, id_jogador, texto, data)
+	VALUES (mensagem_id + 1, conversa_id, jogador_id, mensagem_texto, NOW()::timestamp(0));
 END;
 $$ LANGUAGE plpgsql;
 
@@ -191,3 +191,18 @@ CREATE TRIGGER cracha_automatico_trigger
     FOR EACH ROW
     EXECUTE PROCEDURE atribuirCrachaAutomatico();
 -- Exercise N
+
+CREATE OR REPLACE FUNCTION atualizar_estado_jogador_banido()
+RETURNS TRIGGER AS $$
+BEGIN
+	UPDATE jogadores 
+	SET estado = 'banido'
+	where id = OLD.id;
+	RETURN OLD;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER banir_jogador 
+INSTEAD OF DELETE ON jogadorTotalInfo
+FOR EACH ROW
+EXECUTE FUNCTION atualizar_estado_jogador_banido();
