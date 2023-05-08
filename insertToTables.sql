@@ -8,11 +8,7 @@ INSERT INTO Jogadores (username, email, estado, regiao) VALUES
 ('Carlos', 'carlos@themail.com', 'ativo', 'Espanha'),
 ('Julio', 'julio@themail.com', 'banido', 'Espanha');
 
-INSERT INTO Estatisticas_Jogador (id_jogador, num_jogos, num_partidas, total_pontos) VALUES
-(1, 2, 2, 200),
-(2, 1, 4, 400),
-(3, 1, 1, 100),
-(4, 2, 2, 200);
+-- Estatisticas do jogador são iniciadas com o trigger do createTables após a inserção dos jogadores
 
 INSERT INTO Amigos (id_jogador1, id_jogador2) VALUES
 (1, 2), (1,3),
