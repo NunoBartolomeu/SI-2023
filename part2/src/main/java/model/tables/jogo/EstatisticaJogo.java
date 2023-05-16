@@ -7,83 +7,41 @@ import jakarta.persistence.*;
  * The persistent class for the estatisticas_jogo database table.
  * 
  */
-@Entity
+@Entity(name = "estatisticas_jogo")
 @Table(name = "estatisticas_jogo")
-@NamedQuery(name = "EstatisticaJogo.findAll", query = "SELECT e FROM EstatisticaJogo e")
+@NamedQuery(name = "estatisticas_jogo.findAll", query = "SELECT e FROM estatisticas_jogo e")
 public class EstatisticaJogo implements Serializable {
-    private static final long serialVersionUID = 1L;
-
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private String id;
 
-    private int derrotas;
+    private int num_jogadores;
 
-    private int empates;
+    private int num_partidas;
 
-    private int vitorias;
+    private int total_pontos;
 
-    // bi-directional one-to-one association to Jogo
-    @OneToOne
-    @JoinColumn(name = "id_jogo")
-    private Jogo jogo;
+    public EstatisticaJogo() { }
 
-    public EstatisticaJogo() {
+    public String getId() { return this.id; }
+
+    //Can't be longer than 10 characters
+    public void setId(String id) { 
+        if (id.length() <= 10)
+            this.id = id;
+        else 
+            throw new Error("Id: " + id + "isn't valid!");
     }
 
-    public EstatisticaJogo(int derrotas, int empates, int vitorias, Jogo jogo) {
-        this.derrotas = derrotas;
-        this.empates = empates;
-        this.vitorias = vitorias;
-        this.jogo = jogo;
-    }
+    public int getNum_jogadores() { return this.num_jogadores; }
 
-    public EstatisticaJogo(int id, int derrotas, int empates, int vitorias, Jogo jogo) {
-        this.id = id;
-        this.derrotas = derrotas;
-        this.empates = empates;
-        this.vitorias = vitorias;
-        this.jogo = jogo;
-    }
+    public void setNum_jogadores(int num_jogadores) { this.num_jogadores = num_jogadores; }
 
-    public int getId() {
-        return this.id;
-    }
+    public int getNum_partidas() { return this.num_partidas; }
 
-    public void setId(int id) {
-        this.id = id;
-    }
+    public void setNum_partidas(int num_partidas) { this.num_partidas = num_partidas; }
 
-    public int getDerrotas() {
-        return this.derrotas;
-    }
+    public int getTotal_pontos() { return this.total_pontos; }
 
-    public void setDerrotas(int derrotas) {
-        this.derrotas = derrotas;
-    }
-
-    public int getEmpates() {
-        return this.empates;
-    }
-
-    public void setEmpates(int empates) {
-        this.empates = empates;
-    }
-
-    public int getVitorias() {
-        return this.vitorias;
-    }
-
-    public void setVitorias(int vitorias) {
-        this.vitorias = vitorias;
-    }
-
-    public Jogo getJogo() {
-        return this.jogo;
-    }
-
-    public void setJogo(Jogo jogo) {
-        this.jogo = jogo;
-    }
+    public void setTotal_pontos(int total_pontos) { this.total_pontos = total_pontos; }
 
 }

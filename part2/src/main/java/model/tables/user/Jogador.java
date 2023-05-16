@@ -28,6 +28,7 @@ public class Jogador implements Serializable {
     private String email;
 
     private String estado;
+    
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "regiao", referencedColumnName = "nome")
     private Regiao regiao;

@@ -25,7 +25,7 @@ public class EstatisticaJogador implements Serializable {
     public EstatisticaJogador() {
     }
 
-    public print() {
+    public void print() {
         System.out.println("EstatisticaJogador: " + this.id_jogador + " " + this.num_jogos + " " + this.num_partidas + " " + this.total_pontos);
     }
 

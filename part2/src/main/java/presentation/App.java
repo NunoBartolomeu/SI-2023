@@ -19,7 +19,7 @@ public class App {
 				System.out.println(i.getNome());
 			});
 
-			List<Jogador> j = em.createQuery("select j from jogadores j").getResultList();
+			List<model.user.EstatisticaJogador> j = em.createQuery("select j from estatisticas_jogador j").getResultList();
 			j.forEach((i) -> {
 				i.print();
 			});

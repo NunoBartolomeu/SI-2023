@@ -17,13 +17,13 @@ public class Amigo implements Serializable {
     public Amigo() {
     }
 
-    public print() {
+    public void print() {
         System.out.println("Amigo: " + this.id.getId_jogador1() + " " + this.id.getId_jogador2());
     }
 }
 
 @Embeddable
-public class AmigoId implements Serializable {
+class AmigoId implements Serializable {
     private Integer id_jogador1;
     private Integer id_jogador2;
 

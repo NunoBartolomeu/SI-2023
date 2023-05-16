@@ -7,59 +7,32 @@ import jakarta.persistence.*;
  * The persistent class for the crachas database table.
  * 
  */
-@Entity
+@Entity(name = "crachas")
 @Table(name = "crachas")
-@NamedQuery(name = "Cracha.findAll", query = "SELECT c FROM Cracha c")
+@NamedQuery(name = "crachas.findAll", query = "SELECT c FROM crachas c")
 public class Cracha implements Serializable {
-    private static final long serialVersionUID = 1L;
+    @EmbeddedId
+    private CrachaId id;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_cracha")
-    private int idCracha;
+    private String url;
 
-    @Column(name = "nome_cracha")
-    private String nomeCracha;
+    private int limite_pontos;
 
-    @Column(name = "descricao_cracha")
-    private String descricaoCracha;
+    @OneToMany(mappedBy = "cracha")
+    private Jogador[] donos;
 
-    @Column(name = "imagem_cracha")
-    private String imagemCracha;
+    public Cracha() { }
 
-    public Cracha() {
-    }
+    public CrachaId getId() { return this.id; }
 
-    public int getIdCracha() {
-        return this.idCracha;
-    }
+    public void setId(CrachaId id) { this.id = id; }
 
-    public void setIdCracha(int idCracha) {
-        this.idCracha = idCracha;
-    }
+    public String getUrl() { return this.url; }
 
-    public String getNomeCracha() {
-        return this.nomeCracha;
-    }
+    public void setUrl(String url) { this.url = url; }
 
-    public void setNomeCracha(String nomeCracha) {
-        this.nomeCracha = nomeCracha;
-    }
+    public int getLimite_pontos() { return this.limite_pontos; }
 
-    public String getDescricaoCracha() {
-        return this.descricaoCracha;
-    }
-
-    public void setDescricaoCracha(String descricaoCracha) {
-        this.descricaoCracha = descricaoCracha;
-    }
-
-    public String getImagemCracha() {
-        return this.imagemCracha;
-    }
-
-    public void setImagemCracha(String imagemCracha) {
-        this.imagemCracha = imagemCracha;
-    }
+    public void setLimite_pontos(int limite_pontos) { this.limite_pontos = limite_pontos; }
 
 }

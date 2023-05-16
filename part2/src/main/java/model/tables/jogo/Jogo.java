@@ -7,54 +7,35 @@ import jakarta.persistence.*;
  * The persistent class for the jogos database table.
  * 
  */
-@Entity
+@Entity(name = "jogos")
 @Table(name = "jogos")
-@NamedQuery(name = "Jogo.findAll", query = "SELECT j FROM Jogo j")
+@NamedQuery(name = "jogos.findAll", query = "SELECT j FROM jogos j")
 public class Jogo implements Serializable {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private String id;
 
     private String nome;
 
     private String url;
 
-    public Jogo() {
+    public Jogo() { }
+
+    public String getId() { return this.id; }
+
+    //Can't be longer than 10 characters
+    public void setId(String id) { 
+        if (id.length() <= 10)
+            this.id = id;
+        else 
+            throw new Error("Id: " + id + "isn't valid!");
     }
 
-    public Jogo(String nome, String url) {
-        this.nome = nome;
-        this.url = url;
-    }
+    public String getNome() { return this.nome; }
 
-    public Jogo(int id, String nome, String url) {
-        this.id = id;
-        this.nome = nome;
-        this.url = url;
-    }
+    public void setNome(String nome) { this.nome = nome; }
 
-    public int getId() {
-        return this.id;
-    }
+    public String getUrl() { return this.url; }
 
-    public String getNome() {
-        return this.nome;
-    }
+    public void setUrl(String url) { this.url = url; }
 
-    public String getUrl() {
-        return this.url;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
 }

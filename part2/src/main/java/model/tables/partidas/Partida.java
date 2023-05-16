@@ -7,49 +7,80 @@ import jakarta.persistence.*;
  * The persistent class for the partidas database table.
  * 
  */
-@Entity
+@Entity(name = "partidas")
 @Table(name = "partidas")
-@Inheritance(strategy = InheritanceType.JOINED)
-@NamedQuery(name = "Partida.findAll", query = "SELECT p FROM Partida p")
-public abstract class Partida implements Serializable {
-    private static final long serialVersionUID = 1L;
+@NamedQuery(name = "partidas.findAll", query = "SELECT p FROM partidas p")
+public class Partida implements Serializable {
+    @EmbeddedId
+    private PartidaId id;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private String data;
 
-    private int pontuacao;
+    private String duracao;
 
-    // bi-directional many-to-one association to Pontuacao
-    @ManyToOne
-    @JoinColumn(name = "pontuacao_id")
-    private Pontuacao pontuacaoBean;
+    private String vencedor;
 
     public Partida() {
     }
 
-    public Partida(int pontuacao) {
-        this.pontuacao = pontuacao;
-    }
-
-    public int getId() {
+    public PartidaId getId() {
         return this.id;
     }
 
-    public int getPontuacao() {
-        return this.pontuacao;
+    public void setId(PartidaId id) {
+        this.id = id;
     }
 
-    public void setPontuacao(int pontuacao) {
-        this.pontuacao = pontuacao;
+    public String getData() {
+        return this.data;
     }
 
-    public Pontuacao getPontuacaoBean() {
-        return this.pontuacaoBean;
+    public void setData(String data) {
+        this.data = data;
     }
 
-    public void setPontuacaoBean(Pontuacao pontuacaoBean) {
-        this.pontuacaoBean = pontuacaoBean;
+    public String getDuracao() {
+        return this.duracao;
+    }
+
+    public void setDuracao(String duracao) {
+        this.duracao = duracao;
+    }
+
+    public String getVencedor() {
+        return this.vencedor;
+    }
+
+    public void setVencedor(String vencedor) {
+        this.vencedor = vencedor;
+    }
+
+}
+
+public class PartidaId implements Serializable {
+    @Column(name = "id_jogo")
+    private Integer id_jogo;
+
+    @Column(name = "id_partida")
+    private Integer id_partida;
+
+    public PartidaId() {
+    }
+
+    public Integer getId_jogo() {
+        return this.id_jogo;
+    }
+
+    public void setId_jogo(Integer id_jogo) {
+        this.id_jogo = id_jogo;
+    }
+
+    public Integer getId_partida() {
+        return this.id_partida;
+    }
+
+    public void setId_partida(Integer id_partida) {
+        this.id_partida = id_partida;
     }
 
 }
