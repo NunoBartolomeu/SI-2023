@@ -1,53 +1,34 @@
-/*
- Walter Vieira (2022-04-22)
- Sistemas de Informação - projeto JPAAulas_ex3
- Código desenvolvido para iulustração dos conceitos sobre acesso a dados, concretizados com base na especificação JPA.
- Todos os exemplos foram desenvolvidos com EclipseLinlk (3.1.0-M1), usando o ambientre Eclipse IDE versão 2022-03 (4.23.0).
- 
-Não existe a pretensão de que o código estaja completo.
-
-Embora tenha sido colocado um esforço significativo na correção do código, não há garantias de que ele não contenha erros que possam 
-acarretar problemas vários, em particular, no que respeita à consistência dos dados.  
- 
-*/
-
 package presentation;
 
-import java.util.Scanner;
+import jakarta.persistence.*;
+import model.tables.user.Jogador;
+import model.tables.Regiao;
 
+import java.util.List;
 
-import businessLogic.*;
+public class App {
 
+	static EntityManagerFactory emf = Persistence.createEntityManagerFactory("JPA_SI");
+	static EntityManager em = emf.createEntityManager();
 
-/**
- * Hello world!
- *
- */
+	public static void main(String[] args) {
+		try {
+			em.getTransaction().begin();
+			List<Regiao> a = em.createQuery("SELECT r FROM regioes r").getResultList();
+			a.forEach((i) -> {
+				System.out.println(i.getNome());
+			});
 
-public class App 
-{
-	protected interface ITest {
-		void test();
+			List<Jogador> j = em.createQuery("select j from jogadores j").getResultList();
+			j.forEach((i) -> {
+				i.print();
+			});
+
+			em.getTransaction().commit();
+		}
+		finally {
+			em.close();
+			emf.close();
+		}
 	}
-	
-   @SuppressWarnings("unchecked")
-	public static void main( String[] args ) throws Exception
-   {   BLService srv = new BLService();
-   	ITest tests[] = new ITest[] {
-         () -> {try { srv.test1(); } catch(Exception e) {}} 
-//         , () -> {try { srv.teste2(); } catch(Exception e) {}} 
-//         , () -> {try { srv.teste3(); } catch(Exception e) {}} 
-//         , () -> {try { srv.teste4(); } catch(Exception e) {}} 
-//         , () -> {try { srv.teste5(); } catch(Exception e) {}} 
-      };
-   	
-   	Scanner imp = new Scanner(System.in );
-   	System.out.printf("Escolha um teste (1-%d)? ",tests.length);
-   	int option = imp.nextInt();
-   	if (option >= 1 && option <= tests.length)
-   		tests[--option].test();
-
-
-       	 
-   }
 }
