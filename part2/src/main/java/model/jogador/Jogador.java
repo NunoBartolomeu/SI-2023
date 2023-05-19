@@ -59,12 +59,7 @@ public class Jogador implements Serializable {
 
     public String getEstado() { return this.estado; }
 
-    public void setEstado(String estado) {
-        if (estados.contains(estado))
-            this.estado = estado;
-        else
-            throw new Error("Estado: " + estado + "isn't valid!");
-    }
+    public void setEstado(String estado) { this.estado = estado; }
 
     public Regiao getRegiao() { return this.regiao; }
 
