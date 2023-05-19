@@ -34,9 +34,9 @@ public class Jogador implements Serializable {
     private Regiao regiao;
 
     @ManyToMany(cascade=CascadeType.REMOVE)
-    @JoinTable(name="jogadores",
-            joinColumns=@JoinColumn(name="numProf"),
-            inverseJoinColumns=@JoinColumn(name="codDisc"))
+    @JoinTable(name="amigos",
+            joinColumns=@JoinColumn(name="id_jogador1"),
+            inverseJoinColumns=@JoinColumn(name="id_jogador2"))
     private Set<Jogador> amigos;
 
     public Jogador() { }
