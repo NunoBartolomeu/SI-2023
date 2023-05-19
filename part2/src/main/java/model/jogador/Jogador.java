@@ -34,9 +34,9 @@ public class Jogador implements Serializable {
     private Regiao regiao;
 
     @ManyToMany(cascade=CascadeType.REMOVE)
-    @JoinTable(name="jogadores",
-            joinColumns=@JoinColumn(name="numProf"),
-            inverseJoinColumns=@JoinColumn(name="codDisc"))
+    @JoinTable(name="amigos",
+            joinColumns=@JoinColumn(name="id_jogador1"),
+            inverseJoinColumns=@JoinColumn(name="id_jogador2"))
     private Set<Jogador> amigos;
 
     public Jogador() { }
@@ -59,12 +59,7 @@ public class Jogador implements Serializable {
 
     public String getEstado() { return this.estado; }
 
-    public void setEstado(String estado) {
-        if (estados.contains(estado))
-            this.estado = estado;
-        else
-            throw new Error("Estado: " + estado + "isn't valid!");
-    }
+    public void setEstado(String estado) { this.estado = estado; }
 
     public Regiao getRegiao() { return this.regiao; }
 
