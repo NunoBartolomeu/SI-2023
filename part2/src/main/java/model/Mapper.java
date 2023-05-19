@@ -1,4 +1,4 @@
-package model.mappers;
+package model;
 
 public interface Mapper<T, Tid> {
     void Create(T entity);

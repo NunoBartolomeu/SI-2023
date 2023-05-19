@@ -1,8 +1,8 @@
 package presentation;
 
 import jakarta.persistence.*;
-import model.tables.user.Jogador;
-import model.tables.Regiao;
+import model.jogador.Jogador;
+import model.regiao.Regiao;
 
 import java.util.List;
 
@@ -14,13 +14,8 @@ public class App {
 	public static void main(String[] args) {
 		try {
 			em.getTransaction().begin();
-			List<Regiao> a = em.createQuery("SELECT r FROM regioes r").getResultList();
+			List<Jogador> a = em.createQuery("SELECT j FROM jogadores j").getResultList();
 			a.forEach((i) -> {
-				System.out.println(i.getNome());
-			});
-
-			List<model.user.EstatisticaJogador> j = em.createQuery("select j from estatisticas_jogador j").getResultList();
-			j.forEach((i) -> {
 				i.print();
 			});
 

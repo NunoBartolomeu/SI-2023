@@ -1,20 +1,20 @@
-package model.tables.user;
+package model.jogador;
 
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 import jakarta.persistence.*;
-import model.tables.Regiao;
+import model.regiao.Regiao;
 
 
 /**
  * The persistent class for the jogadores database table.
  * 
  */
-@Entity (name="jogadores")
+@Entity(name="jogadores")
 @Table(name="jogadores")
-@NamedQuery(name="jogadores.findAll", query="SELECT j FROM jogadores j")
 public class Jogador implements Serializable {
 
     private static final List<String> estados = Arrays.asList("inativo", "ativo", "banido");
@@ -32,6 +32,12 @@ public class Jogador implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "regiao", referencedColumnName = "nome")
     private Regiao regiao;
+
+    @ManyToMany(cascade=CascadeType.REMOVE)
+    @JoinTable(name="jogadores",
+            joinColumns=@JoinColumn(name="numProf"),
+            inverseJoinColumns=@JoinColumn(name="codDisc"))
+    private Set<Jogador> amigos;
 
     public Jogador() { }
 

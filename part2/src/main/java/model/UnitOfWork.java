@@ -1,4 +1,4 @@
-package business_logic;
+package model;
 
 public interface UnitOfWork {
     void NotifyInsert(Object entity);

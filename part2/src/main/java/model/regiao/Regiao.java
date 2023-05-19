@@ -1,4 +1,4 @@
-package model.tables;
+package model.regiao;
 
 import java.io.Serializable;
 import jakarta.persistence.*;
@@ -9,7 +9,6 @@ import jakarta.persistence.*;
  */
 @Entity(name = "regioes")
 @Table(name = "regioes")
-@NamedQuery(name = "regioes.findAll", query = "SELECT r FROM regioes r")
 public class Regiao implements Serializable {
     @Id
     private String nome;
