@@ -6,7 +6,11 @@ import java.util.List;
 import java.util.Set;
 
 import jakarta.persistence.*;
+import model.conversa.Conversa;
+import model.cracha.Cracha;
+import model.estatisticas_jogador.EstatisticasJogador;
 import model.regiao.Regiao;
+import org.glassfish.jaxb.core.v2.TODO;
 
 
 /**
@@ -16,9 +20,6 @@ import model.regiao.Regiao;
 @Entity(name="jogadores")
 @Table(name="jogadores")
 public class Jogador implements Serializable {
-
-    private static final List<String> estados = Arrays.asList("inativo", "ativo", "banido");
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -39,11 +40,21 @@ public class Jogador implements Serializable {
             inverseJoinColumns=@JoinColumn(name="id_jogador2"))
     private Set<Jogador> amigos;
 
-    public Jogador() { }
+    @OneToOne(mappedBy = "estatisticas_jogador")
+    private EstatisticasJogador estatisticas;
 
-    public void print() {
-        System.out.println("Jogador: " + this.id + " " + this.username + " " + this.email + " " + this.estado + " " + this.regiao.getNome());
-    }
+    @ManyToMany(mappedBy="conversas",cascade=CascadeType.REMOVE)
+    private Set<Conversa> conversas;
+
+
+    //TODO arranjar a coluna 2 para aceitar 2 colunas
+    @ManyToMany(cascade=CascadeType.REMOVE)
+    @JoinTable(name="crachas_obtidos",
+            joinColumns=@JoinColumn(name="id_jogador"),
+            inverseJoinColumns=@JoinColumn(name="nome_cracha"))
+    private Set<Cracha> crachas;
+
+    public Jogador() { }
 
     public Integer getId() { return this.id; }
 
@@ -64,5 +75,21 @@ public class Jogador implements Serializable {
     public Regiao getRegiao() { return this.regiao; }
 
     public void setRegiao(Regiao regiao) { this.regiao = regiao; }
-    
+
+    public Set<Jogador> getAmigos() { return this.amigos; }
+
+    public void setAmigos(Set<Jogador> amigos) { this.amigos = amigos; }
+
+    public EstatisticasJogador getEstatisticas() { return this.estatisticas; }
+
+    public void setEstatisticas(EstatisticasJogador estatisticas) { this.estatisticas = estatisticas; }
+
+    public Set<Conversa> getConversas() { return this.conversas; }
+
+    public void setConversas(Set<Conversa> conversas) { this.conversas = conversas; }
+
+    public Set<Cracha> getCrachas() { return this.crachas; }
+
+    public void setCrachas(Set<Cracha> crachas) { this.crachas = crachas; }
+
 }
