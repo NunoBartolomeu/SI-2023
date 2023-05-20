@@ -1,4 +1,4 @@
-package model.regiao;
+package model.jogo;
 
 import jakarta.persistence.LockModeType;
 import jakarta.persistence.Persistence;
@@ -6,12 +6,12 @@ import model.Mapper;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 
-public class RegiaoMapper implements Mapper<Regiao, String> {
+public class JogoMapper implements Mapper<Jogo, Integer> {
     private EntityManagerFactory emf;
     private EntityManager em;
 
     @Override
-    public void Create(Regiao entity) throws Exception {
+    public void Create(Jogo entity) throws Exception {
         emf = Persistence.createEntityManagerFactory("JPA_SI");
         em = emf.createEntityManager();
         try {
@@ -30,11 +30,11 @@ public class RegiaoMapper implements Mapper<Regiao, String> {
     }
 
     @Override
-    public Regiao Read(String id) throws Exception{
+    public Jogo Read(Integer id) throws Exception{
         emf = Persistence.createEntityManagerFactory("JPA_SI");
         em = emf.createEntityManager();
         try {
-            return em.find(Regiao.class, id);
+            return em.find(Jogo.class, id);
         }
         catch(Exception e) {
             System.out.println(e.getMessage());
@@ -47,13 +47,13 @@ public class RegiaoMapper implements Mapper<Regiao, String> {
     }
 
     @Override
-    public void Update(Regiao entity) throws Exception{
+    public void Update(Jogo entity) throws Exception{
         emf = Persistence.createEntityManagerFactory("JPA_SI");
         em = emf.createEntityManager();
         try {
             em.getTransaction().begin();
-            Regiao r = em.find(Regiao.class, entity.getNome(), LockModeType.PESSIMISTIC_WRITE );
-            if (r == null)
+            Jogo j = em.find(Jogo.class, entity.getId(), LockModeType.PESSIMISTIC_WRITE );
+            if (j == null)
                 throw new java.lang.IllegalAccessException("Entidade inexistente");
             em.merge(entity);
             em.getTransaction().commit();
@@ -69,12 +69,15 @@ public class RegiaoMapper implements Mapper<Regiao, String> {
     }
 
     @Override
-    public void Delete(Regiao entity) throws Exception {
+    public void Delete(Jogo entity) throws Exception{
         emf = Persistence.createEntityManagerFactory("JPA_SI");
         em = emf.createEntityManager();
         try {
             em.getTransaction().begin();
-            em.remove(entity);
+            Jogo j = em.find(Jogo.class, entity.getId(), LockModeType.PESSIMISTIC_WRITE );
+            if (j == null)
+                throw new java.lang.IllegalAccessException("Entidade inexistente");
+            em.remove(j);
             em.getTransaction().commit();
         }
         catch(Exception e) {
@@ -87,4 +90,3 @@ public class RegiaoMapper implements Mapper<Regiao, String> {
         }
     }
 }
-    

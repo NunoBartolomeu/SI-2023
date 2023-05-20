@@ -1,18 +1,17 @@
 package model.mensagen;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 
 @Embeddable
-public class MensagemID {
+public class MensagemId {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long numero;
 
     private int id_conversa;
 
-    public MensagemID() { }
+    public MensagemId() { }
 
     public long getNumero() { return this.numero; }
 

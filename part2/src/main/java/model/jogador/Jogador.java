@@ -22,7 +22,7 @@ import org.glassfish.jaxb.core.v2.TODO;
 public class Jogador implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private int id;
 
     private String username;
 

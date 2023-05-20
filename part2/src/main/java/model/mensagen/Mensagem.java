@@ -12,7 +12,7 @@ import java.util.Date;
 @Table(name = "mensagens")
 public class Mensagem {
     @EmbeddedId
-    private MensagemID id;
+    private MensagemId id;
 
     @Column(name = "id_jogador")
     private Jogador autor;
@@ -23,9 +23,9 @@ public class Mensagem {
 
     public Mensagem() { }
 
-    public MensagemID getId() { return this.id; }
+    public MensagemId getId() { return this.id; }
 
-    public void setId(MensagemID id) { this.id = id; }
+    public void setId(MensagemId id) { this.id = id; }
 
     public Jogador getAutor() { return this.autor; }
 
