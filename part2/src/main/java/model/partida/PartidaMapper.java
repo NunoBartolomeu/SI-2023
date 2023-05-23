@@ -69,7 +69,7 @@ public class PartidaMapper implements Mapper<Partida, PartidaId> {
     }
 
     @Override
-    public void Delete(PartidaId id) throws Exception{
+    public void Delete(Partida id) throws Exception{
         emf = Persistence.createEntityManagerFactory("JPA_SI");
         em = emf.createEntityManager();
         try {

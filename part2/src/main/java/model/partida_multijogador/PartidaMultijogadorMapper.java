@@ -5,8 +5,8 @@ import jakarta.persistence.Persistence;
 import model.Mapper;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
-
-public class PartidaMultijogadorMapper implements Mapper<PartidaMultijogador, PartidaId> {
+/*
+public class PartidaMultijogadorMapper implements Mapper<PartidaMultijogador, PartidaId.java> {
     private EntityManagerFactory emf;
     private EntityManager em;
 
@@ -27,6 +27,11 @@ public class PartidaMultijogadorMapper implements Mapper<PartidaMultijogador, Pa
             em.close();
             emf.close();
         }
+    }
+
+    @Override
+    public PartidaMultijogador Read(PartidaId.java id) throws Exception {
+        return null;
     }
 
     @Override
@@ -69,6 +74,11 @@ public class PartidaMultijogadorMapper implements Mapper<PartidaMultijogador, Pa
     }
 
     @Override
+    public void Delete(PartidaMultijogador entity) throws Exception {
+
+    }
+
+    @Override
     public void Delete(PartidaMultijogadorId id) throws Exception{
         emf = Persistence.createEntityManagerFactory("JPA_SI");
         em = emf.createEntityManager();
@@ -89,4 +99,4 @@ public class PartidaMultijogadorMapper implements Mapper<PartidaMultijogador, Pa
             emf.close();
         }
     }
-}
+}*/
