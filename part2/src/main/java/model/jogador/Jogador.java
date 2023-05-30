@@ -1,11 +1,10 @@
 package model.jogador;
 
 import java.io.Serializable;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import jakarta.persistence.*;
+import model.compra.Compra;
 import model.conversa.Conversa;
 import model.cracha.Cracha;
 import model.estatisticas_jogador.EstatisticasJogador;
@@ -40,18 +39,22 @@ public class Jogador implements Serializable {
             inverseJoinColumns=@JoinColumn(name="id_jogador2"))
     private Set<Jogador> amigos;
 
-    @OneToOne(mappedBy = "estatisticas_jogador")
+    @OneToMany(mappedBy = "jogador")
+    private Set<Compra> compras;
+
+    @OneToOne(mappedBy = "jogador")
     private EstatisticasJogador estatisticas;
 
-    @ManyToMany(mappedBy="conversas",cascade=CascadeType.REMOVE)
+    @ManyToMany(mappedBy = "participantes")
     private Set<Conversa> conversas;
 
-
-    //TODO arranjar a coluna 2 para aceitar 2 colunas
-    @ManyToMany(cascade=CascadeType.REMOVE)
+    @ManyToMany(cascade = CascadeType.REMOVE)
     @JoinTable(name="crachas_obtidos",
             joinColumns=@JoinColumn(name="id_jogador"),
-            inverseJoinColumns=@JoinColumn(name="nome_cracha"))
+            inverseJoinColumns={
+                @JoinColumn(name="nome_cracha", referencedColumnName = "nome_cracha"),
+                    @JoinColumn(name = "id_jogo", referencedColumnName = "id_jogo")
+    })
     private Set<Cracha> crachas;
 
     public Jogador() { }
@@ -80,6 +83,10 @@ public class Jogador implements Serializable {
 
     public void setAmigos(Set<Jogador> amigos) { this.amigos = amigos; }
 
+    public void addAmigo(Jogador j){
+        this.amigos.add(j);
+    }
+
     public EstatisticasJogador getEstatisticas() { return this.estatisticas; }
 
     public void setEstatisticas(EstatisticasJogador estatisticas) { this.estatisticas = estatisticas; }
@@ -87,6 +94,17 @@ public class Jogador implements Serializable {
     public Set<Conversa> getConversas() { return this.conversas; }
 
     public void setConversas(Set<Conversa> conversas) { this.conversas = conversas; }
+
+
+    public Set<Compra> getCompras() { return compras; }
+
+    public void setCompras(Set<Compra> compras) { this.compras = compras; }
+
+    public Compra addCompra(Compra compra){
+        getCompras().add(compra);
+        compra.setJogador(this);
+        return compra;
+    }
 
     public Set<Cracha> getCrachas() { return this.crachas; }
 

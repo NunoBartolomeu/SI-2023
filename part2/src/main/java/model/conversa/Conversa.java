@@ -2,6 +2,7 @@ package model.conversa;
 
 import jakarta.persistence.*;
 import model.jogador.Jogador;
+import model.mensagen.Mensagem;
 
 import java.util.Set;
 
@@ -20,6 +21,9 @@ public class Conversa {
             inverseJoinColumns=@JoinColumn(name="id_jogador"))
     private Set<Jogador> participantes;
 
+    @OneToMany(mappedBy = "conversa", cascade = CascadeType.REMOVE)
+    private Set<Mensagem> mensagens;
+
     public Conversa() { }
 
     public int getId() { return this.id; }
@@ -33,5 +37,16 @@ public class Conversa {
     public Set<Jogador> getParticipantes() { return this.participantes; }
 
     public void setParticipantes(Set<Jogador> participantes) { this.participantes = participantes; }
+
+    public Set<Mensagem> getMensagens() { return mensagens; }
+
+    public void setMensagens(Set<Mensagem> mensagens) { this.mensagens = mensagens;}
+
+    public Mensagem addMensagem(Mensagem mensagem) {
+        getMensagens().add(mensagem);
+        mensagem.setConversa(this);
+        return mensagem;
+    }
+
 
 }

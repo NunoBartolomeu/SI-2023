@@ -7,8 +7,8 @@ import model.jogador.Jogador;
 @Table(name = "estatisticas_jogador")
 public class EstatisticasJogador {
     @Id
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_jogador", unique = true, nullable = false, referencedColumnName = "id")
+    @OneToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "id_jogador", unique = true)
     private Jogador jogador;
 
     private int num_jogos;

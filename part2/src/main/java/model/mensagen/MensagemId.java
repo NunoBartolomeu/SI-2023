@@ -7,18 +7,18 @@ import jakarta.persistence.GenerationType;
 @Embeddable
 public class MensagemId {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long numero;
+    private int numero;
 
-    private int id_conversa;
+    private int idConversa;
 
     public MensagemId() { }
 
     public long getNumero() { return this.numero; }
 
-    public void setNumero(long numero) { this.numero = numero; }
+    public void setNumero(int numero) { this.numero = numero; }
 
-    public int getId_conversa() { return this.id_conversa; }
+    public int getIdConversa() { return this.idConversa; }
 
-    public void setId_conversa(int id_conversa) { this.id_conversa = id_conversa; }
+    public void setIdConversa(int idConversa) { this.idConversa = idConversa; }
 
 }

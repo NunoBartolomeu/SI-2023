@@ -1,9 +1,7 @@
 package model.mensagen;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import model.conversa.Conversa;
 import model.jogador.Jogador;
 
 import java.util.Date;
@@ -14,8 +12,13 @@ public class Mensagem {
     @EmbeddedId
     private MensagemId id;
 
-    @Column(name = "id_jogador")
+    @JoinColumn(name = "id_jogador")
     private Jogador autor;
+
+    @ManyToOne
+    @MapsId("idConversa")
+    @JoinColumn(name = "id_conversa")
+    private Conversa conversa;
 
     private String texto;
 
@@ -30,6 +33,10 @@ public class Mensagem {
     public Jogador getAutor() { return this.autor; }
 
     public void setAutor(Jogador autor) { this.autor = autor; }
+
+    public Conversa getConversa() { return conversa; }
+
+    public void setConversa(Conversa conversa) { this.conversa = conversa; }
 
     public String getTexto() { return this.texto; }
 
