@@ -1,14 +1,9 @@
 package presentation;
 
 import jakarta.persistence.*;
-import model.compra.Compra;
-import model.conversa.Conversa;
-import model.cracha.Cracha;
-import model.estatisticas_jogador.EstatisticasJogador;
-import model.jogador.Jogador;
-import model.jogo.Jogo;
-import model.mensagen.Mensagem;
-import model.regiao.Regiao;
+import model.partida.Partida;
+import model.partida_multijogador.PartidaMultijogador;
+
 
 import java.util.List;
 
@@ -21,7 +16,7 @@ public class App {
 		try {
 			Thread.sleep(50);
 			em.getTransaction().begin();
-			List<Cracha> a = em.createQuery("SELECT j FROM crachas j").getResultList();
+			List<Partida> a = em.createQuery("select j from partidas j").getResultList();
 			System.out.println("======================================================================================");
 			a.forEach((i) -> {
 				System.out.println(i.getId());
