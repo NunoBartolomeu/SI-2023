@@ -23,9 +23,9 @@ public class Partida {
 
     @OneToOne(mappedBy = "partida")
     @JoinColumns({
-            @JoinColumn(name = "id", referencedColumnName = "id", unique = true),
-            @JoinColumn(name = "id_jogo", referencedColumnName = "id_jogo", unique = true
-            )})
+            @JoinColumn(name = "id", referencedColumnName = "id"),
+            @JoinColumn(name = "id_jogo", referencedColumnName = "id_jogo")
+    })
     private Set<PartidaMultijogador> partidasMultijogador;
 
     @OneToOne(mappedBy = "partida")

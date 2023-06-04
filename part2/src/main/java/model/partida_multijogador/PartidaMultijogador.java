@@ -15,6 +15,10 @@ public class PartidaMultijogador {
     @EmbeddedId
     private PartidaId id;
 
+    @OneToOne
+    @PrimaryKeyJoinColumn(name="id", referencedColumnName="id")
+    private Partida partida;
+
     @ManyToOne
     @MapsId("idJogo")
     @JoinColumn(name = "id_jogo", referencedColumnName = "id")
@@ -36,5 +40,8 @@ public class PartidaMultijogador {
 
     public void setJogo(Jogo jogo) { this.jogo = jogo; }
 
+    public Partida getPartida() { return partida; }
+
+    public void setPartida(Partida partida) { this.partida = partida; }
 }
 

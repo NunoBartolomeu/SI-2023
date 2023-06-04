@@ -5,6 +5,7 @@ import model.jogo.Jogo;
 import model.partida.Partida;
 import model.partida_multijogador.PartidaMultijogador;
 import model.partida_normal.PartidaNormal;
+import model.pontuacão.Pontuacao;
 
 
 import java.util.List;
@@ -18,18 +19,20 @@ public class App {
 		try {
 			Thread.sleep(50);
 			em.getTransaction().begin();
-			List<Jogo> a = em.createQuery("select j from jogos j").getResultList();
+			List<Pontuacao> a = em.createQuery("select j from pontuacoes j").getResultList();
 			System.out.println("======================================================================================");
 			a.forEach((i) -> {
-				//System.out.println(i.getPartidas());
+				System.out.println(i.getId());
+/*
 				for (Partida c : i.getPartidas()){
-					System.out.println("\n\n\n\n\n\n\n\n\n\n");
 					for (PartidaMultijogador pm: c.getPartidasMultijogador()){
+						System.out.println("\n\n\n\n\n\n\n\n\n\n");
 						System.out.println(pm.getId().getId());
+						System.out.println("\n\n\n\n\n\n\n\n\n\n");
 					}
-					System.out.println("\n\n\n\n\n\n\n\n\n\n");
 				}
 
+ */
 
 			});
 			System.out.println("======================================================================================");
