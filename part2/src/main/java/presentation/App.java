@@ -1,6 +1,7 @@
 package presentation;
 
 import jakarta.persistence.*;
+import model.jogo.Jogo;
 import model.partida.Partida;
 import model.partida_multijogador.PartidaMultijogador;
 import model.partida_normal.PartidaNormal;
@@ -17,15 +18,19 @@ public class App {
 		try {
 			Thread.sleep(50);
 			em.getTransaction().begin();
-			List<PartidaNormal> a = em.createQuery("select j from partidas_normais j").getResultList();
+			List<Jogo> a = em.createQuery("select j from jogos j").getResultList();
 			System.out.println("======================================================================================");
 			a.forEach((i) -> {
-				System.out.println(i.getId());
-				/*for (Compra c : i.getCompras()){
-					System.out.println(c.getJogador().getUsername());
+				//System.out.println(i.getPartidas());
+				for (Partida c : i.getPartidas()){
+					System.out.println("\n\n\n\n\n\n\n\n\n\n");
+					for (PartidaMultijogador pm: c.getPartidasMultijogador()){
+						System.out.println(pm.getId().getId());
+					}
+					System.out.println("\n\n\n\n\n\n\n\n\n\n");
 				}
 
-				 */
+
 			});
 			System.out.println("======================================================================================");
 			em.getTransaction().commit();

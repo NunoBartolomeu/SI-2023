@@ -8,6 +8,7 @@ import model.compra.Compra;
 import model.conversa.Conversa;
 import model.cracha.Cracha;
 import model.estatisticas_jogador.EstatisticasJogador;
+import model.partida.Partida;
 import model.regiao.Regiao;
 import org.glassfish.jaxb.core.v2.TODO;
 
@@ -100,7 +101,7 @@ public class Jogador implements Serializable {
 
     public void setCompras(Set<Compra> compras) { this.compras = compras; }
 
-    public Compra addCompra(Compra compra){
+    public Compra addCompra(Compra compra) {
         getCompras().add(compra);
         compra.setJogador(this);
         return compra;

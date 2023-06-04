@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 import model.jogo.Jogo;
 import model.partida.Partida;
 import model.partida.PartidaId;
+import model.partida_normal.PartidaNormal;
+
+import java.util.Set;
 
 @Entity(name = "partidas_multi_jogador")
 @Table(name = "partidas_multi_jogador")
@@ -11,13 +14,6 @@ public class PartidaMultijogador {
 
     @EmbeddedId
     private PartidaId id;
-
-    /*@JoinColumns({
-            @JoinColumn(name = "id", referencedColumnName = "id"),
-            @JoinColumn(name = "id_jogo", referencedColumnName = "id_jogo")
-    })
-    private Partida partida;
-     */
 
     @ManyToOne
     @MapsId("idJogo")
@@ -39,4 +35,6 @@ public class PartidaMultijogador {
     public Jogo getJogo() { return jogo; }
 
     public void setJogo(Jogo jogo) { this.jogo = jogo; }
+
 }
+

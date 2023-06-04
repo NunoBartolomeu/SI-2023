@@ -3,9 +3,13 @@ package model.partida;
 
 import jakarta.persistence.*;
 import model.jogo.Jogo;
+import model.partida_multijogador.PartidaMultijogador;
+import model.partida_normal.PartidaNormal;
 import model.regiao.Regiao;
 
 import java.util.Date;
+import java.util.Set;
+
 @Entity(name = "partidas")
 @Table(name = "partidas")
 public class Partida {
@@ -16,6 +20,20 @@ public class Partida {
     @MapsId("idJogo")
     @JoinColumn(name = "id_jogo")
     private Jogo jogo;
+
+    @OneToOne(mappedBy = "partida")
+    @JoinColumns({
+            @JoinColumn(name = "id", referencedColumnName = "id", unique = true),
+            @JoinColumn(name = "id_jogo", referencedColumnName = "id_jogo", unique = true
+            )})
+    private Set<PartidaMultijogador> partidasMultijogador;
+
+    @OneToOne(mappedBy = "partida")
+    @JoinColumns({
+            @JoinColumn(name = "id", referencedColumnName = "id", unique = true),
+            @JoinColumn(name = "id_jogo", referencedColumnName = "id_jogo", unique = true
+            )})
+    private Set<PartidaNormal> partidasNormais;
 
     private Date data_inicio;
 
@@ -45,5 +63,13 @@ public class Partida {
     public void setJogo(Jogo jogo) { this.jogo = jogo; }
 
     public Jogo getJogo() { return this.jogo; }
+
+    public Set<PartidaNormal> getPartidasNormais() { return partidasNormais; }
+
+    public void setPartidasNormais(Set<PartidaNormal> partidasNormais) { this.partidasNormais = partidasNormais; }
+
+    public Set<PartidaMultijogador> getPartidasMultijogador() { return partidasMultijogador; }
+
+    public void setPartidasMultijogador(Set<PartidaMultijogador> partidasMultijogador) { this.partidasMultijogador = partidasMultijogador; }
 
 }
