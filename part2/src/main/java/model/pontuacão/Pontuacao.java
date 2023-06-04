@@ -14,15 +14,16 @@ public class Pontuacao {
     private PontuacaoId id;
 
     public Pontuacao() { }
-/*
+
+    /*
     @ManyToOne
     @JoinColumns({
-            @JoinColumn(name = "id", referencedColumnName = "id"),
+            @JoinColumn(name = "id_partida", referencedColumnName = "id"),
             @JoinColumn(name = "id_jogo", referencedColumnName = "id_jogo")
     })
     private Partida partida;
+     */
 
- */
     @ManyToOne
     @MapsId("idJogador")
     @JoinColumn(name = "id_jogador")

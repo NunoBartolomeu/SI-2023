@@ -22,7 +22,7 @@ public class App {
 			List<Pontuacao> a = em.createQuery("select j from pontuacoes j").getResultList();
 			System.out.println("======================================================================================");
 			a.forEach((i) -> {
-				System.out.println(i.getId());
+				System.out.println(i.getId().getIdPartida());
 /*
 				for (Partida c : i.getPartidas()){
 					for (PartidaMultijogador pm: c.getPartidasMultijogador()){
