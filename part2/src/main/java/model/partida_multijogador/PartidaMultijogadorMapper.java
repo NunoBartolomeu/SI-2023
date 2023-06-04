@@ -7,7 +7,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import model.partida.PartidaId;
 
-public class PartidaMultijogadorMapper implements Mapper<PartidaMultijogador, PartidaMultijogadorId> {
+public class PartidaMultijogadorMapper implements Mapper<PartidaMultijogador, PartidaId> {
     private EntityManagerFactory emf;
     private EntityManager em;
 
@@ -31,7 +31,7 @@ public class PartidaMultijogadorMapper implements Mapper<PartidaMultijogador, Pa
     }
 
     @Override
-    public PartidaMultijogador Read(PartidaMultijogadorId id) throws Exception {
+    public PartidaMultijogador Read(PartidaId id) throws Exception {
         emf = Persistence.createEntityManagerFactory("JPA_SI");
         em = emf.createEntityManager();
         try {

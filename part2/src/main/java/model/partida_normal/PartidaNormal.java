@@ -4,11 +4,11 @@ import jakarta.persistence.*;
 import model.jogo.Jogo;
 import model.partida.PartidaId;
 import model.regiao.Regiao;
-/*
+
 @Entity(name = "partidas_normais")
 public class PartidaNormal {
+
     @EmbeddedId
-    @JoinColumn(name = "id_partida", referencedColumnName = "id")
     private PartidaId id;
 
     @ManyToOne
@@ -33,4 +33,3 @@ public class PartidaNormal {
     public void setDificuldade(int dificuldade) { this.dificuldade = dificuldade; }
 
 }
-*/

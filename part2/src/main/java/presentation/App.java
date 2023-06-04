@@ -3,6 +3,7 @@ package presentation;
 import jakarta.persistence.*;
 import model.partida.Partida;
 import model.partida_multijogador.PartidaMultijogador;
+import model.partida_normal.PartidaNormal;
 
 
 import java.util.List;
@@ -16,7 +17,7 @@ public class App {
 		try {
 			Thread.sleep(50);
 			em.getTransaction().begin();
-			List<Partida> a = em.createQuery("select j from partidas j").getResultList();
+			List<PartidaNormal> a = em.createQuery("select j from partidas_normais j").getResultList();
 			System.out.println("======================================================================================");
 			a.forEach((i) -> {
 				System.out.println(i.getId());

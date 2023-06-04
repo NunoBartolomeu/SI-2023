@@ -8,8 +8,9 @@ import jakarta.persistence.GenerationType;
 
 @Embeddable
 public class PartidaId {
+
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private long id;
 
     @Column(name = "id_jogo", insertable = true, updatable = false)
     private String idJogo;
