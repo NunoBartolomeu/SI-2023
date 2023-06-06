@@ -123,6 +123,7 @@ CREATE TABLE IF NOT EXISTS Partidas (
     data_inicio TIMESTAMP NOT NULL,
     data_fim TIMESTAMP,
     regiao VARCHAR(255) NOT NULL,
+    isNormal BOOLEAN NOT NULL,
 
     CONSTRAINT fk_jogo FOREIGN KEY (id_jogo) REFERENCES Jogos(id),
     CONSTRAINT fk_regiao FOREIGN KEY (regiao) REFERENCES Regioes(nome),
@@ -152,17 +153,27 @@ CREATE TABLE IF NOT EXISTS Partidas_Multi_Jogador (
     CONSTRAINT pk_partidasMult PRIMARY KEY (id_partida, id_jogo)
 );
 
-CREATE TABLE IF NOT EXISTS Pontuacoes (
+CREATE TABLE IF NOT EXISTS Pontuacoes_Normais (
     id_partida INT NOT NULL,
     id_jogador INT NOT NULL,
     id_jogo VARCHAR(10) NOT NULL,
     pontos INT NOT NULL,
 
-    CONSTRAINT fk_partidas FOREIGN KEY (id_partida, id_jogo) REFERENCES Partidas(id, id_jogo),
+    CONSTRAINT fk_partidas FOREIGN KEY (id_partida, id_jogo) REFERENCES Partidas_Normais(id_partida, id_jogo),
     CONSTRAINT fk_jogador FOREIGN KEY (id_jogador) REFERENCES Jogadores(id),
     CONSTRAINT pk_pontuaçao PRIMARY KEY (id_partida, id_jogador, id_jogo)
 );
 
+CREATE TABLE IF NOT EXISTS Pontuacoes_Multi_Jogador (
+    id_partida INT NOT NULL,
+    id_jogador INT NOT NULL,
+    id_jogo VARCHAR(10) NOT NULL,
+    pontos INT NOT NULL,
+
+    CONSTRAINT fk_partidas FOREIGN KEY (id_partida, id_jogo) REFERENCES Partidas_Multi_Jogador(id_partida, id_jogo),
+    CONSTRAINT fk_jogador FOREIGN KEY (id_jogador) REFERENCES Jogadores(id),
+    CONSTRAINT pk_pontuaçao PRIMARY KEY (id_partida, id_jogador, id_jogo)
+);
 
 -- Update automático das estatisticas
 CREATE OR REPLACE FUNCTION atualizar_estatisticas()
