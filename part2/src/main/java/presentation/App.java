@@ -24,18 +24,6 @@ public class App {
 			System.out.println("======================================================================================");
 			a.forEach((i) -> {
 				System.out.println(i.getPontos());
-/*
-				for (Partida c : i.getPartidas()){
-					for (PartidaMultijogador pm: c.getPartidasMultijogador()){
-						System.out.println("\n\n\n\n\n\n\n\n\n\n");
-						System.out.println(pm.getId().getId());
-						System.out.println("\n\n\n\n\n\n\n\n\n\n");
-					}
-				}
-
- */
-
-
 
 			});
 			System.out.println("======================================================================================");
