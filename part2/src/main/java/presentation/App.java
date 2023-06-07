@@ -1,11 +1,6 @@
 package presentation;
 
 import jakarta.persistence.*;
-import model.jogo.Jogo;
-import model.partida.Partida;
-import model.partida.PartidaId;
-import model.partida_multijogador.PartidaMultijogador;
-import model.partida_normal.PartidaNormal;
 import model.pontuacão.Pontuacao_Multi_Jogador;
 
 
