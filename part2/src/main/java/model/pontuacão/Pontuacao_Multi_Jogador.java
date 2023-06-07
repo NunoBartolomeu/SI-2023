@@ -4,37 +4,40 @@ import jakarta.persistence.*;
 import model.jogador.Jogador;
 import model.jogo.Jogo;
 import model.partida.Partida;
-import model.partida.PartidaId;
+import model.partida_multijogador.PartidaMultijogador;
+
+import java.io.Serializable;
 
 
-@Entity(name = "pontuacoes")
-@Table(name = "pontuacoes")
-public class Pontuacao {
+@Entity(name = "pontuacoes_multi_jogador")
+@Table(name = "pontuacoes_multi_jogador")
+public class Pontuacao_Multi_Jogador implements Serializable {
+
     @EmbeddedId
     private PontuacaoId id;
 
-    public Pontuacao() { }
+    public Pontuacao_Multi_Jogador() { }
 
-    /*
-    @ManyToOne
     @JoinColumns({
             @JoinColumn(name = "id_partida", referencedColumnName = "id"),
             @JoinColumn(name = "id_jogo", referencedColumnName = "id_jogo")
     })
-    private Partida partida;
-     */
+    @ManyToOne
+    private PartidaMultijogador partida;
+
 
     @ManyToOne
-    @MapsId("idJogador")
+    @MapsId("id_jogador")
     @JoinColumn(name = "id_jogador")
     private Jogador jogador;
 
-    @ManyToOne
-    @MapsId("idJogo")
-    @JoinColumn(name = "id_jogo")
-    private Jogo jogo;
-
     private int pontos;
+/*
+    public PartidaMultijogador getPartida() { return partida; }
+
+    public void setPartida(PartidaMultijogador partida) { this.partida = partida; }
+
+ */
 
     public PontuacaoId getId(){ return this.id; }
 
@@ -44,3 +47,4 @@ public class Pontuacao {
 
     public void setPontos(int pontos) { this.pontos = pontos; }
 }
+

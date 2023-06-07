@@ -5,6 +5,7 @@ import model.jogo.Jogo;
 import model.partida.Partida;
 import model.partida.PartidaId;
 import model.partida_normal.PartidaNormal;
+import model.pontuacão.Pontuacao_Multi_Jogador;
 
 import java.util.Set;
 
@@ -15,14 +16,20 @@ public class PartidaMultijogador {
     @EmbeddedId
     private PartidaId id;
 
-    @OneToOne
-    @PrimaryKeyJoinColumn(name="id", referencedColumnName="id")
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumns({
+            @JoinColumn(name = "id", referencedColumnName = "id", insertable = false, updatable = false),
+            @JoinColumn(name = "id_jogo", referencedColumnName = "id_jogo", insertable = false, updatable = false)
+    })
     private Partida partida;
 
     @ManyToOne
     @MapsId("idJogo")
     @JoinColumn(name = "id_jogo", referencedColumnName = "id")
     private Jogo jogo;
+
+    @OneToMany(mappedBy= "partida", cascade=CascadeType.PERSIST, orphanRemoval=true)
+    private Set<Pontuacao_Multi_Jogador> pontuacoes;
 
     private String estado;
 

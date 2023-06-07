@@ -6,11 +6,13 @@ import jakarta.persistence.Embeddable;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 
+import java.io.Serializable;
+
 @Embeddable
-public class PartidaId {
+public class PartidaId implements Serializable {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private int id;
 
     @Column(name = "id_jogo", insertable = true, updatable = false)
     private String idJogo;

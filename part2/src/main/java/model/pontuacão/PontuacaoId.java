@@ -2,29 +2,31 @@ package model.pontuacão;
 
 import jakarta.persistence.*;
 
+import java.io.Serializable;
+
 @Embeddable
-public class PontuacaoId {
+public class PontuacaoId implements Serializable {
 
-    @Column(name = "id_partida", insertable = true, updatable = false)
-    private int idPartida;
+    @Column(name = "id_partida", insertable = false, updatable = false)
+    private int id_partida;
 
-    @Column(name = "id_jogo", insertable = true, updatable = false)
-    private String idJogo;
+    @Column(name = "id_jogo", insertable = false, updatable = false)
+    private String id_jogo;
 
-    @Column(name = "id_jogador", insertable = true, updatable = false)
-    private int idJogador;
+    @Column(name = "id_jogador", insertable = false, updatable = false)
+    private int id_jogador;
 
     public PontuacaoId() { }
 
-    public long getIdPartida() { return this.idPartida; }
+    public long getIdPartida() { return this.id_partida; }
 
-    public void setIdPartida(int idPartida) { this.idPartida = idPartida; }
+    public void setIdPartida(int idPartida) { this.id_partida = idPartida; }
 
-    public String getIdJogo() { return this.idJogo; }
+    public String getId_jogo() { return this.id_jogo; }
 
-    public void setIdJogo(String idJogo) { this.idJogo = idJogo; }
+    public void setId_jogo(String id_jogo) { this.id_jogo = id_jogo; }
 
-    public int getIdJogador() { return this.idJogador; }
+    public int getId_jogador() { return this.id_jogador; }
 
-    public void setIdJogador(int idJogador) { this.idJogador = idJogador; }
+    public void setId_jogador(int id_jogador) { this.id_jogador = id_jogador; }
 }

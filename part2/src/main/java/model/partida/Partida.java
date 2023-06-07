@@ -22,18 +22,12 @@ public class Partida {
     private Jogo jogo;
 
     @OneToOne(mappedBy = "partida")
-    @JoinColumns({
-            @JoinColumn(name = "id", referencedColumnName = "id"),
-            @JoinColumn(name = "id_jogo", referencedColumnName = "id_jogo")
-    })
-    private Set<PartidaMultijogador> partidasMultijogador;
+    private PartidaMultijogador partidaMultijogador;
 
     @OneToOne(mappedBy = "partida")
-    @JoinColumns({
-            @JoinColumn(name = "id", referencedColumnName = "id", unique = true),
-            @JoinColumn(name = "id_jogo", referencedColumnName = "id_jogo", unique = true
-            )})
-    private Set<PartidaNormal> partidasNormais;
+    private PartidaNormal partidaNormal;
+
+    private boolean isNormal;
 
     private Date data_inicio;
 
@@ -43,6 +37,18 @@ public class Partida {
     private Regiao regiao;
 
     public Partida() { }
+
+    public boolean isNormal() { return isNormal; }
+
+    public PartidaMultijogador getPartidaMultijogador() { return partidaMultijogador; }
+
+    public void setPartidaMultijogador(PartidaMultijogador partidaMultijogador) { this.partidaMultijogador = partidaMultijogador; }
+
+    public PartidaNormal getPartidaNormal() { return partidaNormal; }
+
+    public void setPartidaNormal(PartidaNormal partidaNormal) { this.partidaNormal = partidaNormal; }
+
+    public void setNormal(boolean normal) { isNormal = normal; }
 
     public PartidaId getId() { return this.id; }
 
@@ -64,6 +70,7 @@ public class Partida {
 
     public Jogo getJogo() { return this.jogo; }
 
+/*
     public Set<PartidaNormal> getPartidasNormais() { return partidasNormais; }
 
     public void setPartidasNormais(Set<PartidaNormal> partidasNormais) { this.partidasNormais = partidasNormais; }
@@ -72,4 +79,6 @@ public class Partida {
 
     public void setPartidasMultijogador(Set<PartidaMultijogador> partidasMultijogador) { this.partidasMultijogador = partidasMultijogador; }
 
+
+ */
 }

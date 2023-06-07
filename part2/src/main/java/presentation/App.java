@@ -3,9 +3,10 @@ package presentation;
 import jakarta.persistence.*;
 import model.jogo.Jogo;
 import model.partida.Partida;
+import model.partida.PartidaId;
 import model.partida_multijogador.PartidaMultijogador;
 import model.partida_normal.PartidaNormal;
-import model.pontuacão.Pontuacao;
+import model.pontuacão.Pontuacao_Multi_Jogador;
 
 
 import java.util.List;
@@ -19,10 +20,10 @@ public class App {
 		try {
 			Thread.sleep(50);
 			em.getTransaction().begin();
-			List<Pontuacao> a = em.createQuery("select j from pontuacoes j").getResultList();
+			List<Pontuacao_Multi_Jogador> a = em.createQuery("select j from pontuacoes_multi_jogador j").getResultList();
 			System.out.println("======================================================================================");
 			a.forEach((i) -> {
-				System.out.println(i.getId().getIdPartida());
+				System.out.println(i.getPontos());
 /*
 				for (Partida c : i.getPartidas()){
 					for (PartidaMultijogador pm: c.getPartidasMultijogador()){
@@ -33,6 +34,8 @@ public class App {
 				}
 
  */
+
+
 
 			});
 			System.out.println("======================================================================================");

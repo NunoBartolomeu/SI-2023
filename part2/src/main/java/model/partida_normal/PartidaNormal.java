@@ -12,8 +12,11 @@ public class PartidaNormal {
     @EmbeddedId
     private PartidaId id;
 
-    @OneToOne
-    @PrimaryKeyJoinColumn(name="id", referencedColumnName="id")
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumns({
+            @JoinColumn(name = "id", referencedColumnName = "id", insertable = false, updatable = false),
+            @JoinColumn(name = "id_jogo", referencedColumnName = "id_jogo", insertable = false, updatable = false)
+    })
     private Partida partida;
 
     @ManyToOne
