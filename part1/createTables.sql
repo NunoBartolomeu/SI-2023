@@ -131,12 +131,12 @@ CREATE TABLE IF NOT EXISTS Partidas (
 );
 
 CREATE TABLE IF NOT EXISTS Partidas_Normais (
-    id_partida INT NOT NULL,
+    id INT NOT NULL,
     id_jogo VARCHAR(10) NOT NULL,
     dificuldade INT NOT NULL,
 
-    CONSTRAINT fk_partidasNorm FOREIGN KEY (id_partida, id_jogo) REFERENCES Partidas(id, id_jogo),
-    CONSTRAINT pk_partidas PRIMARY KEY (id_partida, id_jogo),
+    CONSTRAINT fk_partidasNorm FOREIGN KEY (id, id_jogo) REFERENCES Partidas(id, id_jogo),
+    CONSTRAINT pk_partidas PRIMARY KEY (id, id_jogo),
 	
 	CONSTRAINT dificuldade_1_a_5 CHECK (dificuldade BETWEEN 1 AND 5)
 );
@@ -145,12 +145,12 @@ DROP TYPE IF EXISTS ESTADO_PARTIDA;
 CREATE TYPE ESTADO_PARTIDA AS ENUM ('em curso', 'terminada');
 
 CREATE TABLE IF NOT EXISTS Partidas_Multi_Jogador (
-    id_partida INT NOT NULL,
+    id INT NOT NULL,
     id_jogo VARCHAR(10) NOT NULL,
     estado ESTADO_PARTIDA NOT NULL DEFAULT 'em curso',
 
-    CONSTRAINT fk_partidas FOREIGN KEY (id_partida, id_jogo) REFERENCES Partidas(id, id_jogo),
-    CONSTRAINT pk_partidasMult PRIMARY KEY (id_partida, id_jogo)
+    CONSTRAINT fk_partidas FOREIGN KEY (id, id_jogo) REFERENCES Partidas(id, id_jogo),
+    CONSTRAINT pk_partidasMult PRIMARY KEY (id, id_jogo)
 );
 
 CREATE TABLE IF NOT EXISTS Pontuacoes_Normais (
@@ -159,9 +159,9 @@ CREATE TABLE IF NOT EXISTS Pontuacoes_Normais (
     id_jogo VARCHAR(10) NOT NULL,
     pontos INT NOT NULL,
 
-    CONSTRAINT fk_partidas FOREIGN KEY (id_partida, id_jogo) REFERENCES Partidas_Normais(id_partida, id_jogo),
+    CONSTRAINT fk_partidas FOREIGN KEY (id_partida, id_jogo) REFERENCES Partidas_Normais(id, id_jogo),
     CONSTRAINT fk_jogador FOREIGN KEY (id_jogador) REFERENCES Jogadores(id),
-    CONSTRAINT pk_pontuaçao PRIMARY KEY (id_partida, id_jogador, id_jogo)
+    CONSTRAINT pk_pontuaçao_normal PRIMARY KEY (id_partida, id_jogador, id_jogo)
 );
 
 CREATE TABLE IF NOT EXISTS Pontuacoes_Multi_Jogador (
@@ -170,9 +170,9 @@ CREATE TABLE IF NOT EXISTS Pontuacoes_Multi_Jogador (
     id_jogo VARCHAR(10) NOT NULL,
     pontos INT NOT NULL,
 
-    CONSTRAINT fk_partidas FOREIGN KEY (id_partida, id_jogo) REFERENCES Partidas_Multi_Jogador(id_partida, id_jogo),
+    CONSTRAINT fk_partidas FOREIGN KEY (id_partida, id_jogo) REFERENCES Partidas_Multi_Jogador(id, id_jogo),
     CONSTRAINT fk_jogador FOREIGN KEY (id_jogador) REFERENCES Jogadores(id),
-    CONSTRAINT pk_pontuaçao PRIMARY KEY (id_partida, id_jogador, id_jogo)
+    CONSTRAINT pk_pontuaçao_multi PRIMARY KEY (id_partida, id_jogador, id_jogo)
 );
 
 -- Update automático das estatisticas
@@ -192,10 +192,14 @@ CREATE OR REPLACE FUNCTION atualizar_estatisticas()
 $$ LANGUAGE plpgsql;
 
 CREATE TRIGGER trigger_atualizar_estatisticas
-AFTER INSERT OR UPDATE ON Pontuacoes
+AFTER INSERT OR UPDATE ON Pontuacoes_Multi_Jogador
 FOR EACH ROW
 EXECUTE FUNCTION atualizar_estatisticas();
 
+CREATE TRIGGER trigger_atualizar_estatisticas
+AFTER INSERT OR UPDATE ON Pontuacoes_Normais
+FOR EACH ROW
+EXECUTE FUNCTION atualizar_estatisticas();
 
 
 -- Criação das estatisticas com trigger

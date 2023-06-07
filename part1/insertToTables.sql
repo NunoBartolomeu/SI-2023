@@ -72,10 +72,11 @@ INSERT INTO Partidas (id, id_jogo, data_inicio, data_fim, regiao, isNormal) VALU
 (3, 'MC12345678', '2017-01-05 14:14', '2017-01-05 14:24', 'Portugal', TRUE),
 (1, 'MC12345678', '2017-01-06 16:16', '2017-01-06 16:26', 'Espanha', TRUE);
 
-INSERT INTO Partidas_Normais (id_partida, id_jogo, dificuldade) VALUES
-(1, 'MC12345678', 5);
+INSERT INTO Partidas_Normais (id, id_jogo, dificuldade) VALUES
+(1, 'MC12345678', 5),
+(3, 'MC12345678', 3);
 
-INSERT INTO Partidas_Multi_Jogador (id_partida, id_jogo, estado) VALUES
+INSERT INTO Partidas_Multi_Jogador (id, id_jogo, estado) VALUES
 (1, 'LOL1234567', 'terminada'),
 (2, 'LOL1234567', 'em curso'),
 (3, 'LOL1234567', 'em curso');
@@ -90,4 +91,4 @@ INSERT INTO Pontuacoes_Multi_Jogador (id_partida, id_jogo, id_jogador, pontos) V
 (2, 'LOL1234567', 3, 100),
 (2, 'LOL1234567', 4, 100),
 (3, 'LOL1234567', 2, 50),
-(1, 'LOL1234567', 3, 100),
+(1, 'LOL1234567', 3, 100);
