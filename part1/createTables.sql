@@ -8,7 +8,7 @@ CREATE TYPE ESTADO_JOGADOR AS ENUM ('ativo', 'inativo', 'banido');
 CREATE TABLE IF NOT EXISTS Jogadores (
     id SERIAL PRIMARY KEY,
     username VARCHAR(255) NOT NULL,
-    email VARCHAR(255) NOT NULL,
+    email VARCHAR(255) UNIQUE NOT NULL,
     estado ESTADO_JOGADOR NOT NULL DEFAULT 'ativo',
     regiao VARCHAR(255) NOT NULL,
     

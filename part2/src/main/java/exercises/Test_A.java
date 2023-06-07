@@ -7,7 +7,7 @@ import java.util.List;
 
 public class Test_A {
     public static void main(String[] args) {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("yourPersistenceUnitName");
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("JPA_SI");
         EntityManager em = emf.createEntityManager();
 
         Exercise_A exercise = new Exercise_A(em);
@@ -24,7 +24,7 @@ public class Test_A {
 
         // Exercise D - desativarJogador using native query
         em.getTransaction().begin();
-        em.createNativeQuery("call desativarJogador(?1, ?2)")
+        em.createNativeQuery("Select desativarJogador(?1, ?2);")
                 .setParameter(1, "player@example.com")
                 .setParameter(2, "player123")
                 .executeUpdate();
@@ -41,7 +41,7 @@ public class Test_A {
             e.printStackTrace();
         }
         em.getTransaction().commit();
-
+/*
         // Exercise E - totalPontosJogador
         int totalPontos = exercise.totalPontosJogador(1);
         System.out.println("Total Pontos Jogador: " + totalPontos);
@@ -87,7 +87,10 @@ public class Test_A {
                 .executeUpdate();
         em.getTransaction().commit();
 
+
+ */
         em.close();
         emf.close();
     }
+
 }

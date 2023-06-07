@@ -17,13 +17,15 @@ public class Pontuacao_Multi_Jogador implements Serializable {
     private PontuacaoId id;
 
     public Pontuacao_Multi_Jogador() { }
-
+/*
     @ManyToOne
     @JoinColumns({
             @JoinColumn(name = "id_partida", referencedColumnName = "id"),
             @JoinColumn(name = "id_jogo", referencedColumnName = "id_jogo")
     })
     private PartidaMultijogador partida;
+
+ */
 
 
     @ManyToOne
