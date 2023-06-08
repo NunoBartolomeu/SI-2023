@@ -59,26 +59,37 @@ CREATE OR REPLACE FUNCTION totalJogosJogador(jogador_id INT)
     END;
 $$ LANGUAGE plpgsql;
 
-SELECT totalJogosJogador(4);
-
+SELECT totalJogosJogador(2);
 
 -- Exercise G
+-- DROP FUNCTION PontosJogoPorJogador
 
-CREATE OR REPLACE FUNCTION PontosJogoPorJogador(referencia_jogo text) RETURNS TABLE(id_jogador INT, total_pontos bigint) as $$
-BEGIN
-    RETURN QUERY
-    select P.id_jogador, sum(pontos)
-    from pontuacoes as P
-    where P.id_jogo = referencia_jogo
-    group by P.id_jogador;
+CREATE OR REPLACE FUNCTION PontosJogoPorJogador(jogo_id VARCHAR(10))
+    RETURNS TABLE (jogador INT, pontos NUMERIC) AS $$
+    BEGIN
+        RETURN QUERY
+        SELECT id_jogador, SUM(total_pontos) FROM (
+            SELECT pn.id_jogador, SUM(pn.pontos) AS total_pontos
+            FROM Partidas_Normais pn
+            WHERE pn.id_jogo = jogo_id
+            GROUP BY pn.id_jogador
 
-end
+            UNION ALL
+
+            SELECT pm.id_jogador, SUM(pm.pontos) AS total_pontos
+            FROM Pontuacoes_multi_jogador pm
+            WHERE pm.id_jogo = jogo_id
+            GROUP BY pm.id_jogador
+        ) AS PontosPorJogo
+        GROUP BY id_jogador;
+
+        RETURN;
+    END;
 $$ LANGUAGE plpgsql;
 
 SELECT * FROM PontosJogoPorJogador('LOL1234567');
 
 -- Exercise H
-
 CREATE OR REPLACE PROCEDURE associarCracha(jogador_id INT, jogo_id VARCHAR(10), cracha_nome VARCHAR(255)) AS $$
 DECLARE
     limite_pontos_cracha INT;
@@ -90,9 +101,12 @@ BEGIN
     WHERE id_jogo = jogo_id AND nome = cracha_nome;
 
     -- Pontos totais do jogador nesse jogo
-    SELECT total_pontos INTO pontos_jogador
+    SELECT pontos INTO pontos_jogador
     FROM PontosJogoPorJogador(jogo_id) AS pj
-    WHERE pj.id_jogador = jogador_id;
+    WHERE pj.jogador = jogador_id;
+	
+	raise notice 'LIMITE : %', limite_pontos_cracha;
+	raise notice 'PONTOS : %',pontos_jogador;
 
     IF pontos_jogador >= limite_pontos_cracha THEN
         -- Verificar se o jogador já possui o crachá
@@ -127,7 +141,7 @@ BEGIN
 	SELECT id INTO id_conversa FROM conversas WHERE nome = nome_conversa;
 	SELECT username INTO nome_jogador FROM jogadores WHERE id = id_jogador;
 	INSERT INTO participantes_conversa(id_conversa, id_jogador) VALUES (id_conversa, id_jogador);
-	SELECT nome_jogador || ' criou esta conversa' INTO mensagem_criacao;
+	SELECT nome_jogador || ' criou a conversa ' || nome_conversa INTO mensagem_criacao;
 	INSERT INTO mensagens (id_conversa, id_jogador, texto) VALUES (id_conversa, id_jogador, mensagem_criacao);
 END;
 $$;
@@ -158,7 +172,6 @@ $$ LANGUAGE plpgsql;
 
 -- Exercise L
 
---DROP VIEW jogadorTotalInfo;
 CREATE OR REPLACE VIEW jogadorTotalInfo AS
 	SELECT 
 		id, 
@@ -168,12 +181,29 @@ CREATE OR REPLACE VIEW jogadorTotalInfo AS
 		count(DISTINCT p.id_jogo) as totalJogos,
 		COUNT(p.id_partida) as totalPartidas,
 		SUM(p.pontos) as totalPontos
-	FROM Jogadores
+	FROM TotalPontos
 		INNER JOIN Pontuacoes p on id=p.id_jogador
 	WHERE estado != 'banido'
 	GROUP BY jogadores.id;
 	
 SELECT * FROM jogadorTotalInfo;
+
+CREATE OR REPLACE VIEW jogadorTotalInfo as
+SELECT totalInfo.id_jogador, count(DISTINCT totalInfo.id_jogo) as totalJogos, COUNT(totalInfo.id) as totalPartidas, SUM(totalInfo.pontos) as totalPontos
+FROM (
+    SELECT pn.id_jogador, pn.id_jogo, pn.id, pn.pontos AS pontos
+    FROM Partidas_Normais pn
+    GROUP BY pn.id_jogador, pn.id_jogo, pn.id
+
+    UNION ALL
+
+    SELECT pm.id_jogador, pm.id_jogo, pm.id_partida, pm.pontos AS pontos
+    FROM Pontuacoes_multi_jogador pm
+    GROUP BY pm.id_jogador, pm.id_jogo, pm.id_partida
+) AS totalInfo
+INNER JOIN jogadores j ON totalInfo.id_jogador = j.id
+WHERE j.estado != 'banido'
+GROUP BY totalInfo.id_jogador;
 
 -- Exercise M
 CREATE OR REPLACE FUNCTION atribuirCrachaAutomatico() RETURNS TRIGGER AS
