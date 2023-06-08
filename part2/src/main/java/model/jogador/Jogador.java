@@ -111,4 +111,9 @@ public class Jogador implements Serializable {
 
     public void setCrachas(Set<Cracha> crachas) { this.crachas = crachas; }
 
+    public Cracha addCracha(Cracha cracha) {
+        getCrachas().add(cracha);
+        cracha.getJogadores().add(this);
+        return  cracha;
+    }
 }

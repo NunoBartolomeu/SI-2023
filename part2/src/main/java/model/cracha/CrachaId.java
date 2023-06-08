@@ -2,8 +2,6 @@ package model.cracha;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
-import jakarta.persistence.JoinColumn;
-import model.jogo.Jogo;
 
 @Embeddable
 public class CrachaId {
@@ -17,7 +15,7 @@ public class CrachaId {
 
     public void setNome(String nome) { this.nome = nome; }
 
-    public String getJogo() { return this.idJogo; }
+    public String getIdJogo() { return this.idJogo; }
 
-    public void setJogo(String idJogo) { this.idJogo = idJogo; }
+    public void setIdJogo(String idJogo) { this.idJogo = idJogo; }
 }

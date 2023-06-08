@@ -61,7 +61,9 @@ $$ LANGUAGE plpgsql;
 
 SELECT totalJogosJogador(4);
 
+
 -- Exercise G
+
 CREATE OR REPLACE FUNCTION PontosJogoPorJogador(referencia_jogo text) RETURNS TABLE(id_jogador INT, total_pontos bigint) as $$
 BEGIN
     RETURN QUERY
@@ -75,23 +77,22 @@ $$ LANGUAGE plpgsql;
 
 SELECT * FROM PontosJogoPorJogador('LOL1234567');
 
-
 -- Exercise H
 
 CREATE OR REPLACE PROCEDURE associarCracha(jogador_id INT, jogo_id VARCHAR(10), cracha_nome VARCHAR(255)) AS $$
 DECLARE
     limite_pontos_cracha INT;
-    pontos_jogador INT;
+    pontos_jogador bigint;
 BEGIN
     -- Verificar se o jogador atingiu o limite de pontos para obter o crachá
     SELECT limite_pontos INTO limite_pontos_cracha
     FROM Crachas
     WHERE id_jogo = jogo_id AND nome = cracha_nome;
 
-	-- Pontos totais do jogador nesse jogo
-    SELECT SUM(pontos) INTO pontos_jogador
-    FROM Pontuacoes
-    WHERE id_jogador = jogador_id AND id_jogo = jogo_id;
+    -- Pontos totais do jogador nesse jogo
+    SELECT total_pontos INTO pontos_jogador
+    FROM PontosJogoPorJogador(jogo_id) AS pj
+    WHERE pj.id_jogador = jogador_id;
 
     IF pontos_jogador >= limite_pontos_cracha THEN
         -- Verificar se o jogador já possui o crachá
