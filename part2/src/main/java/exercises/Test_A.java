@@ -17,8 +17,8 @@ public class Test_A {
         StoredProcedureQuery criarJogadorQuery = em.createStoredProcedureQuery("criarJogador");
         criarJogadorQuery.registerStoredProcedureParameter(1, String.class, ParameterMode.IN);
         criarJogadorQuery.registerStoredProcedureParameter(2, String.class, ParameterMode.IN);
-        criarJogadorQuery.setParameter(1, "player@example.com");
-        criarJogadorQuery.setParameter(2, "player123");
+        criarJogadorQuery.setParameter(1, "player1@example.com");
+        criarJogadorQuery.setParameter(2, "player1234");
         criarJogadorQuery.execute();
         em.getTransaction().commit();
 

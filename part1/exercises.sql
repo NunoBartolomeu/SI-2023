@@ -2,7 +2,7 @@
 CREATE OR REPLACE FUNCTION criarJogador(player_email TEXT, player_username TEXT) RETURNS VOID AS $$
 BEGIN
     INSERT INTO Jogadores(id, username, email, estado, regiao)
-    VALUES(DEFAULT, player_username, player_email, 'ativo', 'Alentejo');
+    VALUES(DEFAULT, player_username, player_email, 'ativo', 'Portugal');
 END;
 $$ language plpgsql;
 
@@ -37,20 +37,27 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- Exercise F
+--Exercise F
 
 --DROP FUNCTION totalJogosJogador;
-CREATE OR REPLACE FUNCTION totalJogosJogador(jogador INT)     
-RETURNS INT
-LANGUAGE plpgsql
-AS $$    
-DECLARE    
-    total INT;    
-BEGIN
-    SELECT count(DISTINCT id_jogo) INTO total FROM Pontuacoes p WHERE jogador = p.id_jogador;
-    RETURN (total);    
-END;   
-$$;
+CREATE OR REPLACE FUNCTION totalJogosJogador(jogador_id INT)
+    RETURNS INTEGER AS $$
+    DECLARE
+        total_jogos INTEGER;
+    BEGIN
+        SELECT COUNT(DISTINCT id_jogo)
+        INTO total_jogos
+        FROM (
+            SELECT id_jogo FROM Partidas_Normais WHERE id_jogador = jogador_id
+            UNION
+            SELECT id_jogo FROM Partidas_Multi_Jogador WHERE EXISTS (
+                SELECT 1 FROM Pontuacoes_Multi_Jogador WHERE id_jogador = jogador_id
+            )
+        ) AS jogos;
+
+        RETURN total_jogos;
+    END;
+$$ LANGUAGE plpgsql;
 
 SELECT totalJogosJogador(4);
 
