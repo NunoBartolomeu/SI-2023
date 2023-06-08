@@ -20,10 +20,10 @@ public class Pontuacao_Multi_Jogador implements Serializable {
 /*
     @ManyToOne
     @JoinColumns({
-            @JoinColumn(name = "id_partida", referencedColumnName = "id"),
-            @JoinColumn(name = "id_jogo", referencedColumnName = "id_jogo")
+            @JoinColumn(name = "id_partida", referencedColumnName = "id", insertable = false, updatable = false),
+            @JoinColumn(name = "id_jogo", referencedColumnName = "id_jogo", insertable = false, updatable = false)
     })
-    private PartidaMultijogador partida;
+    private PartidaMultijogador partidaMultiJogador;
 
  */
 

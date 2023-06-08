@@ -27,10 +27,10 @@ public class PartidaMultijogador {
     @MapsId("idJogo")
     @JoinColumn(name = "id_jogo", referencedColumnName = "id")
     private Jogo jogo;
+
 /*
     @OneToMany(mappedBy= "partida", cascade=CascadeType.PERSIST, orphanRemoval=true)
     private Set<Pontuacao_Multi_Jogador> pontuacoes;
-
  */
 
     private String estado;

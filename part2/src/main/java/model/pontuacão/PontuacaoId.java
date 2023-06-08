@@ -7,10 +7,13 @@ import java.io.Serializable;
 @Embeddable
 public class PontuacaoId implements Serializable {
 
+    @Column(name = "id_partida")
     private long idPartida;
 
+    @Column(name = "id_jogo")
     private String idJogo;
 
+    @Column(name = "id_jogador")
     private int idJogador;
 
     public PontuacaoId() { }

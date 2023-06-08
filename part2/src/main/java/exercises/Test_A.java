@@ -9,7 +9,7 @@ import java.util.List;
 
 public class Test_A {
     public static void main(String[] args) {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("yourPersistenceUnitName");
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("JPA_SI");
         EntityManager em = emf.createEntityManager();
 
         // Exercise D - criarJogador using stored procedure query
@@ -47,8 +47,8 @@ public class Test_A {
         StoredProcedureQuery totalPontosJogadorQuery = em.createStoredProcedureQuery("totalPontosJogador");
         totalPontosJogadorQuery.registerStoredProcedureParameter(1, Integer.class, ParameterMode.IN);
         totalPontosJogadorQuery.setParameter(1, 1);
-        int totalPontos = (int) totalPontosJogadorQuery.getSingleResult();
-        System.out.println("Total Pontos Jogador: " + totalPontos);
+        Object[] totalPontos = (Object[])totalPontosJogadorQuery.getSingleResult();
+        System.out.println("Total Pontos Jogador: " + totalPontos[0]);
         em.getTransaction().commit();
 
         // Exercise F - totalJogosJogador
@@ -56,10 +56,10 @@ public class Test_A {
         StoredProcedureQuery totalJogosJogadorQuery = em.createStoredProcedureQuery("totalJogosJogador");
         totalJogosJogadorQuery.registerStoredProcedureParameter(1, Integer.class, ParameterMode.IN);
         totalJogosJogadorQuery.setParameter(1, 4);
-        int totalJogos = (int) totalJogosJogadorQuery.getSingleResult();
-        System.out.println("Total Jogos Jogador: " + totalJogos);
+        Object[] totalJogos = (Object[])totalJogosJogadorQuery.getSingleResult();
+        System.out.println("Total Jogos Jogador: " + totalJogos[0]);
         em.getTransaction().commit();
-
+/*
         // Exercise G - pontosJogoPorJogador
         em.getTransaction().begin();
         StoredProcedureQuery pontosJogoPorJogadorQuery = em.createStoredProcedureQuery("pontosJogoPorJogador");
@@ -105,6 +105,8 @@ public class Test_A {
         juntarConversaQuery.setParameter(2, idConversa);
         juntarConversaQuery.execute();
         em.getTransaction().commit();
+
+ */
 
         em.close();
         emf.close();

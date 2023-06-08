@@ -1,7 +1,6 @@
 DROP VIEW IF EXISTS jogadorTotalInfo;
 
 DROP TABLE IF EXISTS Pontuacoes_Multi_Jogador;
-DROP TABLE IF EXISTS Pontuacoes_Normais;
 DROP TABLE IF EXISTS Partidas_Multi_Jogador;
 DROP TABLE IF EXISTS Partidas_Normais;
 DROP TABLE IF EXISTS Partidas;

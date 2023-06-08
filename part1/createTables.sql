@@ -133,11 +133,13 @@ CREATE TABLE IF NOT EXISTS Partidas (
 CREATE TABLE IF NOT EXISTS Partidas_Normais (
     id INT NOT NULL,
     id_jogo VARCHAR(10) NOT NULL,
+	id_jogador INT NOT NULL,
     dificuldade INT NOT NULL,
+	pontos INT Default 0, 
 
     CONSTRAINT fk_partidasNorm FOREIGN KEY (id, id_jogo) REFERENCES Partidas(id, id_jogo),
+	CONSTRAINT fk_jogador FOREIGN KEY (id_jogador) REFERENCES Jogadores(id),
     CONSTRAINT pk_partidas PRIMARY KEY (id, id_jogo),
-	
 	CONSTRAINT dificuldade_1_a_5 CHECK (dificuldade BETWEEN 1 AND 5)
 );
 
@@ -151,17 +153,6 @@ CREATE TABLE IF NOT EXISTS Partidas_Multi_Jogador (
 
     CONSTRAINT fk_partidas FOREIGN KEY (id, id_jogo) REFERENCES Partidas(id, id_jogo),
     CONSTRAINT pk_partidasMult PRIMARY KEY (id, id_jogo)
-);
-
-CREATE TABLE IF NOT EXISTS Pontuacoes_Normais (
-    id_partida INT NOT NULL,
-    id_jogador INT NOT NULL,
-    id_jogo VARCHAR(10) NOT NULL,
-    pontos INT NOT NULL,
-
-    CONSTRAINT fk_partidas FOREIGN KEY (id_partida, id_jogo) REFERENCES Partidas_Normais(id, id_jogo),
-    CONSTRAINT fk_jogador FOREIGN KEY (id_jogador) REFERENCES Jogadores(id),
-    CONSTRAINT pk_pontuaçao_normal PRIMARY KEY (id_partida, id_jogador, id_jogo)
 );
 
 CREATE TABLE IF NOT EXISTS Pontuacoes_Multi_Jogador (
@@ -197,7 +188,7 @@ FOR EACH ROW
 EXECUTE FUNCTION atualizar_estatisticas();
 
 CREATE TRIGGER trigger_atualizar_estatisticas
-AFTER INSERT OR UPDATE ON Pontuacoes_Normais
+AFTER INSERT OR UPDATE ON Partidas_Normais
 FOR EACH ROW
 EXECUTE FUNCTION atualizar_estatisticas();
 
