@@ -6,7 +6,9 @@ import jakarta.persistence.LockModeType;
 import jakarta.persistence.Persistence;
 import model.cracha.Cracha;
 import model.cracha.CrachaId;
+import model.cracha.CrachaMapper;
 import model.jogador.Jogador;
+import model.jogador.JogadorMapper;
 
 import java.util.List;
 import java.util.Objects;
@@ -21,10 +23,17 @@ public class Exercise_C {
             em = emf.createEntityManager();
             em.getTransaction().begin();
 
+
             // Verificar se o jogador atingiu o limite de pontos para obter o crachá
-            List<Object[]> leaderboard = em.createNamedStoredProcedureQuery("PontosJogoPorJogador")
-                    .setParameter("referencia_jogo", jogoId)
-                    .getResultList();
+            CrachaMapper crachaMapper = new CrachaMapper();
+            CrachaId crachaId = new CrachaId();
+            crachaId.setNome(crachaNome);
+            crachaId.setIdJogo(jogoId);
+            Cracha cracha = crachaMapper.Read(crachaId);
+
+            int limitePontos = cracha.getLimitePontos();
+
+            List<Object[]> leaderboard = Exercise_A.pontosJogoPorJogador(jogoId);
 
             Integer pontosJogador = null;
             for (Object[] row : leaderboard) {
@@ -40,17 +49,21 @@ public class Exercise_C {
                 System.out.println("O jogador não está no leaderboard para esse jogo!");
             } else {
                 // Verificar se o jogador atingiu o limite de pontos para obter o crachá
-                Cracha cracha = em.createQuery("SELECT c FROM Cracha c WHERE c.id_jogo = :jogoId AND c.nome = :crachaNome", Cracha.class)
+                /*Cracha cracha = em.createQuery("SELECT c FROM Cracha c WHERE c.id_jogo = :jogoId AND c.nome = :crachaNome", Cracha.class)
                         .setParameter("jogoId", jogoId)
                         .setParameter("crachaNome", crachaNome)
                         .getSingleResult();
-                int limitePontosCracha = cracha.getLimitePontos();
+                int limitePontosCracha = cracha.getLimitePontos()
+                 */
 
-                if (pontosJogador < limitePontosCracha) {
+                if (pontosJogador < limitePontos) {
                     System.out.println("O jogador não atingiu o limite de pontos para obter o crachá!");
                 } else {
                     // Verificar se o jogador já possui o crachá
-                    Jogador jogador = em.find(Jogador.class, jogadorId);
+                    //Jogador jogador = em.find(Jogador.class, jogadorId);
+                    JogadorMapper jogadorMapper = new JogadorMapper();
+                    Jogador jogador = jogadorMapper.Read(jogadorId);
+
                     boolean hasCracha = jogador.getCrachas().stream()
                             .anyMatch(c -> c.getId().getNome().equals(crachaNome) && c.getId().getIdJogo().equals(jogoId));
 
