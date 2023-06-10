@@ -24,7 +24,7 @@ public class Exercise_B {
 
             // Pontos totais do jogador nesse jogo
             Integer pontosJogador = em.createQuery(
-                            "SELECT SUM(p.pontos) FROM Pontuacoes_MultiJogador p WHERE p.id_jogador = :jogadorId AND p.id_jogo = :jogoId", Integer.class)
+                            "SELECT SUM(p.pontos) FROM Pontuacoes_Multi_Jogador p WHERE p.id_jogador = :jogadorId AND p.id_jogo = :jogoId", Integer.class)
                     .setParameter("jogadorId", jogadorId)
                     .setParameter("jogoId", jogoId)
                     .getSingleResult();

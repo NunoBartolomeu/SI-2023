@@ -212,7 +212,7 @@ public class Tests {
             throw e;
         }
     }
-    
+
     private static void testeC() throws Exception {
         try (DataScope ds = new DataScope()) {
             Exercise_B eb = new Exercise_B();
