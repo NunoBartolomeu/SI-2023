@@ -5,8 +5,10 @@ import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.LockModeType;
 import jakarta.persistence.Persistence;
 
+import model.DataScope;
 import model.cracha.Cracha;
 import model.cracha.CrachaId;
+import model.cracha.CrachaMapper;
 import model.jogador.Jogador;
 
 public class Exercise_B {
@@ -14,16 +16,15 @@ public class Exercise_B {
     private EntityManager em;
 
     public void associarCracha(int jogadorId, String jogoId, String crachaNome) {
-        try {
-            emf = Persistence.createEntityManagerFactory("JPA_SI");
-            em = emf.createEntityManager();
-            em.getTransaction().begin();
+        try (DataScope ds = new DataScope()) {
+            em = ds.getEntityManager();
 
             // Verificar se o jogador atingiu o limite de pontos para obter o crachá
-            Cracha cracha = em.createQuery("SELECT c FROM Cracha c WHERE c.id_jogo = :jogoId AND c.nome = :crachaNome", Cracha.class)
-                    .setParameter("jogoId", jogoId)
-                    .setParameter("crachaNome", crachaNome)
-                    .getSingleResult();
+            CrachaMapper crachaMapper = new CrachaMapper();
+            CrachaId crachaId = new CrachaId();
+            crachaId.setNome(crachaNome);
+            crachaId.setIdJogo(jogoId);
+            Cracha cracha = crachaMapper.Read(crachaId);
             int limitePontosCracha = cracha.getLimitePontos();
 
             // Pontos totais do jogador nesse jogo
