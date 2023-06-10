@@ -5,10 +5,9 @@ import model.DataScope;
 import model.conversa.ConversaMapper;
 import model.jogador.JogadorMapper;
 
-import java.util.List;
 import java.util.Objects;
 
-public class Test_A {
+public class Tests {
     static JogadorMapper jm = new JogadorMapper();
     static ConversaMapper cm = new ConversaMapper();
     static Exercise_A ea;
@@ -196,4 +195,39 @@ public class Test_A {
     }
 
  */
+    private static void testeB() throws Exception {
+        try (DataScope ds = new DataScope()) {
+            Exercise_B eb = new Exercise_B();
+
+            String s = eb.associarCracha(0, "LOL1234567", "begin");
+
+            if(Objects.equals(s, "O jogador já possui esse crachá!")) {
+                System.out.println("testeB_associarCracha() OK");
+            }
+            else
+                System.out.println("testeB_associarCracha() NOK");
+            ds.cancelWork();
+        } catch (Exception e) {
+            System.out.println(e);
+            throw e;
+        }
+    }
+    
+    private static void testeC() throws Exception {
+        try (DataScope ds = new DataScope()) {
+            Exercise_B eb = new Exercise_B();
+
+            String s = eb.associarCracha(0, "LOL1234567", "begin");
+
+            if(Objects.equals(s, "O jogador já possui esse crachá!")) {
+                System.out.println("testeC_associarCracha() OK");
+            }
+            else
+                System.out.println("testeC_associarCracha() NOK");
+            ds.cancelWork();
+        } catch (Exception e) {
+            System.out.println(e);
+            throw e;
+        }
+    }
 }
