@@ -6,10 +6,10 @@ import jakarta.persistence.Embeddable;
 @Embeddable
 public class PartidaMultijogadorId {
 
-    @Column(name = "id_partida")
+    @Column(insertable = false, updatable = false)
     private int id;
 
-    @Column(name = "id_jogo", insertable = true, updatable = false)
+    @Column(name = "id_jogo", insertable = false, updatable = false)
     private String idJogo;
 
     public PartidaMultijogadorId() { }

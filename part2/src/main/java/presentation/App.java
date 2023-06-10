@@ -1,6 +1,11 @@
 package presentation;
 
 import jakarta.persistence.*;
+import model.jogador.Jogador;
+import model.partida.Partida;
+import model.partida_multijogador.PartidaMultijogador;
+import model.partida_normal.PartidaNormal;
+import model.partida_normal.PartidaNormalId;
 import model.pontuacão.Pontuacao_Multi_Jogador;
 
 
@@ -15,10 +20,15 @@ public class App {
 		try {
 			Thread.sleep(50);
 			em.getTransaction().begin();
-			List<Pontuacao_Multi_Jogador> a = em.createQuery("select j from pontuacoes_multi_jogador j").getResultList();
+			List<Jogador> a = em.createQuery("select j from jogadores j").getResultList();
 			System.out.println("======================================================================================");
 			a.forEach((i) -> {
-				System.out.println(i.getPontos());
+				//System.out.println(i);
+
+				for(Pontuacao_Multi_Jogador c : i.getPartidasMultijogador()){
+					System.out.println(c.getPontos());
+				}
+
 
 			});
 			System.out.println("======================================================================================");

@@ -1,6 +1,7 @@
 package model.partida_normal;
 
 import jakarta.persistence.*;
+import model.jogador.Jogador;
 import model.jogo.Jogo;
 import model.partida.Partida;
 import model.partida.PartidaId;
@@ -10,7 +11,7 @@ import model.regiao.Regiao;
 public class PartidaNormal {
 
     @EmbeddedId
-    private PartidaId id;
+    private PartidaNormalId id;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumns({
@@ -20,21 +21,26 @@ public class PartidaNormal {
     private Partida partida;
 
     @ManyToOne
-    @MapsId("idJogo")
-    @JoinColumn(name = "id_jogo", referencedColumnName = "id")
-    private Jogo jogo;
+    @JoinColumn(name = "id_jogador", referencedColumnName = "id")
+    private Jogador jogador;
 
     public PartidaNormal() { }
 
     private int dificuldade;
 
-    public PartidaId getId() { return id; }
+    public PartidaNormalId getId() { return id; }
 
-    public void setId(PartidaId id) { this.id = id; }
-
+    public void setId(PartidaNormalId id) { this.id = id; }
+/*
     public Jogo getJogo() { return jogo; }
 
     public void setJogo(Jogo jogo) { this.jogo = jogo; }
+
+ */
+
+    public Jogador getJogador() { return jogador; }
+
+    public void setJogador(Jogador jogador) { this.jogador = jogador; }
 
     public int getDificuldade() { return this.dificuldade; }
 

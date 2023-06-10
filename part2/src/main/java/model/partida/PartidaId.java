@@ -11,10 +11,11 @@ import java.io.Serializable;
 @Embeddable
 public class PartidaId implements Serializable {
 
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
+    //@Column(insertable = false, updatable = false)
     private int id;
 
-    @Column(name = "id_jogo", insertable = true, updatable = false)
+    @Column(name = "id_jogo")
     private String idJogo;
 
     public PartidaId() { }

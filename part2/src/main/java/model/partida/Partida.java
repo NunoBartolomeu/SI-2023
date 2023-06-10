@@ -38,8 +38,6 @@ public class Partida {
 
     public Partida() { }
 
-    public boolean isNormal() { return isNormal; }
-
     public PartidaMultijogador getPartidaMultijogador() { return partidaMultijogador; }
 
     public void setPartidaMultijogador(PartidaMultijogador partidaMultijogador) { this.partidaMultijogador = partidaMultijogador; }
@@ -47,6 +45,8 @@ public class Partida {
     public PartidaNormal getPartidaNormal() { return partidaNormal; }
 
     public void setPartidaNormal(PartidaNormal partidaNormal) { this.partidaNormal = partidaNormal; }
+
+    public boolean getIsNormal() { return isNormal; }
 
     public void setNormal(boolean normal) { isNormal = normal; }
 

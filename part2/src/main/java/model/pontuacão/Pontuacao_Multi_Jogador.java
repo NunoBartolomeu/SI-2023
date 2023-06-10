@@ -17,20 +17,16 @@ public class Pontuacao_Multi_Jogador implements Serializable {
     private PontuacaoId id;
 
     public Pontuacao_Multi_Jogador() { }
-/*
+
     @ManyToOne
     @JoinColumns({
             @JoinColumn(name = "id_partida", referencedColumnName = "id", insertable = false, updatable = false),
             @JoinColumn(name = "id_jogo", referencedColumnName = "id_jogo", insertable = false, updatable = false)
     })
-    private PartidaMultijogador partidaMultiJogador;
-
- */
-
+    private PartidaMultijogador partida;
 
     @ManyToOne
-    @MapsId("idJogador")
-    @JoinColumn(name = "id_jogador")
+    @JoinColumn(name = "id_jogador", insertable = false, updatable = false)
     private Jogador jogador;
 
     private int pontos;
@@ -45,8 +41,11 @@ public class Pontuacao_Multi_Jogador implements Serializable {
 
     public void setId(PontuacaoId id) { this.id = id; }
 
+    public Jogador getJogador() { return jogador; }
+
+    public void setJogador(Jogador jogador) { this.jogador = jogador; }
+
     public int getPontos() { return this.pontos; }
 
     public void setPontos(int pontos) { this.pontos = pontos; }
 }
-

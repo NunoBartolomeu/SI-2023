@@ -2,22 +2,33 @@ package model.partida_normal;
 
 import jakarta.persistence.*;
 import model.partida.Partida;
-/*
-public class PartidaNormalId {
-    @Column(name = "id_partida", insertable = false, updatable = false)
-    private int id_partida;
 
-    @Column(name = "id_jogo", insertable = false, updatable = false)
-    private int id_jogo;
+import java.io.Serializable;
+
+@Embeddable
+public class PartidaNormalId implements Serializable {
+
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
+    //@Column(insertable = false, updatable = false)
+    private int id;
+
+    @Column(name = "id_jogo")
+    private String idJogo;
+
+    @Column(name = "id_jogador", insertable = false, updatable = false)
+    private int id_jogador;
 
     public PartidaNormalId() { }
 
-    public long getId() { return this.id_partida; }
+    public long getId() { return this.id; }
 
-    public void setId(int id_partida) { this.id_partida = id_partida; }
+    public void setId(int id) { this.id = id; }
 
-    public int getId_jogo() { return this.id_jogo; }
+    public String getIdJogo() { return this.idJogo; }
 
-    public void setId_jogo(int id_jogo) { this.id_jogo = id_jogo; }
+    public void setIdJogo(String idJogo) { this.idJogo = idJogo; }
+
+    public int getId_jogador() { return id_jogador; }
+
+    public void setId_jogador(int id_jogador) { this.id_jogador = id_jogador; }
 }
-*/

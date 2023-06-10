@@ -9,6 +9,8 @@ import model.conversa.Conversa;
 import model.cracha.Cracha;
 import model.estatisticas_jogador.EstatisticasJogador;
 import model.partida.Partida;
+import model.partida_normal.PartidaNormal;
+import model.pontuacão.Pontuacao_Multi_Jogador;
 import model.regiao.Regiao;
 import org.glassfish.jaxb.core.v2.TODO;
 
@@ -58,6 +60,12 @@ public class Jogador implements Serializable {
     })
     private Set<Cracha> crachas;
 
+    @OneToMany(mappedBy = "jogador")
+    private Set<PartidaNormal> partidasNormais;
+
+    @OneToMany(mappedBy = "jogador")
+    private Set<Pontuacao_Multi_Jogador> partidasMultijogador;
+
     public Jogador() { }
 
     public Integer getId() { return this.id; }
@@ -96,7 +104,6 @@ public class Jogador implements Serializable {
 
     public void setConversas(Set<Conversa> conversas) { this.conversas = conversas; }
 
-
     public Set<Compra> getCompras() { return compras; }
 
     public void setCompras(Set<Compra> compras) { this.compras = compras; }
@@ -116,4 +123,12 @@ public class Jogador implements Serializable {
         cracha.getJogadores().add(this);
         return  cracha;
     }
+
+    public Set<PartidaNormal> getPartidasNormais() { return partidasNormais; }
+
+    public void setPartidasNormais(Set<PartidaNormal> partidasNormais) { this.partidasNormais = partidasNormais; }
+
+    public Set<Pontuacao_Multi_Jogador> getPartidasMultijogador() { return partidasMultijogador; }
+
+    public void setPartidasMultijogador(Set<Pontuacao_Multi_Jogador> partidasMultijogador) { this.partidasMultijogador = partidasMultijogador; }
 }
