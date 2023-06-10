@@ -206,41 +206,44 @@ WHERE j.estado != 'banido'
 GROUP BY totalInfo.id_jogador;
 
 -- Exercise M
-CREATE OR REPLACE FUNCTION atribuirCrachaAutomatico() RETURNS TRIGGER AS
-$$
-DECLARE
-    pontuacao pontuacoes%ROWTYPE;
-    cracha crachas%ROWTYPE;
-BEGIN
-    FOR pontuacao in SELECT * FROM pontuacoes LOOP
-        FOR cracha in SELECT * FROM crachas LOOP
-            IF cracha.limite_pontos > pontuacao.pontos then
-                INSERT INTO crachas_obtidos(id_jogador, nome_cracha, id_jogo)
-                VALUES(pontuacao.id_jogador, cracha.nome, pontuacao.id_jogo);
-            END IF;
-        END LOOP;
-    END LOOP;
-    RETURN NEW;
-END;
+CREATE OR REPLACE FUNCTION atribuir_crachas()
+    RETURNS TRIGGER AS $$
+    BEGIN
+        -- Verificar se a partida está terminada
+        IF NEW.data_fim IS NOT NULL THEN
+            -- Verificar o jogo da partida
+            DECLARE
+                jogo_id VARCHAR(10);
+				partida_id Int;
+				isNormalCheck Boolean;
+				pontosObtidos Int;
+            BEGIN
+				-- Obter a informação da partida
+                SELECT id_jogo INTO jogo_id FROM Partidas WHERE id = NEW.id AND id_jogo = NEW.id_jogo;
+				SELECT id INTO partida_id from partidas where id = new.id and id_jogo = jogo_id;
+				SELECT isNormal INTO isNormalCheck from partidas where id = partida_id and id_jogo = jogo_id;
+				
+				IF isNormalCheck then
+					Select pontos into pontosObtidos from partidas_normais where id = partida_id and id_jogo = jogo_id;
+				ELSE
+					Select pontos into pontosObtidos from pontuacoes_multi_jogador where id_partida = partida_id and id_jogo = jogo_id;
+				END IF;
+                -- Atribuir os crachás para o jogador da partida
+                INSERT INTO Crachas_Obtidos (id_jogador, nome_cracha, id_jogo)
+                SELECT NEW.id_jogador, nome, jogo_id
+                FROM Crachas
+                WHERE limite_pontos <= pontosObtidos;
+
+            END;
+        END IF;
+
+        RETURN NULL;
+    END;
 $$ LANGUAGE plpgsql;
 
-CREATE TRIGGER cracha_automatico_trigger
-    AFTER UPDATE on partidas
-    FOR EACH ROW
-    EXECUTE PROCEDURE atribuirCrachaAutomatico();
--- Exercise N
 
-CREATE OR REPLACE FUNCTION atualizar_estado_jogador_banido()
-RETURNS TRIGGER AS $$
-BEGIN
-	UPDATE jogadores 
-	SET estado = 'banido'
-	where id = OLD.id;
-	RETURN OLD;
-END;
-$$ LANGUAGE plpgsql;
-
-CREATE TRIGGER banir_jogador 
-INSTEAD OF DELETE ON jogadorTotalInfo
+CREATE TRIGGER atribuir_crachas_trigger
+AFTER INSERT OR UPDATE ON Partidas
 FOR EACH ROW
-EXECUTE FUNCTION atualizar_estado_jogador_banido();
+WHEN (NEW.data_fim IS NOT NULL)
+EXECUTE FUNCTION atribuir_crachas();
