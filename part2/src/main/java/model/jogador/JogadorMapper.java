@@ -1,93 +1,94 @@
 package model.jogador;
 
-import jakarta.persistence.LockModeType;
-import jakarta.persistence.Persistence;
+import jakarta.persistence.*;
+import model.DataScope;
 import model.Mapper;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
+
+import java.util.List;
 
 public class JogadorMapper implements Mapper<Jogador, Integer> {
-    private EntityManagerFactory emf;
-    private EntityManager em;
-
     @Override
     public void Create(Jogador entity) throws Exception {
-        emf = Persistence.createEntityManagerFactory("JPA_SI");
-        em = emf.createEntityManager();
-        try {
+        try (DataScope ds = new DataScope()) {
+            EntityManager em = ds.getEntityManager();
+            em.flush();
             em.getTransaction().begin();
             em.persist(entity);
             em.getTransaction().commit();
+            ds.validateWork();
         }
         catch(Exception e) {
             System.out.println(e.getMessage());
             throw e;
-        }
-        finally {
-            em.close();
-            emf.close();
         }
     }
 
     @Override
     public Jogador Read(Integer id) throws Exception{
-        emf = Persistence.createEntityManagerFactory("JPA_SI");
-        em = emf.createEntityManager();
-        try {
-            return em.find(Jogador.class, id);
+        try (DataScope ds = new DataScope()){
+            EntityManager em = ds.getEntityManager();
+            em.flush();
+            Jogador j = em.find(Jogador.class, id);
+            ds.validateWork();
+            return j;
         }
         catch(Exception e) {
             System.out.println(e.getMessage());
             throw e;
-        }
-        finally {
-            em.close();
-            emf.close();
         }
     }
 
     @Override
     public void Update(Jogador entity) throws Exception{
-        emf = Persistence.createEntityManagerFactory("JPA_SI");
-        em = emf.createEntityManager();
-        try {
+        try (DataScope ds = new DataScope()){
+            EntityManager em  = ds.getEntityManager();
+            em.flush();
             em.getTransaction().begin();
             Jogador j = em.find(Jogador.class, entity.getId(), LockModeType.PESSIMISTIC_WRITE );
             if (j == null)
                 throw new java.lang.IllegalAccessException("Entidade inexistente");
             em.merge(entity);
-            em.getTransaction().commit();
+            ds.validateWork();
         }
         catch(Exception e) {
             System.out.println(e.getMessage());
             throw e;
-        }
-        finally {
-            em.close();
-            emf.close();
         }
     }
 
     @Override
     public void Delete(Jogador entity) throws Exception{
-        emf = Persistence.createEntityManagerFactory("JPA_SI");
-        em = emf.createEntityManager();
-        try {
+        try (DataScope ds  = new DataScope()){
+            EntityManager em = ds.getEntityManager();
+            em.flush();
             em.getTransaction().begin();
             Jogador j = em.find(Jogador.class, entity.getId(), LockModeType.PESSIMISTIC_WRITE );
             if (j == null)
                 throw new java.lang.IllegalAccessException("Entidade inexistente");
             em.remove(j);
-            em.getTransaction().commit();
+            ds.validateWork();
         }
         catch(Exception e) {
             System.out.println(e.getMessage());
             throw e;
         }
-        finally {
-            em.close();
-            emf.close();
-        }
     }
 
+    public Jogador findByUsername(String username) throws Exception {
+        try (DataScope ds = new DataScope()) {
+            EntityManager em = ds.getEntityManager();
+            Query query = em.createQuery("SELECT j FROM Jogadores WHERE j.username = :username");
+            query.setParameter("username", username);
+            List<Jogador> jogadorList = query.getResultList();
+
+            if (!jogadorList.isEmpty()) {
+                return jogadorList.get(0);
+            }
+        }
+        catch(Exception e) {
+            System.out.println(e.getMessage());
+            throw e;
+        }
+        return null;
+    }
 }
