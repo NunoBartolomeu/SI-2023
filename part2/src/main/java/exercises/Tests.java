@@ -16,7 +16,8 @@ public class Tests {
         try (DataScope ds = new DataScope()) {
             EntityManager em = ds.getEntityManager();
             ea = new Exercise_A(em);
-            testeA_D();
+            testeB();
+            //testeA_D();
             /*
             testeA_E();
             testeA_F();
@@ -30,7 +31,7 @@ public class Tests {
         }
     }
 
-    private static void testeA_D() throws Exception {
+   /* private static void testeA_D() throws Exception {
         try (DataScope ds = new DataScope()) {
             Exercise_A.criarJogador("TestEmail@gmail.com", "testUsername");
             if (Objects.equals(jm.findByUsername("testUsername").getEstado(), "ativo")) {
@@ -60,6 +61,8 @@ public class Tests {
             throw e;
         }
     }
+
+    */
 /*
     private static void testeA_E() throws Exception {
         try (DataScope ds = new DataScope()) {
@@ -199,7 +202,7 @@ public class Tests {
         try (DataScope ds = new DataScope()) {
             Exercise_B eb = new Exercise_B();
 
-            String s = eb.associarCracha(0, "LOL1234567", "begin");
+            String s = eb.associarCracha(1, "LOL1234567", "begin");
 
             if(Objects.equals(s, "O jogador já possui esse crachá!")) {
                 System.out.println("testeB_associarCracha() OK");
@@ -215,10 +218,10 @@ public class Tests {
 
     private static void testeC() throws Exception {
         try (DataScope ds = new DataScope()) {
-            Exercise_B eb = new Exercise_B();
+            Exercise_C eb = new Exercise_C();
 
-            String s = eb.associarCracha(0, "LOL1234567", "begin");
-
+            String s = eb.associarCracha(1, "LOL1234567", "begin");
+            System.out.println(s);
             if(Objects.equals(s, "O jogador já possui esse crachá!")) {
                 System.out.println("testeC_associarCracha() OK");
             }

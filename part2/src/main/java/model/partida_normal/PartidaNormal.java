@@ -28,6 +28,8 @@ public class PartidaNormal {
 
     private int dificuldade;
 
+    private int pontos;
+
     public PartidaNormalId getId() { return id; }
 
     public void setId(PartidaNormalId id) { this.id = id; }
@@ -37,6 +39,10 @@ public class PartidaNormal {
     public void setJogo(Jogo jogo) { this.jogo = jogo; }
 
  */
+
+    public int getPontos() { return pontos; }
+
+    public void setPontos(int pontos) { this.pontos = pontos; }
 
     public Jogador getJogador() { return jogador; }
 

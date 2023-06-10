@@ -5,9 +5,8 @@ import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.LockModeType;
 import jakarta.persistence.Persistence;
 import model.Mapper;
-import model.regiao.Regiao;
-/*
-public class PontuacaoMapper implements Mapper<Pontuacao_Multi_Jogador, String> {
+
+public class PontuacaoMultijogadorMapper implements Mapper<Pontuacao_Multi_Jogador, PontuacaoId> {
     private EntityManagerFactory emf;
     private EntityManager em;
 
@@ -31,7 +30,7 @@ public class PontuacaoMapper implements Mapper<Pontuacao_Multi_Jogador, String> 
     }
 
     @Override
-    public Pontuacao_Multi_Jogador Read(String id) throws Exception{
+    public Pontuacao_Multi_Jogador Read(PontuacaoId id) throws Exception{
         emf = Persistence.createEntityManagerFactory("JPA_SI");
         em = emf.createEntityManager();
         try {
@@ -53,7 +52,7 @@ public class PontuacaoMapper implements Mapper<Pontuacao_Multi_Jogador, String> 
         em = emf.createEntityManager();
         try {
             em.getTransaction().begin();
-            Pontuacao_Multi_Jogador r = em.find(Regiao.class, entity.getNome(), LockModeType.PESSIMISTIC_WRITE );
+            Pontuacao_Multi_Jogador r = em.find(Pontuacao_Multi_Jogador.class, entity.getId(), LockModeType.PESSIMISTIC_WRITE );
             if (r == null)
                 throw new java.lang.IllegalAccessException("Entidade inexistente");
             em.merge(entity);
@@ -70,7 +69,7 @@ public class PontuacaoMapper implements Mapper<Pontuacao_Multi_Jogador, String> 
     }
 
     @Override
-    public void Delete(Regiao entity) throws Exception {
+    public void Delete(Pontuacao_Multi_Jogador entity) throws Exception {
         emf = Persistence.createEntityManagerFactory("JPA_SI");
         em = emf.createEntityManager();
         try {
@@ -89,4 +88,4 @@ public class PontuacaoMapper implements Mapper<Pontuacao_Multi_Jogador, String> 
     }
 }
 
- */
+

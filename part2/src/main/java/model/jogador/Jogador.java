@@ -55,7 +55,7 @@ public class Jogador implements Serializable {
     @JoinTable(name="crachas_obtidos",
             joinColumns=@JoinColumn(name="id_jogador"),
             inverseJoinColumns={
-                @JoinColumn(name="nome_cracha", referencedColumnName = "nome_cracha"),
+                @JoinColumn(name="nome_cracha", referencedColumnName = "nome"),
                     @JoinColumn(name = "id_jogo", referencedColumnName = "id_jogo")
     })
     private Set<Cracha> crachas;

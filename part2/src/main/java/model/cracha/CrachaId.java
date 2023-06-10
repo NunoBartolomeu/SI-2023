@@ -5,6 +5,7 @@ import jakarta.persistence.Embeddable;
 
 @Embeddable
 public class CrachaId {
+
     private String nome;
     @Column(name = "id_jogo")
     private String idJogo;

@@ -1,6 +1,7 @@
 package presentation;
 
 import jakarta.persistence.*;
+import model.cracha.Cracha;
 import model.jogador.Jogador;
 import model.partida.Partida;
 import model.partida_multijogador.PartidaMultijogador;
@@ -23,11 +24,13 @@ public class App {
 			List<Jogador> a = em.createQuery("select j from jogadores j").getResultList();
 			System.out.println("======================================================================================");
 			a.forEach((i) -> {
-				//System.out.println(i);
+				//System.out.println(i.getCrachas());
 
-				for(Pontuacao_Multi_Jogador c : i.getPartidasMultijogador()){
-					System.out.println(c.getPontos());
+				for(Cracha c : i.getCrachas()){
+					System.out.println(c.getId().getNome());
 				}
+
+
 
 
 			});

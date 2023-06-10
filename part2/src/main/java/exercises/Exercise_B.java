@@ -7,6 +7,11 @@ import model.cracha.CrachaId;
 import model.cracha.CrachaMapper;
 import model.jogador.Jogador;
 import model.jogador.JogadorMapper;
+import model.partida_multijogador.PartidaMultijogador;
+import model.partida_normal.PartidaNormal;
+import model.pontuacão.PontuacaoId;
+import model.pontuacão.PontuacaoMultijogadorMapper;
+import model.pontuacão.Pontuacao_Multi_Jogador;
 
 public class Exercise_B {
     public String associarCracha(int jogadorId, String jogoId, String crachaNome) throws Exception {
@@ -21,13 +26,24 @@ public class Exercise_B {
             Cracha cracha = crachaMapper.Read(crachaId);
 
             int limitePontosCracha = cracha.getLimitePontos();
-
+            int pontosJogador = 0;
             // Pontos totais do jogador nesse jogo
-            Integer pontosJogador = em.createQuery(
-                            "SELECT SUM(p.pontos) FROM Pontuacoes_Multi_Jogador p WHERE p.id_jogador = :jogadorId AND p.id_jogo = :jogoId", Integer.class)
-                    .setParameter("jogadorId", jogadorId)
-                    .setParameter("jogoId", jogoId)
-                    .getSingleResult();
+
+            JogadorMapper jm = new JogadorMapper();
+            Jogador jogador = jm.Read(jogadorId);
+
+            for (Pontuacao_Multi_Jogador pm : jogador.getPartidasMultijogador()){
+                if (pm.getId().getIdJogo().equals(jogoId))
+                    pontosJogador+=pm.getPontos();
+            }
+
+            for (PartidaNormal pm : jogador.getPartidasNormais()){
+                if (pm.getId().getIdJogo().equals(jogoId))
+                    pontosJogador+=pm.getPontos();
+            }
+
+            System.out.println("Pontos : " + pontosJogador);
+
 
             if (pontosJogador < limitePontosCracha) {
                 return("O jogador não atingiu o limite de pontos para obter o crachá!");
@@ -35,8 +51,6 @@ public class Exercise_B {
 
             else {
                 // Verificar se o jogador já possui o crachá
-                JogadorMapper jm = new JogadorMapper();
-                Jogador jogador = jm.Read(jogadorId);
 
                 boolean hasCracha = jogador.getCrachas().stream()
                         .anyMatch(c -> c.getId().getNome().equals(crachaNome) && c.getId().getIdJogo().equals(jogoId));
