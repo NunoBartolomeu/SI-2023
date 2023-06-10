@@ -14,12 +14,15 @@ CREATE OR REPLACE FUNCTION atualizar_estatisticas()
     END;
 $$ LANGUAGE plpgsql;
 
-CREATE TRIGGER trigger_atualizar_estatisticas
-AFTER INSERT OR UPDATE ON Pontuacao
+CREATE OR REPLACE TRIGGER trigger_atualizar_estatisticas_pontos
+AFTER INSERT OR UPDATE OF pontos ON Pontuacoes_Multi_Jogador
 FOR EACH ROW
 EXECUTE FUNCTION atualizar_estatisticas();
 
-
+CREATE OR REPLACE TRIGGER trigger_atualizar_estatisticas_partidas
+AFTER INSERT OR UPDATE ON Partidas_Normais
+FOR EACH ROW
+EXECUTE FUNCTION atualizar_estatisticas();
 
 
 -- Criação das estatisticas com trigger
@@ -33,7 +36,7 @@ CREATE OR REPLACE FUNCTION criacao_estatisticas_jogador()
     END;
 $$ LANGUAGE plpgsql;
 
-CREATE TRIGGER trigger_criacao_estatisticas_jogador
+CREATE OR REPLACE TRIGGER trigger_criacao_estatisticas_jogador
 AFTER INSERT ON jogadores
 FOR EACH ROW
 EXECUTE FUNCTION criacao_estatisticas_jogador();

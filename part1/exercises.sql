@@ -171,23 +171,6 @@ END;
 $$ LANGUAGE plpgsql;
 
 -- Exercise L
-
-CREATE OR REPLACE VIEW jogadorTotalInfo AS
-	SELECT 
-		id, 
-		estado, 
-		email, 
-		username, 
-		count(DISTINCT p.id_jogo) as totalJogos,
-		COUNT(p.id_partida) as totalPartidas,
-		SUM(p.pontos) as totalPontos
-	FROM TotalPontos
-		INNER JOIN Pontuacoes p on id=p.id_jogador
-	WHERE estado != 'banido'
-	GROUP BY jogadores.id;
-	
-SELECT * FROM jogadorTotalInfo;
-
 CREATE OR REPLACE VIEW jogadorTotalInfo as
 SELECT totalInfo.id_jogador, count(DISTINCT totalInfo.id_jogo) as totalJogos, COUNT(totalInfo.id) as totalPartidas, SUM(totalInfo.pontos) as totalPontos
 FROM (
@@ -242,7 +225,7 @@ CREATE OR REPLACE FUNCTION atribuir_crachas()
 $$ LANGUAGE plpgsql;
 
 
-CREATE TRIGGER atribuir_crachas_trigger
+CREATE OR REPLACE TRIGGER atribuir_crachas_trigger
 AFTER INSERT OR UPDATE ON Partidas
 FOR EACH ROW
 WHEN (NEW.data_fim IS NOT NULL)

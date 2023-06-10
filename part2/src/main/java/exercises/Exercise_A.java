@@ -29,7 +29,7 @@ public class Exercise_A {
         query.registerStoredProcedureParameter(2, String.class, ParameterMode.IN);
         query.setParameter(1, playerEmail);
         query.setParameter(2, playerUsername);
-        query.execute();
+        query.executeUpdate();
     }
 
     // Exercise D - banirJogador

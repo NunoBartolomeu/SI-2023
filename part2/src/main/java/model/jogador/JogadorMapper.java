@@ -77,15 +77,16 @@ public class JogadorMapper implements Mapper<Jogador, Integer> {
     public Jogador findByUsername(String username) throws Exception {
         try (DataScope ds = new DataScope()) {
             EntityManager em = ds.getEntityManager();
-            Query query = em.createQuery("SELECT j FROM Jogadores WHERE j.username = :username");
+            Query query = em.createQuery("SELECT j FROM jogadores j WHERE j.username = :username");
             query.setParameter("username", username);
             List<Jogador> jogadorList = query.getResultList();
 
             if (!jogadorList.isEmpty()) {
                 return jogadorList.get(0);
             }
-        }
-        catch(Exception e) {
+
+            ds.validateWork();
+        } catch (Exception e) {
             System.out.println(e.getMessage());
             throw e;
         }

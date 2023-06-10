@@ -1,3 +1,9 @@
+DROP FUNCTION IF EXISTS totalJogosJogador;
+DROP FUNCTION IF EXISTS totalPontosJogador;
+DROP PROCEDURE IF EXISTS associarCracha;
+DROP PROCEDURE IF EXISTS enviarMensagem;
+DROP PROCEDURE IF EXISTS iniciarConversa;
+
 DROP VIEW IF EXISTS jogadorTotalInfo;
 
 DROP TABLE IF EXISTS Pontuacoes_Multi_Jogador;
@@ -16,3 +22,4 @@ DROP TABLE IF EXISTS Amigos;
 DROP TABLE IF EXISTS Estatisticas_Jogador;
 DROP TABLE IF EXISTS Jogadores;
 DROP TABLE IF EXISTS Regioes;
+

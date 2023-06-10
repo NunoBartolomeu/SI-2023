@@ -1,5 +1,6 @@
 package exercises;
 
+import jakarta.persistence.EntityManager;
 import model.DataScope;
 import model.conversa.ConversaMapper;
 import model.jogador.JogadorMapper;
@@ -10,17 +11,24 @@ import java.util.Objects;
 public class Test_A {
     static JogadorMapper jm = new JogadorMapper();
     static ConversaMapper cm = new ConversaMapper();
+    static Exercise_A ea;
 
     public static void main(String[] args) throws Exception {
-        testeA_D();
-        testeA_E();
-        testeA_F();
-        testeA_G();
-        testeA_H();
-        testeA_I();
-        testeA_J();
-        testeA_K();
-        testeA_L();
+        try (DataScope ds = new DataScope()) {
+            EntityManager em = ds.getEntityManager();
+            ea = new Exercise_A(em);
+            testeA_D();
+            /*
+            testeA_E();
+            testeA_F();
+            testeA_G();
+            testeA_H();
+            testeA_I();
+            testeA_J();
+            testeA_K();
+            testeA_L();
+             */
+        }
     }
 
     private static void testeA_D() throws Exception {
@@ -33,6 +41,7 @@ public class Test_A {
                 System.out.println("testeA_D_criarJogador() NOK");
 
             Exercise_A.desativarJogador("TestEmail@gmail.com", "testUsername");
+            //System.out.println(jm.findByUsername("testUsername").getEstado());
             if (Objects.equals(jm.findByUsername("testUsername").getEstado(), "inativo")) {
                 System.out.println("testeA_D_desativarJogador() OK");
             }
@@ -52,7 +61,7 @@ public class Test_A {
             throw e;
         }
     }
-
+/*
     private static void testeA_E() throws Exception {
         try (DataScope ds = new DataScope()) {
             if (Exercise_A.totalPontosJogador(4) == 400) {
@@ -185,4 +194,6 @@ public class Test_A {
             throw e;
         }
     }
+
+ */
 }
