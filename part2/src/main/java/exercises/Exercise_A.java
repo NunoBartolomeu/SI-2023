@@ -6,14 +6,14 @@ import jakarta.persistence.StoredProcedureQuery;
 import java.util.List;
 
 public class Exercise_A {
-    private EntityManager em;
+    private static EntityManager em;
 
     public Exercise_A(EntityManager em) {
-        this.em = em;
+        Exercise_A.em = em;
     }
 
     // Exercise D - criarJogador
-    public void criarJogador(String playerEmail, String playerUsername) {
+    public static void criarJogador(String playerEmail, String playerUsername) {
         StoredProcedureQuery query = em.createStoredProcedureQuery("criarJogador");
         query.registerStoredProcedureParameter(1, String.class, ParameterMode.IN);
         query.registerStoredProcedureParameter(2, String.class, ParameterMode.IN);
@@ -23,7 +23,7 @@ public class Exercise_A {
     }
 
     // Exercise D - desativarJogador
-    public void desativarJogador(String playerEmail, String playerUsername) {
+    public static void desativarJogador(String playerEmail, String playerUsername) {
         StoredProcedureQuery query = em.createStoredProcedureQuery("desativarJogador");
         query.registerStoredProcedureParameter(1, String.class, ParameterMode.IN);
         query.registerStoredProcedureParameter(2, String.class, ParameterMode.IN);
@@ -33,7 +33,7 @@ public class Exercise_A {
     }
 
     // Exercise D - banirJogador
-    public void banirJogador(String playerEmail, String playerUsername) {
+    public static void banirJogador(String playerEmail, String playerUsername) {
         StoredProcedureQuery query = em.createStoredProcedureQuery("banirJogador");
         query.registerStoredProcedureParameter(1, String.class, ParameterMode.IN);
         query.registerStoredProcedureParameter(2, String.class, ParameterMode.IN);
@@ -43,7 +43,7 @@ public class Exercise_A {
     }
 
     // Exercise E - totalPontosJogador
-    public int totalPontosJogador(int jogadorId) {
+    public static int totalPontosJogador(int jogadorId) {
         StoredProcedureQuery query = em.createStoredProcedureQuery("totalPontosJogador");
         query.registerStoredProcedureParameter(1, Integer.class, ParameterMode.IN);
         query.setParameter(1, jogadorId);
@@ -52,7 +52,7 @@ public class Exercise_A {
     }
 
     // Exercise F - totalJogosJogador
-    public int totalJogosJogador(int jogadorId) {
+    public static int totalJogosJogador(int jogadorId) {
         StoredProcedureQuery query = em.createStoredProcedureQuery("totalJogosJogador");
         query.registerStoredProcedureParameter(1, Integer.class, ParameterMode.IN);
         query.setParameter(1, jogadorId);
@@ -61,7 +61,7 @@ public class Exercise_A {
     }
 
     // Exercise G - PontosJogoPorJogador
-    public List<Object[]> pontosJogoPorJogador(String referenciaJogo) {
+    public static List<Object[]> pontosJogoPorJogador(String referenciaJogo) {
         StoredProcedureQuery query = em.createStoredProcedureQuery("PontosJogoPorJogador");
         query.registerStoredProcedureParameter(1, String.class, ParameterMode.IN);
         query.setParameter(1, referenciaJogo);
@@ -70,7 +70,7 @@ public class Exercise_A {
     }
 
     // Exercise H - associarCracha
-    public void associarCracha(int jogadorId, String jogoId, String crachaNome) {
+    public static void associarCracha(int jogadorId, String jogoId, String crachaNome) {
         StoredProcedureQuery query = em.createStoredProcedureQuery("associarCracha");
         query.registerStoredProcedureParameter(1, Integer.class, ParameterMode.IN);
         query.registerStoredProcedureParameter(2, String.class, ParameterMode.IN);
@@ -82,7 +82,7 @@ public class Exercise_A {
     }
 
     // Exercise I - iniciarConversa
-    public void iniciarConversa(int jogadorId, String nomeConversa, int[] idConversa) {
+    public static void iniciarConversa(int jogadorId, String nomeConversa, int[] idConversa) {
         StoredProcedureQuery query = em.createStoredProcedureQuery("iniciarConversa");
         query.registerStoredProcedureParameter(1, Integer.class, ParameterMode.IN);
         query.registerStoredProcedureParameter(2, String.class, ParameterMode.IN);
@@ -94,7 +94,7 @@ public class Exercise_A {
     }
 
     // Exercise J - juntarConversa
-    public void juntarConversa(int jogadorId, int conversaId) {
+    public static void juntarConversa(int jogadorId, int conversaId) {
         StoredProcedureQuery query = em.createStoredProcedureQuery("juntarConversa");
         query.registerStoredProcedureParameter(1, Integer.class, ParameterMode.IN);
         query.registerStoredProcedureParameter(2, Integer.class, ParameterMode.IN);
@@ -104,7 +104,7 @@ public class Exercise_A {
     }
 
     // Exercise K - enviarMensagem
-    public void enviarMensagem(int jogadorId, int conversaId, String mensagemTexto) {
+    public static void enviarMensagem(int jogadorId, int conversaId, String mensagemTexto) {
         StoredProcedureQuery query = em.createStoredProcedureQuery("enviarMensagem");
         query.registerStoredProcedureParameter(1, Integer.class, ParameterMode.IN);
         query.registerStoredProcedureParameter(2, Integer.class, ParameterMode.IN);
@@ -116,7 +116,7 @@ public class Exercise_A {
     }
 
     // Exercise L - jogadorTotalInfo
-    public List<Object[]> getJogadorTotalInfo() {
+    public static List<Object[]> getJogadorTotalInfo() {
         return em.createQuery("SELECT j.id, j.estado, j.email, j.username, COUNT(DISTINCT p.idJogo), COUNT(p.idPartida), SUM(p.pontos) " +
                         "FROM Jogadores j " +
                         "INNER JOIN Pontuacoes p ON j.id = p.idJogador " +
