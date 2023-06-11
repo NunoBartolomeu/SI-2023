@@ -9,41 +9,49 @@ import model.cracha.CrachaMapper;
 
 public class Exercise2 {
     public static void main(String[] args) throws Exception {
-        reiniciarPontos("LOL1234567", "begin", 10);
+        try (DataScope dss = new DataScope()) {
+            boolean isMine = dss.isMine;
+            System.out.println("\n\n\n\n\nisMine:" + isMine);
 
-        Thread t1 = new Thread(() -> {
-            try (DataScope ds = new DataScope()) {
-                Exercise2.aumentarPontosEm20PorcentoAssincrono("LOL1234567", "begin");
-                ds.validateWork();
-            }
-            catch (Exception e) {
-                System.out.println(e.getMessage());
-            }
-        });
+            reiniciarPontos("LOL1234567", "begin", 10);
 
-        Thread t2 = new Thread(() -> {
-            try (DataScope ds = new DataScope()) {
-                Exercise2.aumentarPontosEm20PorcentoAssincrono("LOL1234567", "begin");
-                ds.validateWork();
-            }
-            catch (Exception e) {
-                System.out.println(e.getMessage());
-            }
-        });
+            Thread t1 = new Thread(() -> {
+                try (DataScope ds = new DataScope()) {
+                    Exercise2.aumentarPontosEm20PorcentoAssincrono("LOL1234567", "begin");
+                    ds.validateWork();
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
+            });
 
-        t1.start();
-        t2.start();
+            Thread t2 = new Thread(() -> {
+                try (DataScope ds = new DataScope()) {
+                    Exercise2.aumentarPontosEm20PorcentoAssincrono("LOL1234567", "begin");
+                    ds.validateWork();
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
+            });
 
-        t1.join();
-        t2.join();
+            t1.start();
+            t2.start();
+
+            t1.join();
+            t2.join();
+
+            dss.validateWork();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
 
         int pontos = Exercise2.getPontos("LOL1234567", "begin");
 
-        if(pontos == 12) {
+        if (pontos == 12) {
             System.out.println("teste2_A_aumentarPontosEm20PorcentoAssincrono() OK");
         }
-        else
+        else {
             System.out.println("teste2_A_aumentarPontosEm20PorcentoAssincrono() NOK");
+        }
     }
 
     public static void aumentarPontosEm20PorcentoAssincrono(String idJogo, String nomeCracha) throws Exception {
@@ -80,6 +88,9 @@ public class Exercise2 {
 
     public static void reiniciarPontos(String idJogo, String nomeCracha, int pontos) throws Exception {
         try (DataScope ds = new DataScope()) {
+            boolean isMine = ds.isMine;
+            System.out.println("\n\n\n\n\nisMine:" + isMine);
+
             CrachaId crachaId = new CrachaId();
             crachaId.setIdJogo(idJogo);
             crachaId.setNome(nomeCracha);

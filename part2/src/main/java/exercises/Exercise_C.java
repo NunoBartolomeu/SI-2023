@@ -2,7 +2,6 @@ package exercises;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.LockModeType;
 import jakarta.persistence.Persistence;
 import model.cracha.Cracha;
 import model.cracha.CrachaId;
@@ -34,7 +33,7 @@ public class Exercise_C {
             int limitePontos = cracha.getLimitePontos();
             System.out.println("LIMITE PONTOS : "+limitePontos);
 
-            List<Object[]> leaderboard = Exercise_A.pontosJogoPorJogador(jogoId);
+            List<Object[]> leaderboard = Exercise1_A.pontosJogoPorJogador(jogoId);
 
             Integer pontosJogador = null;
             for (Object[] row : leaderboard) {

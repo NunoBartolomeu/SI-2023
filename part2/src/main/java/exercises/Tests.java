@@ -17,15 +17,6 @@ public class Tests {
     public static void main(String[] args) throws Exception {
         try (DataScope ds = new DataScope()) {
 
-            teste2_Async();
-            ds.cancelWork();
-        /*
-
-            teste2_Sync();
-
-
-
-
             teste1_A_D();
             teste1_A_E();
             teste1_A_F();
@@ -39,8 +30,13 @@ public class Tests {
             teste1_B();
             teste1_C();
 
+            teste2_Async();
+            teste2_Sync();
+
             ds.cancelWork();
-        */
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            throw e;
         }
     }
 

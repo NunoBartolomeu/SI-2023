@@ -1,17 +1,15 @@
 package model;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
+import jakarta.persistence.*;
 
 public abstract class AbstractDataScope implements AutoCloseable {
     protected class Session {
-        private EntityManagerFactory ef; //deveria ser um singleton
+        private EntityManagerFactory ef;
         private EntityManager em;
         private boolean ok = true;
     }
 
-    boolean isMine = true;
+    public boolean isMine = true;
     boolean voted = false;
     private static final ThreadLocal<Session>
             threadLocal = ThreadLocal.withInitial(() -> null);
@@ -36,11 +34,24 @@ public abstract class AbstractDataScope implements AutoCloseable {
     @Override
     public void close() throws Exception {
         if (isMine) {
-            if(threadLocal.get().ok && voted) {
-                threadLocal.get().em.getTransaction().commit();
+            if(threadLocal.get().ok && voted)  {
+                try {
+                    threadLocal.get().em.getTransaction().commit();
+                } catch (RollbackException | OptimisticLockException e) {
+                    if (e.getCause() instanceof OptimisticLockException || e instanceof OptimisticLockException) {
+                        EntityManager em = this.getEntityManager();
+                        if (em.getTransaction().isActive())
+                            em.getTransaction().rollback();
+                    }
+                    threadLocal.get().em.close();
+                    threadLocal.get().ef.close();
+                    threadLocal.remove();
+                    throw new Exception("An error ocurred due to a concurrent transaction. Please try again.");
+                }
             }
-            else
+            else {
                 threadLocal.get().em.getTransaction().rollback();
+            }
             threadLocal.get().em.close();
             threadLocal.get().ef.close();
             threadLocal.remove();
@@ -49,6 +60,7 @@ public abstract class AbstractDataScope implements AutoCloseable {
         if (!voted)
             cancelWork();
     }
+
 
     public void validateWork() {
         voted = true;

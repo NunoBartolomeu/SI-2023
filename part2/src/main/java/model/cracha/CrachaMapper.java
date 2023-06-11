@@ -25,6 +25,9 @@ public class CrachaMapper implements Mapper<Cracha, CrachaId> {
     @Override
     public Cracha Read(CrachaId id) throws Exception{
         try (DataScope ds = new DataScope()) {
+            boolean isMine = ds.isMine;
+            System.out.println("\n\n\n\n\nisMine:" + isMine);
+
             EntityManager em = ds.getEntityManager();
 
             Cracha cracha = em.find(Cracha.class, id);
