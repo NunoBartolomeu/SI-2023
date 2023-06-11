@@ -15,29 +15,21 @@ public class Tests {
     static Exercise1_A ea;
 
     public static void main(String[] args) throws Exception {
-        try (DataScope ds = new DataScope()) {
+        teste1_A_D();
+        teste1_A_E();
+        teste1_A_F();
+        teste1_A_G();
+        teste1_A_H();
+        teste1_A_I();
+        teste1_A_J();
+        teste1_A_K();
+        teste1_A_L();
 
-            teste1_A_D();
-            teste1_A_E();
-            teste1_A_F();
-            teste1_A_G();
-            teste1_A_H();
-            teste1_A_I();
-            teste1_A_J();
-            teste1_A_K();
-            teste1_A_L();
+        teste1_B();
+        teste1_C();
 
-            teste1_B();
-            teste1_C();
-
-            teste2_Async();
-            teste2_Sync();
-
-            ds.cancelWork();
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            throw e;
-        }
+        teste2_Async();
+        teste2_Sync();
     }
 
     private static void teste1_A_D() throws Exception {
