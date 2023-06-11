@@ -1,6 +1,6 @@
 package org.example;
 
-import exercises.Exercise_A;
+import exercises.Exercise1_A;
 import jakarta.persistence.EntityManager;
 import model.DataScope;
 import model.jogador.JogadorMapper;
@@ -12,10 +12,10 @@ public class Main {
         try (DataScope ds = new DataScope()) {
             JogadorMapper jm = new JogadorMapper();
             EntityManager em = ds.getEntityManager();
-            Exercise_A ea = new Exercise_A(em);
+            Exercise1_A ea = new Exercise1_A();
 
             //System.out.println(jm.findByUsername("Rui").getEstado());
-            Exercise_A.desativarJogador("rui@themail.com", "Rui");
+            Exercise1_A.desativarJogador("rui@themail.com", "Rui");
             System.out.println(jm.findByUsername("Rui").getEstado());
             if (Objects.equals(jm.findByUsername("Rui").getEstado(), "inativo")) {
                 System.out.println("testeA_D_desativarJogador() OK");

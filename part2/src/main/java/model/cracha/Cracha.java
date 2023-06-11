@@ -3,13 +3,15 @@ package model.cracha;
 import jakarta.persistence.*;
 import model.jogador.Jogador;
 import model.jogo.Jogo;
+import org.eclipse.persistence.annotations.OptimisticLocking;
+import org.eclipse.persistence.annotations.OptimisticLockingType;
 
 import java.util.Set;
 
 @Table(name = "crachas")
 @Entity(name = "crachas")
+@OptimisticLocking(type = OptimisticLockingType.CHANGED_COLUMNS)
 public class Cracha {
-
     @EmbeddedId
     private CrachaId id;
 

@@ -11,10 +11,10 @@ public class JogadorMapper implements Mapper<Jogador, Integer> {
     public void Create(Jogador entity) throws Exception {
         try (DataScope ds = new DataScope()) {
             EntityManager em = ds.getEntityManager();
+
             em.flush();
-            em.getTransaction().begin();
             em.persist(entity);
-            em.getTransaction().commit();
+
             ds.validateWork();
         }
         catch(Exception e) {
@@ -43,11 +43,12 @@ public class JogadorMapper implements Mapper<Jogador, Integer> {
         try (DataScope ds = new DataScope()){
             EntityManager em  = ds.getEntityManager();
             em.flush();
-            em.getTransaction().begin();
+
             Jogador j = em.find(Jogador.class, entity.getId(), LockModeType.PESSIMISTIC_WRITE );
             if (j == null)
                 throw new java.lang.IllegalAccessException("Entidade inexistente");
             em.merge(entity);
+
             ds.validateWork();
         }
         catch(Exception e) {
@@ -60,12 +61,12 @@ public class JogadorMapper implements Mapper<Jogador, Integer> {
     public void Delete(Jogador entity) throws Exception{
         try (DataScope ds  = new DataScope()){
             EntityManager em = ds.getEntityManager();
-            em.flush();
-            em.getTransaction().begin();
+
             Jogador j = em.find(Jogador.class, entity.getId(), LockModeType.PESSIMISTIC_WRITE );
             if (j == null)
                 throw new java.lang.IllegalAccessException("Entidade inexistente");
             em.remove(j);
+
             ds.validateWork();
         }
         catch(Exception e) {
@@ -77,15 +78,17 @@ public class JogadorMapper implements Mapper<Jogador, Integer> {
     public Jogador findByUsername(String username) throws Exception {
         try (DataScope ds = new DataScope()) {
             EntityManager em = ds.getEntityManager();
+
             Query query = em.createQuery("SELECT j FROM jogadores j WHERE j.username = :username");
             query.setParameter("username", username);
             List<Jogador> jogadorList = query.getResultList();
 
             if (!jogadorList.isEmpty()) {
+                ds.validateWork();
                 return jogadorList.get(0);
             }
 
-            ds.validateWork();
+            ds.cancelWork();
         } catch (Exception e) {
             System.out.println(e.getMessage());
             throw e;

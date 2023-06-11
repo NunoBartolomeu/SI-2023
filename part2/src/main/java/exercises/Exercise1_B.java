@@ -13,7 +13,7 @@ import model.pontuacão.PontuacaoId;
 import model.pontuacão.PontuacaoMultijogadorMapper;
 import model.pontuacão.Pontuacao_Multi_Jogador;
 
-public class Exercise_B {
+public class Exercise1_B {
     public String associarCracha(int jogadorId, String jogoId, String crachaNome) throws Exception {
         try (DataScope ds = new DataScope()) {
             EntityManager em = ds.getEntityManager();

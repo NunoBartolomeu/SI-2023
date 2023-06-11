@@ -26,7 +26,11 @@ public class CrachaMapper implements Mapper<Cracha, CrachaId> {
     public Cracha Read(CrachaId id) throws Exception{
         try (DataScope ds = new DataScope()) {
             EntityManager em = ds.getEntityManager();
-            return em.find(Cracha.class, id);
+
+            Cracha cracha = em.find(Cracha.class, id);
+
+            ds.validateWork();
+            return cracha;
         }
         catch(Exception e) {
             System.out.println(e.getMessage());
@@ -39,12 +43,12 @@ public class CrachaMapper implements Mapper<Cracha, CrachaId> {
         try (DataScope ds = new DataScope()) {
             EntityManager em = ds.getEntityManager();
 
-            em.getTransaction().begin();
             Cracha c = em.find(Cracha.class, entity.getId(), LockModeType.PESSIMISTIC_WRITE );
             if (c == null)
                 throw new java.lang.IllegalAccessException("Entidade inexistente");
             em.merge(entity);
-            em.getTransaction().commit();
+
+            ds.validateWork();
         }
         catch(Exception e) {
             System.out.println(e.getMessage());
