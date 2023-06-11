@@ -1,6 +1,7 @@
 package presentation;
 
 import jakarta.persistence.*;
+import model.conversa.Conversa;
 import model.cracha.Cracha;
 import model.jogador.Jogador;
 import model.partida.Partida;
@@ -21,14 +22,16 @@ public class App {
 		try {
 			Thread.sleep(50);
 			em.getTransaction().begin();
-			List<Jogador> a = em.createQuery("select j from jogadores j").getResultList();
+			List<Conversa> a = em.createQuery("select j from conversas j").getResultList();
 			System.out.println("======================================================================================");
 			a.forEach((i) -> {
-				//System.out.println(i.getCrachas());
-
+				System.out.println(i.getId());
+/*
 				for(Cracha c : i.getCrachas()){
 					System.out.println(c.getId().getNome());
 				}
+
+ */
 
 
 

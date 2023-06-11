@@ -1,5 +1,6 @@
 package exercises;
 
+import com.sun.codemodel.JStatement;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.ParameterMode;
 import jakarta.persistence.StoredProcedureQuery;
@@ -9,6 +10,7 @@ import model.jogador_total_info.JogadorTotalInfoRepository;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.Types;
 import java.util.List;
 
 public class Exercise1_A {
@@ -136,9 +138,6 @@ public class Exercise1_A {
             EntityManager em = ds.getEntityManager();
             Connection connection = em.unwrap(Connection.class);
 
-            System.out.println("\n\n\n\n\n");
-            System.out.println("\n\n\n\n\n");
-
             try (CallableStatement statement = connection.prepareCall("CALL associarCracha(?, ?, ?)")) {
                 statement.setInt(1, jogadorId);
                 statement.setString(2, jogoId);
@@ -155,8 +154,29 @@ public class Exercise1_A {
 
 
     // Exercise I - iniciarConversa
-    public static void iniciarConversa(int jogadorId, String nomeConversa, int[] idConversa) throws Exception {
+    public static int iniciarConversa(int jogadorId, String nomeConversa) throws Exception {
+
         try (DataScope ds = new DataScope()) {
+            EntityManager em = ds.getEntityManager();
+            Connection connection = em.unwrap(Connection.class);
+
+            int idConversa;
+
+            try (CallableStatement statement = connection.prepareCall("CALL iniciarConversa(?, ?, ?)")) {
+                statement.registerOutParameter(3, Types.INTEGER);
+                statement.setInt(1, jogadorId);
+                statement.setString(2, nomeConversa);
+                statement.execute();
+                idConversa = statement.getInt(3);
+            }
+            ds.validateWork();
+            return idConversa;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            throw e;
+        }
+
+        /*try (DataScope ds = new DataScope()) {
             EntityManager em = ds.getEntityManager();
 
             StoredProcedureQuery query = em.createStoredProcedureQuery("iniciarConversa");
@@ -174,7 +194,8 @@ public class Exercise1_A {
             throw e;
         }
 
-                            }
+         */
+    }
 
     // Exercise J - juntarConversa
     public static void juntarConversa(int jogadorId, int conversaId) throws Exception {

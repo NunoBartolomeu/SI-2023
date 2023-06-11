@@ -15,8 +15,10 @@ public class Tests {
     static Exercise1_A ea;
 
     public static void main(String[] args) throws Exception {
-        try (DataScope ds = new DataScope()) {
 
+
+            teste1_A_I();
+/*
             teste1_A_D();
             teste1_A_E();
             teste1_A_F();
@@ -33,11 +35,7 @@ public class Tests {
             teste2_Async();
             teste2_Sync();
 
-            ds.cancelWork();
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            throw e;
-        }
+ */
     }
 
     private static void teste1_A_D() throws Exception {
@@ -50,7 +48,6 @@ public class Tests {
                 System.out.println("testeA_D_criarJogador() NOK");
 
             Exercise1_A.desativarJogador("TestEmail@gmail.com", "testUsername");
-            //System.out.println(jm.findByUsername("testUsername").getEstado());
             if (Objects.equals(jm.findByUsername("testUsername").getEstado(), "inativo")) {
                 System.out.println("testeA_D_desativarJogador() OK");
             }
@@ -134,9 +131,9 @@ public class Tests {
 
     private static void teste1_A_I() throws Exception {
         try (DataScope ds = new DataScope()) {
-            int[] idConversa = new int[1];
-            Exercise1_A.iniciarConversa(4, "Conversa Teste", idConversa);
-            if(Objects.equals(cm.Read(idConversa[0]).getNome(), "Conversa Teste")) {
+            int idConversa = Exercise1_A.iniciarConversa(4, "Conversa Teste");
+            System.out.println("ID CONVERSA =============> "+idConversa);
+            if(Objects.equals(cm.Read(idConversa).getNome(), "Conversa Teste")) {
                 System.out.println("testeA_I_iniciarConversa() OK");
             }
             else
@@ -150,11 +147,10 @@ public class Tests {
 
     private static void teste1_A_J() throws Exception {
         try (DataScope ds = new DataScope()) {
-            int[] idConversa = new int[1];
-            Exercise1_A.iniciarConversa(4, "Conversa Teste", idConversa);
-            Exercise1_A.juntarConversa(2, idConversa[0]);
+            int idConversa = Exercise1_A.iniciarConversa(4, "Conversa Teste");
+            Exercise1_A.juntarConversa(2, idConversa);
 
-            if(cm.Read(idConversa[0]).getParticipantes().stream()
+            if(cm.Read(idConversa).getParticipantes().stream()
                     .anyMatch(jogador -> jogador.getId() == 2)) {
                 System.out.println("testeA_J_juntarConversa() OK");
             }
@@ -169,12 +165,11 @@ public class Tests {
 
     private static void teste1_A_K() throws Exception {
         try (DataScope ds = new DataScope()) {
-            int[] idConversa = new int[1];
-            Exercise1_A.iniciarConversa(4, "Conversa Teste", idConversa);
-            Exercise1_A.juntarConversa(2, idConversa[0]);
-            Exercise1_A.enviarMensagem(2, idConversa[0], "Test Message");
+            int idConversa = Exercise1_A.iniciarConversa(4, "Conversa Teste");
+            Exercise1_A.juntarConversa(2, idConversa);
+            Exercise1_A.enviarMensagem(2, idConversa, "Test Message");
 
-            if(cm.Read(idConversa[0]).getMensagens().stream()
+            if(cm.Read(idConversa).getMensagens().stream()
                     .anyMatch(mensagem -> Objects.equals(mensagem.getTexto(), "Test Message"))) {
                 System.out.println("testeA_J_juntarConversa() OK");
             }

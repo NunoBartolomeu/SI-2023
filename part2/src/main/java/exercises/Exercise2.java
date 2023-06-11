@@ -10,8 +10,6 @@ import model.cracha.CrachaMapper;
 public class Exercise2 {
     public static void main(String[] args) throws Exception {
         try (DataScope dss = new DataScope()) {
-            boolean isMine = dss.isMine;
-            System.out.println("\n\n\n\n\nisMine:" + isMine);
 
             reiniciarPontos("LOL1234567", "begin", 10);
 
@@ -88,8 +86,6 @@ public class Exercise2 {
 
     public static void reiniciarPontos(String idJogo, String nomeCracha, int pontos) throws Exception {
         try (DataScope ds = new DataScope()) {
-            boolean isMine = ds.isMine;
-            System.out.println("\n\n\n\n\nisMine:" + isMine);
 
             CrachaId crachaId = new CrachaId();
             crachaId.setIdJogo(idJogo);
