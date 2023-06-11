@@ -1,6 +1,5 @@
 package exercises;
 
-import jakarta.persistence.EntityManager;
 import model.DataScope;
 import model.conversa.ConversaMapper;
 import model.jogador.JogadorMapper;
@@ -16,8 +15,8 @@ public class Tests {
 
     public static void main(String[] args) throws Exception {
 
-
-            teste1_A_I();
+            teste2_Optimistic();
+            //teste2_Pessimistic();
 /*
             teste1_A_D();
             teste1_A_E();
@@ -234,23 +233,20 @@ public class Tests {
         }
     }
 
-    public static void teste2_Async() throws Exception {
+    public static void teste2_Optimistic() throws Exception {
         Exercise2.reiniciarPontos("LOL1234567", "begin", 10);
-
+        //System.out.println("PONTOS : "+Exercise2.getPontos("LOL1234567", "begin"));
         Thread t1 = new Thread(() -> {
-            try (DataScope ds = new DataScope()) {
-                Exercise2.aumentarPontosEm20PorcentoAssincrono("LOL1234567", "begin");
-                ds.validateWork();
-            }
-            catch (Exception e) {
-                System.out.println(e.getMessage());
+            try {
+                Exercise2.aumentarPontosEm20PorcentoOtimista("LOL1234567", "begin");
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         });
 
         Thread t2 = new Thread(() -> {
-            try (DataScope ds = new DataScope()) {
-                Exercise2.aumentarPontosEm20PorcentoAssincrono("LOL1234567", "begin");
-                ds.validateWork();
+            try {
+                Exercise2.aumentarPontosEm20PorcentoOtimista("LOL1234567", "begin");
             }
             catch (Exception e) {
                 System.out.println(e.getMessage());
@@ -258,29 +254,32 @@ public class Tests {
         });
 
 
-        t1.start();
-        t2.start();
-
-        t1.join();
-        t2.join();
+        try(DataScope ds = new DataScope()) {
+            t1.start();
+            t2.start();
+            t1.join();
+            t2.join();
+            ds.validateWork();
+        }
 
 
         int pontos = Exercise2.getPontos("LOL1234567", "begin");
-
+        System.out.println("PONTOS : "+pontos);
         if(pontos == 12) {
-            System.out.println("teste2_A_aumentarPontosEm20PorcentoAssincrono() OK");
+            System.out.println("teste2_A_aumentarPontosEm20PorcentoOtismista() OK");
         }
         else
-            System.out.println("teste2_A_aumentarPontosEm20PorcentoAssincrono() NOK");
+            System.out.println("teste2_A_aumentarPontosEm20PorcentoOtimista() NOK");
     }
 
 
-    public static void teste2_Sync() throws Exception {
+    public static void teste2_Pessimistic() throws Exception {
+
         Exercise2.reiniciarPontos("LOL1234567", "begin", 10);
 
         Thread t1 = new Thread(() -> {
             try (DataScope ds = new DataScope()) {
-                Exercise2.aumentarPontosEm20PorcentoSincrono("LOL1234567", "begin");
+                Exercise2.aumentarPontosEm20PorcentoPessimista("LOL1234567", "begin");
                 ds.validateWork();
             }
             catch (Exception e) {
@@ -290,7 +289,7 @@ public class Tests {
 
         Thread t2 = new Thread(() -> {
             try (DataScope ds = new DataScope()) {
-                Exercise2.aumentarPontosEm20PorcentoSincrono("LOL1234567", "begin");
+                Exercise2.aumentarPontosEm20PorcentoPessimista("LOL1234567", "begin");
                 ds.validateWork();
             }
             catch (Exception e) {
@@ -307,9 +306,9 @@ public class Tests {
         int pontos = Exercise2.getPontos("LOL1234567", "begin");
 
         if(pontos == 14) {
-            System.out.println("teste2_A_aumentarPontosEm20PorcentoSincrono() OK");
+            System.out.println("teste2_A_aumentarPontosEm20PorcentoPessimista() OK");
         }
         else
-            System.out.println("teste2_A_aumentarPontosEm20PorcentoSincrono() NOK");
+            System.out.println("teste2_A_aumentarPontosEm20PorcentoPessimista() NOK");
     }
 }

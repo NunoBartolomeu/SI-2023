@@ -7,11 +7,8 @@ import model.cracha.CrachaId;
 import model.cracha.CrachaMapper;
 import model.jogador.Jogador;
 import model.jogador.JogadorMapper;
-import model.partida_multijogador.PartidaMultijogador;
 import model.partida_normal.PartidaNormal;
-import model.pontuacão.PontuacaoId;
-import model.pontuacão.PontuacaoMultijogadorMapper;
-import model.pontuacão.Pontuacao_Multi_Jogador;
+import model.pontuacao.Pontuacao_Multi_Jogador;
 
 public class Exercise1_B {
     public String associarCracha(int jogadorId, String jogoId, String crachaNome) throws Exception {

@@ -15,7 +15,7 @@ public class Exercise2 {
 
             Thread t1 = new Thread(() -> {
                 try (DataScope ds = new DataScope()) {
-                    Exercise2.aumentarPontosEm20PorcentoAssincrono("LOL1234567", "begin");
+                    Exercise2.aumentarPontosEm20PorcentoOtimista("LOL1234567", "begin");
                     ds.validateWork();
                 } catch (Exception e) {
                     System.out.println(e.getMessage());
@@ -24,7 +24,7 @@ public class Exercise2 {
 
             Thread t2 = new Thread(() -> {
                 try (DataScope ds = new DataScope()) {
-                    Exercise2.aumentarPontosEm20PorcentoAssincrono("LOL1234567", "begin");
+                    Exercise2.aumentarPontosEm20PorcentoOtimista("LOL1234567", "begin");
                     ds.validateWork();
                 } catch (Exception e) {
                     System.out.println(e.getMessage());
@@ -52,31 +52,33 @@ public class Exercise2 {
         }
     }
 
-    public static void aumentarPontosEm20PorcentoAssincrono(String idJogo, String nomeCracha) throws Exception {
+    public static void aumentarPontosEm20PorcentoOtimista(String idJogo, String nomeCracha) throws Exception {
+        CrachaId crachaId = new CrachaId();
+        crachaId.setIdJogo(idJogo);
+        crachaId.setNome(nomeCracha);
+        CrachaMapper cm = new CrachaMapper();
+
         try (DataScope ds = new DataScope()) {
 
-            CrachaId crachaId = new CrachaId();
-            crachaId.setIdJogo(idJogo);
-            crachaId.setNome(nomeCracha);
-
-            CrachaMapper cm = new CrachaMapper();
             Cracha cracha = cm.Read(crachaId);
+            // Sleep needed to ensure collision
+            Thread.sleep(100);
             cracha.setLimitePontos((int) (cracha.getLimitePontos() * 1.2));
 
             ds.validateWork();
         }
     }
 
-    public static void aumentarPontosEm20PorcentoSincrono(String idJogo, String nomeCracha) throws Exception {
+    public static void aumentarPontosEm20PorcentoPessimista(String idJogo, String nomeCracha) throws Exception {
+
+        CrachaId crachaId = new CrachaId();
+        crachaId.setIdJogo(idJogo);
+        crachaId.setNome(nomeCracha);
         try (DataScope ds = new DataScope()) {
             EntityManager em  = ds.getEntityManager();
-
-            CrachaId crachaId = new CrachaId();
-            crachaId.setIdJogo(idJogo);
-            crachaId.setNome(nomeCracha);
-
             Cracha cracha = em.find(Cracha.class, crachaId, LockModeType.PESSIMISTIC_READ);
-
+            // Sleep needed to ensure collision
+            Thread.sleep(100);
             cracha.setLimitePontos((int) (cracha.getLimitePontos() * 1.2));
 
             ds.validateWork();
@@ -85,18 +87,16 @@ public class Exercise2 {
 
 
     public static void reiniciarPontos(String idJogo, String nomeCracha, int pontos) throws Exception {
+        CrachaId crachaId = new CrachaId();
+        crachaId.setIdJogo(idJogo);
+        crachaId.setNome(nomeCracha);
+        CrachaMapper cm = new CrachaMapper();
         try (DataScope ds = new DataScope()) {
 
-            CrachaId crachaId = new CrachaId();
-            crachaId.setIdJogo(idJogo);
-            crachaId.setNome(nomeCracha);
-
-            CrachaMapper cm = new CrachaMapper();
             Cracha cracha = cm.Read(crachaId);
 
             cracha.setLimitePontos(pontos);
 
-            cm.Update(cracha);
             ds.validateWork();
         }
     }

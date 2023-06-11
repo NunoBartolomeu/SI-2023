@@ -1,9 +1,7 @@
-package model.pontuacão;
+package model.pontuacao;
 
 import jakarta.persistence.*;
 import model.jogador.Jogador;
-import model.jogo.Jogo;
-import model.partida.Partida;
 import model.partida_multijogador.PartidaMultijogador;
 
 import java.io.Serializable;

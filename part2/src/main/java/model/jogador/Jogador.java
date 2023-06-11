@@ -8,11 +8,9 @@ import model.compra.Compra;
 import model.conversa.Conversa;
 import model.cracha.Cracha;
 import model.estatisticas_jogador.EstatisticasJogador;
-import model.partida.Partida;
 import model.partida_normal.PartidaNormal;
-import model.pontuacão.Pontuacao_Multi_Jogador;
+import model.pontuacao.Pontuacao_Multi_Jogador;
 import model.regiao.Regiao;
-import org.glassfish.jaxb.core.v2.TODO;
 
 
 /**

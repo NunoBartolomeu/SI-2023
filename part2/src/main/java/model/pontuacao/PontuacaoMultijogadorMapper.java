@@ -1,4 +1,4 @@
-package model.pontuacão;
+package model.pontuacao;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;

@@ -2,13 +2,6 @@ package presentation;
 
 import jakarta.persistence.*;
 import model.conversa.Conversa;
-import model.cracha.Cracha;
-import model.jogador.Jogador;
-import model.partida.Partida;
-import model.partida_multijogador.PartidaMultijogador;
-import model.partida_normal.PartidaNormal;
-import model.partida_normal.PartidaNormalId;
-import model.pontuacão.Pontuacao_Multi_Jogador;
 
 
 import java.util.List;

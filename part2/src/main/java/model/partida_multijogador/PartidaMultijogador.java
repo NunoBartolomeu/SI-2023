@@ -1,11 +1,8 @@
 package model.partida_multijogador;
 
 import jakarta.persistence.*;
-import model.jogo.Jogo;
 import model.partida.Partida;
-import model.partida.PartidaId;
-import model.partida_normal.PartidaNormal;
-import model.pontuacão.Pontuacao_Multi_Jogador;
+import model.pontuacao.Pontuacao_Multi_Jogador;
 
 import java.util.Set;
 
