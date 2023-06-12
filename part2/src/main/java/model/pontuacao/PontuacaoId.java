@@ -1,7 +1,6 @@
 package model.pontuacao;
 
 import jakarta.persistence.*;
-
 import java.io.Serializable;
 
 @Embeddable

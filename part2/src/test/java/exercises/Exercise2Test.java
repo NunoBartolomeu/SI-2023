@@ -6,7 +6,6 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class Exercise2Test {
-
     @Test
     public void aumentarPontosEm20PorcentoOtimista() throws Exception {
         Exercise2.reiniciarPontos("LOL1234567", "begin", 10);

@@ -5,8 +5,6 @@ import model.compra.Compra;
 import model.estatisticas_jogo.EstatisticasJogo;
 import model.partida.Partida;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Set;
 
 @Entity(name = "jogos")

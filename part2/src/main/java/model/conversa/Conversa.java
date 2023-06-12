@@ -47,6 +47,4 @@ public class Conversa {
         mensagem.setConversa(this);
         return mensagem;
     }
-
-
 }

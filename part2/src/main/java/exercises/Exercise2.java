@@ -8,50 +8,6 @@ import model.cracha.CrachaId;
 import model.cracha.CrachaMapper;
 
 public class Exercise2 {
-    public static void main(String[] args) throws Exception {
-        try (DataScope dss = new DataScope()) {
-
-            reiniciarPontos("LOL1234567", "begin", 10);
-
-            Thread t1 = new Thread(() -> {
-                try (DataScope ds = new DataScope()) {
-                    Exercise2.aumentarPontosEm20PorcentoOtimista("LOL1234567", "begin");
-                    ds.validateWork();
-                } catch (Exception e) {
-                    System.out.println(e.getMessage());
-                }
-            });
-
-            Thread t2 = new Thread(() -> {
-                try (DataScope ds = new DataScope()) {
-                    Exercise2.aumentarPontosEm20PorcentoOtimista("LOL1234567", "begin");
-                    ds.validateWork();
-                } catch (Exception e) {
-                    System.out.println(e.getMessage());
-                }
-            });
-
-            t1.start();
-            t2.start();
-
-            t1.join();
-            t2.join();
-
-            dss.validateWork();
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-
-        int pontos = Exercise2.getPontos("LOL1234567", "begin");
-
-        if (pontos == 12) {
-            System.out.println("teste2_A_aumentarPontosEm20PorcentoAssincrono() OK");
-        }
-        else {
-            System.out.println("teste2_A_aumentarPontosEm20PorcentoAssincrono() NOK");
-        }
-    }
-
     public static void aumentarPontosEm20PorcentoOtimista(String idJogo, String nomeCracha) throws Exception {
         CrachaId crachaId = new CrachaId();
         crachaId.setIdJogo(idJogo);
@@ -59,9 +15,8 @@ public class Exercise2 {
         CrachaMapper cm = new CrachaMapper();
 
         try (DataScope ds = new DataScope()) {
-
             Cracha cracha = cm.Read(crachaId);
-            // Sleep needed to ensure collision
+            //Sleep needed to ensure collision
             Thread.sleep(100);
             cracha.setLimitePontos((int) (cracha.getLimitePontos() * 1.2));
 
@@ -70,12 +25,13 @@ public class Exercise2 {
     }
 
     public static void aumentarPontosEm20PorcentoPessimista(String idJogo, String nomeCracha) throws Exception {
-
         CrachaId crachaId = new CrachaId();
         crachaId.setIdJogo(idJogo);
         crachaId.setNome(nomeCracha);
+
         try (DataScope ds = new DataScope()) {
-            EntityManager em  = ds.getEntityManager();
+            EntityManager em = ds.getEntityManager();
+
             Cracha cracha = em.find(Cracha.class, crachaId, LockModeType.PESSIMISTIC_READ);
             // Sleep needed to ensure collision
             Thread.sleep(100);

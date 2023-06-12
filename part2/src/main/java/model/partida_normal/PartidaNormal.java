@@ -2,10 +2,7 @@ package model.partida_normal;
 
 import jakarta.persistence.*;
 import model.jogador.Jogador;
-import model.jogo.Jogo;
 import model.partida.Partida;
-import model.partida.PartidaId;
-import model.regiao.Regiao;
 
 @Entity(name = "partidas_normais")
 public class PartidaNormal {
@@ -33,12 +30,6 @@ public class PartidaNormal {
     public PartidaNormalId getId() { return id; }
 
     public void setId(PartidaNormalId id) { this.id = id; }
-/*
-    public Jogo getJogo() { return jogo; }
-
-    public void setJogo(Jogo jogo) { this.jogo = jogo; }
-
- */
 
     public int getPontos() { return pontos; }
 

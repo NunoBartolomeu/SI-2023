@@ -7,9 +7,6 @@ import java.io.Serializable;
 
 @Embeddable
 public class PartidaNormalId implements Serializable {
-
-    //@GeneratedValue(strategy = GenerationType.IDENTITY)
-    //@Column(insertable = false, updatable = false)
     private int id;
 
     @Column(name = "id_jogo")

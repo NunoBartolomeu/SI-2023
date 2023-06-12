@@ -1,14 +1,11 @@
 package model.partida;
 
-
 import jakarta.persistence.*;
 import model.jogo.Jogo;
 import model.partida_multijogador.PartidaMultijogador;
 import model.partida_normal.PartidaNormal;
 import model.regiao.Regiao;
-
 import java.util.Date;
-import java.util.Set;
 
 @Entity(name = "partidas")
 @Table(name = "partidas")
