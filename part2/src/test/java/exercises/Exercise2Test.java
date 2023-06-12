@@ -31,7 +31,6 @@ public class Exercise2Test {
         }
 
         int pontos = Exercise2.getPontos("LOL1234567", "begin");
-        //System.out.println("PONTOS : "+pontos);
         assertEquals(12, pontos);
     }
 
@@ -60,7 +59,6 @@ public class Exercise2Test {
         }
 
         int pontos = Exercise2.getPontos("LOL1234567", "begin");
-        //System.out.println("PONTOS : "+pontos);
         assertEquals(14, pontos);
     }
 }
