@@ -3,9 +3,9 @@
     <persistence-unit name="JPA_SI" transaction-type="RESOURCE_LOCAL">
         <exclude-unlisted-classes>false</exclude-unlisted-classes>
         <properties>
-            <property name="jakarta.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/SITrab"/>
+            <property name="jakarta.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/si"/>
             <property name="jakarta.persistence.jdbc.user" value="postgres"/>
-            <property name="jakarta.persistence.jdbc.password" value="postgres"/> <!--Ponham a vossa pass-->
+            <property name="jakarta.persistence.jdbc.password" value="."/> <!--Ponham a vossa pass-->
             <property name="jakarta.persistence.jdbc.driver" value="org.postgresql.Driver"/>
 
             <property name="eclipselink.logging.level" value="FINE"/>

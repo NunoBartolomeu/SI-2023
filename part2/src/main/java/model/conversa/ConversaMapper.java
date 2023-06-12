@@ -2,6 +2,7 @@ package model.conversa;
 
 import jakarta.persistence.LockModeType;
 import jakarta.persistence.Persistence;
+import model.DataScope;
 import model.Mapper;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -31,18 +32,15 @@ public class ConversaMapper implements Mapper<Conversa, Integer> {
 
     @Override
     public Conversa Read(Integer id) throws Exception{
-        emf = Persistence.createEntityManagerFactory("JPA_SI");
-        em = emf.createEntityManager();
-        try {
-            return em.find(Conversa.class, id);
+        try (DataScope ds = new DataScope()){
+            EntityManager em  = ds.getEntityManager();
+            Conversa conversa = em.find(Conversa.class, id);
+            ds.validateWork();
+            return conversa;
         }
         catch(Exception e) {
             System.out.println(e.getMessage());
             throw e;
-        }
-        finally {
-            em.close();
-            emf.close();
         }
     }
 

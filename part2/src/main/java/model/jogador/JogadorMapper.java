@@ -95,4 +95,31 @@ public class JogadorMapper implements Mapper<Jogador, Integer> {
         }
         return null;
     }
+
+    public void deleteByUsername(String username) throws Exception {
+        try (DataScope ds = new DataScope()) {
+            EntityManager em = ds.getEntityManager();
+
+            Query query = em.createQuery("Select j FROM jogadores j WHERE j.username = :username");
+            query.setParameter("username", username);
+            List<Jogador> jogadorList = query.getResultList();
+            int id = jogadorList.get(0).getId();
+
+            if (!jogadorList.isEmpty()) {
+                Query deleteStatsQuery = em.createQuery("DELETE FROM estatisticas_jogador s WHERE s.id_jogador = :id");
+                Query deleteJogadorQuery = em.createQuery("DELETE FROM jogadores j WHERE j.username = :username");
+                deleteStatsQuery.setParameter("id", id);
+                deleteJogadorQuery.setParameter("username", username);
+                deleteStatsQuery.executeUpdate();
+                deleteJogadorQuery.executeUpdate();
+
+                ds.validateWork();
+            }
+
+            ds.cancelWork();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            throw e;
+        }
+    }
 }

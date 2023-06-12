@@ -1,8 +1,6 @@
 package exercises;
 
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
 import model.DataScope;
 import model.cracha.Cracha;
 import model.jogador.Jogador;
@@ -11,11 +9,11 @@ import java.util.List;
 import java.util.Objects;
 
 public class Exercise1_C {
-    public void associarCracha(int jogadorId, String jogoId, String crachaNome) throws Exception {
+    public static String associarCracha(int jogadorId, String jogoId, String crachaNome) throws Exception {
         try (DataScope ds = new DataScope()){
             EntityManager em = ds.getEntityManager();
 
-            // Verificar se o jogador atingiu o limite de pontos para obter o crachá
+            // Verificar se o jogador atingiu o limite de pontos para obter o cracha
             List<Object[]> leaderboard = em.createNamedStoredProcedureQuery("PontosJogoPorJogador")
                     .setParameter("referencia_jogo", jogoId)
                     .getResultList();
@@ -31,9 +29,9 @@ public class Exercise1_C {
             }
 
             if (pontosJogador == null) {
-                System.out.println("O jogador não está no leaderboard para esse jogo!");
+                return ("O jogador nao esta no leaderboard para esse jogo!");
             } else {
-                // Verificar se o jogador atingiu o limite de pontos para obter o crachá
+                // Verificar se o jogador atingiu o limite de pontos para obter o crachï¿½
                 Cracha cracha = em.createQuery("SELECT c FROM Cracha c WHERE c.id_jogo = :jogoId AND c.nome = :crachaNome", Cracha.class)
                         .setParameter("jogoId", jogoId)
                         .setParameter("crachaNome", crachaNome)
@@ -41,21 +39,21 @@ public class Exercise1_C {
                 int limitePontosCracha = cracha.getLimitePontos();
 
                 if (pontosJogador < limitePontosCracha) {
-                    System.out.println("O jogador não atingiu o limite de pontos para obter o crachá!");
+                    return ("O jogador nï¿½o atingiu o limite de pontos para obter o crachï¿½!");
                 } else {
-                    // Verificar se o jogador já possui o crachá
+                    // Verificar se o jogador jï¿½ possui o crachï¿½
                     Jogador jogador = em.find(Jogador.class, jogadorId);
                     boolean hasCracha = jogador.getCrachas().stream()
                             .anyMatch(c -> c.getId().getNome().equals(crachaNome) && c.getId().getIdJogo().equals(jogoId));
 
                     if (hasCracha) {
-                        System.out.println("O jogador já possui esse crachá!");
+                        return ("O jogador jï¿½ possui esse crachï¿½!");
                     } else {
                         // Create a new Cracha object and associate it with the jogador
                         jogador.addCracha(cracha);
                         em.merge(jogador);
                         em.getTransaction().commit();
-                        System.out.println("Crachá Obtido!");
+                        return ("Crachï¿½ Obtido!");
                     }
                 }
             }

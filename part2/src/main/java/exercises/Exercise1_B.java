@@ -11,11 +11,11 @@ import model.partida_normal.PartidaNormal;
 import model.pontuacao.Pontuacao_Multi_Jogador;
 
 public class Exercise1_B {
-    public String associarCracha(int jogadorId, String jogoId, String crachaNome) throws Exception {
+    public static String associarCracha(int jogadorId, String jogoId, String crachaNome) throws Exception {
         try (DataScope ds = new DataScope()) {
             EntityManager em = ds.getEntityManager();
 
-            // Verificar se o jogador atingiu o limite de pontos para obter o crachá
+            // Verificar se o jogador atingiu o limite de pontos para obter o crachï¿½
             CrachaMapper crachaMapper = new CrachaMapper();
             CrachaId crachaId = new CrachaId();
             crachaId.setNome(crachaNome);
@@ -43,28 +43,28 @@ public class Exercise1_B {
 
 
             if (pontosJogador < limitePontosCracha) {
-                return("O jogador não atingiu o limite de pontos para obter o crachá!");
+                return("O jogador nao atingiu o limite de pontos para obter o cracha!");
             }
 
             else {
-                // Verificar se o jogador já possui o crachá
+                // Verificar se o jogador jï¿½ possui o crachï¿½
 
                 boolean hasCracha = jogador.getCrachas().stream()
                         .anyMatch(c -> c.getId().getNome().equals(crachaNome) && c.getId().getIdJogo().equals(jogoId));
 
                 if (hasCracha) {
-                    return ("O jogador já possui esse crachá!");
+                    return ("O jogador ja possui esse cracha!");
                 }
 
                 else {
                     // Create a new Cracha object and associate it with the jogador
                     jogador.addCracha(cracha);
                     jm.Update(jogador);
-                    return ("Crachá Obtido!");
+                    return ("Cracha Obtido!");
                 }
             }
         } catch (Exception e) {
-            System.out.println(e);
+            System.out.println(e.getMessage());
             throw e;
         }
     }

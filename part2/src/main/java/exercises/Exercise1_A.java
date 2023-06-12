@@ -175,26 +175,6 @@ public class Exercise1_A {
             System.out.println(e.getMessage());
             throw e;
         }
-
-        /*try (DataScope ds = new DataScope()) {
-            EntityManager em = ds.getEntityManager();
-
-            StoredProcedureQuery query = em.createStoredProcedureQuery("iniciarConversa");
-            query.registerStoredProcedureParameter(1, Integer.class, ParameterMode.IN);
-            query.registerStoredProcedureParameter(2, String.class, ParameterMode.IN);
-            query.registerStoredProcedureParameter(3, Integer.class, ParameterMode.OUT);
-            query.setParameter(1, jogadorId);
-            query.setParameter(2, nomeConversa);
-            query.execute();
-            idConversa[0] = (int) query.getOutputParameterValue(3);
-
-            ds.validateWork();
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            throw e;
-        }
-
-         */
     }
 
     // Exercise J - juntarConversa
@@ -202,20 +182,20 @@ public class Exercise1_A {
         try (DataScope ds = new DataScope()) {
             EntityManager em = ds.getEntityManager();
 
-            StoredProcedureQuery query = em.createStoredProcedureQuery("juntarConversa");
-            query.registerStoredProcedureParameter(1, Integer.class, ParameterMode.IN);
-            query.registerStoredProcedureParameter(2, Integer.class, ParameterMode.IN);
-            query.setParameter(1, jogadorId);
-            query.setParameter(2, conversaId);
-            query.execute();
+            Connection connection = em.unwrap(Connection.class);
 
-            ds.validateWork();
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            throw e;
+            try (CallableStatement statement = connection.prepareCall("CALL juntarConversa(?, ?)")) {
+                statement.setInt(1, jogadorId);
+                statement.setInt(2, conversaId);
+                statement.execute();
+
+                ds.validateWork();
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+                throw e;
+            }
         }
-
-                                }
+    }
 
     // Exercise K - enviarMensagem
     public static void enviarMensagem(int jogadorId, int conversaId, String mensagemTexto) throws Exception {
