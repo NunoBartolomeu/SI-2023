@@ -229,7 +229,9 @@ public class Exercise1_A {
     public static List<JogadorTotalInfo> getJogadorTotalInfo() {
         try (DataScope ds = new DataScope()) {
             JogadorTotalInfoRepository j = new JogadorTotalInfoRepository();
+            System.out.println("JJJJJJJJJJJJJJJJJJJJJJJJJ : "+j);
             List<JogadorTotalInfo> list = j.GetAll();
+            System.out.println("LIST ====> "+list.get(0).getIdJogador());
             ds.validateWork();
             return list;
         } catch (Exception e) {

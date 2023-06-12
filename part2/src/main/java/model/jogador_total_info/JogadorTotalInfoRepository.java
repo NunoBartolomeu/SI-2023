@@ -13,8 +13,9 @@ public class JogadorTotalInfoRepository implements Repository<JogadorTotalInfo, 
         try (DataScope ds = new DataScope()) {
             EntityManager em  = ds.getEntityManager();
 
-            Query query = em.createNamedQuery("Select j from JogadorTotalInfo j");
+            Query query = em.createQuery("Select j from JogadorTotalInfo j", JogadorTotalInfo.class);
             List<JogadorTotalInfo> list = query.getResultList();
+
 
             ds.validateWork();
             return list;
