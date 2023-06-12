@@ -42,13 +42,6 @@ public class Exercise1_C {
             if (pontosJogador == null) {
                 return ("O jogador nao esta no leaderboard para esse jogo!");
             } else {
-                // Verificar se o jogador atingiu o limite de pontos para obter o crach�
-                /*Cracha cracha = em.createQuery("SELECT c FROM Cracha c WHERE c.id_jogo = :jogoId AND c.nome = :crachaNome", Cracha.class)
-                        .setParameter("jogoId", jogoId)
-                        .setParameter("crachaNome", crachaNome)
-                        .getSingleResult();
-
-                 */
                 CrachaMapper crachaMapper = new CrachaMapper();
                 CrachaId crachaId = new CrachaId();
                 crachaId.setNome(crachaNome);
@@ -58,21 +51,22 @@ public class Exercise1_C {
                 int limitePontosCracha = cracha.getLimitePontos();
 
                 if (pontosJogador < limitePontosCracha) {
-                    return ("O jogador n�o atingiu o limite de pontos para obter o crach�!");
+                    return ("O jogador nao atingiu o limite de pontos para obter o cracha!");
                 } else {
-                    // Verificar se o jogador j� possui o crach�
+                    // Verificar se o jogador ja possui o cracha
                     Jogador jogador = em.find(Jogador.class, jogadorId);
                     boolean hasCracha = jogador.getCrachas().stream()
                             .anyMatch(c -> c.getId().getNome().equals(crachaNome) && c.getId().getIdJogo().equals(jogoId));
 
                     if (hasCracha) {
-                        return ("O jogador j� possui esse crach�!");
+                        ds.validateWork();
+                        return ("O jogador ja possui esse cracha!");
                     } else {
                         // Create a new Cracha object and associate it with the jogador
                         jogador.addCracha(cracha);
                         em.merge(jogador);
-                        em.getTransaction().commit();
-                        return ("Crach� Obtido!");
+                        ds.validateWork();
+                        return ("Cracha Obtido!");
                     }
                 }
             }

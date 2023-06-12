@@ -37,6 +37,22 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+-- Extra function of phase 2
+
+CREATE OR REPLACE FUNCTION delete_jogador(jogador_email varchar(100))
+    RETURNS VOID AS $$
+    DECLARE jogador_id Int;
+    BEGIN
+        select id into jogador_id from jogadores j inner join estatisticas_jogador ej on j.id = ej.id_jogador where email = jogador_email;
+
+        -- Delete the jogador's entry from Estatisticas_Jogador table
+        DELETE FROM Estatisticas_Jogador WHERE id_jogador = jogador_id;
+        -- Delete the jogador from Jogadores table
+        DELETE FROM Jogadores WHERE id = jogador_id;
+
+    END;
+$$ LANGUAGE plpgsql;
+
 --Exercise F
 
 --DROP FUNCTION totalJogosJogador;

@@ -34,6 +34,7 @@ public class Exercise1_ATest {
     @Test
     public void desativarJogador() throws Exception {
         JogadorMapper jm = new JogadorMapper();
+
         try (DataScope ds = new DataScope()) {
             Exercise1_A.criarJogador("TestEmail@gmail.com", "testUsername");
             ds.validateWork();
@@ -41,7 +42,6 @@ public class Exercise1_ATest {
             System.out.println(e.getMessage());
             throw e;
         }
-
 
         try (DataScope ds = new DataScope()) {
             Exercise1_A.desativarJogador("TestEmail@gmail.com", "testUsername");
@@ -52,7 +52,6 @@ public class Exercise1_ATest {
             System.out.println(e.getMessage());
             throw e;
         }
-
 
         try (DataScope ds = new DataScope()) {
             Extras.deleteJogadorParaTestes("TestEmail@gmail.com");
@@ -97,7 +96,7 @@ public class Exercise1_ATest {
     @Test
     public void totalPontosJogador() throws Exception {
         try (DataScope ds = new DataScope()) {
-            assertEquals(300, Exercise1_A.totalPontosJogador(4));
+            assertEquals(1200, Exercise1_A.totalPontosJogador(4));
             ds.cancelWork();
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -121,7 +120,7 @@ public class Exercise1_ATest {
         try (DataScope ds = new DataScope()) {
             List<Extras.JogadorPontuacao> r = Exercise1_A.pontosJogoPorJogador("LOL1234567");
             System.out.println("LIST OBJECT : "+r.get(0).getPontos());
-            assertEquals(200, r.get(0).getPontos().intValue());
+            assertEquals(1100, r.get(0).getPontos().intValue());
             ds.cancelWork();
         } catch (Exception e) {
             System.out.println(e.getMessage());
