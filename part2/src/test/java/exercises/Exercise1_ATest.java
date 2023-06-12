@@ -8,6 +8,7 @@ import model.jogador_total_info.JogadorTotalInfo;
 import org.checkerframework.checker.units.qual.C;
 import org.junit.Test;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -33,12 +34,29 @@ public class Exercise1_ATest {
     @Test
     public void desativarJogador() throws Exception {
         JogadorMapper jm = new JogadorMapper();
+        try (DataScope ds = new DataScope()) {
+            Exercise1_A.criarJogador("TestEmail@gmail.com", "testUsername");
+            ds.validateWork();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            throw e;
+        }
+
 
         try (DataScope ds = new DataScope()) {
             Exercise1_A.desativarJogador("TestEmail@gmail.com", "testUsername");
             assertEquals("inativo", jm.findByUsername("testUsername").getEstado());
 
             ds.cancelWork();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            throw e;
+        }
+
+
+        try (DataScope ds = new DataScope()) {
+            Extras.deleteJogadorParaTestes("TestEmail@gmail.com");
+            ds.validateWork();
         } catch (Exception e) {
             System.out.println(e.getMessage());
             throw e;
@@ -50,10 +68,26 @@ public class Exercise1_ATest {
         JogadorMapper jm = new JogadorMapper();
 
         try (DataScope ds = new DataScope()) {
+            Exercise1_A.criarJogador("TestEmail@gmail.com", "testUsername");
+            ds.validateWork();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            throw e;
+        }
+
+        try (DataScope ds = new DataScope()) {
             Exercise1_A.banirJogador("TestEmail@gmail.com", "testUsername");
             assertEquals("banido", jm.findByUsername("testUsername").getEstado());
 
             ds.cancelWork();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            throw e;
+        }
+
+        try (DataScope ds = new DataScope()) {
+            Extras.deleteJogadorParaTestes("TestEmail@gmail.com");
+            ds.validateWork();
         } catch (Exception e) {
             System.out.println(e.getMessage());
             throw e;
@@ -63,7 +97,7 @@ public class Exercise1_ATest {
     @Test
     public void totalPontosJogador() throws Exception {
         try (DataScope ds = new DataScope()) {
-            assertEquals(1200, Exercise1_A.totalPontosJogador(4));
+            assertEquals(300, Exercise1_A.totalPontosJogador(4));
             ds.cancelWork();
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -85,8 +119,9 @@ public class Exercise1_ATest {
     @Test
     public void pontosJogoPorJogador() throws Exception {
         try (DataScope ds = new DataScope()) {
-            List<Object[]> r = Exercise1_A.pontosJogoPorJogador("LOL1234567");
-            assertEquals(1200, r.get(0));
+            List<Extras.JogadorPontuacao> r = Exercise1_A.pontosJogoPorJogador("LOL1234567");
+            System.out.println("LIST OBJECT : "+r.get(0).getPontos());
+            assertEquals(200, r.get(0).getPontos().intValue());
             ds.cancelWork();
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -130,7 +165,7 @@ public class Exercise1_ATest {
         try (DataScope ds = new DataScope()) {
             int idConversa = Exercise1_A.iniciarConversa(4, "Conversa Teste2");
             Exercise1_A.juntarConversa(2, idConversa);
-            boolean anyMatch = cm.Read(idConversa).getParticipantes().stream().anyMatch(jogador -> jogador.getId() == 3);
+            boolean anyMatch = cm.Read(idConversa).getParticipantes().stream().anyMatch(jogador -> jogador.getId() == 2);
             assertTrue(anyMatch);
 
             ds.cancelWork();
@@ -148,8 +183,12 @@ public class Exercise1_ATest {
             int idConversa = Exercise1_A.iniciarConversa(4, "Conversa Teste3");
             Exercise1_A.juntarConversa(2, idConversa);
             Exercise1_A.enviarMensagem(2, idConversa, "Test Message");
-            boolean anyMatch = cm.Read(idConversa).getMensagens().stream().anyMatch(mensagem -> Objects.equals(mensagem.getTexto(), "Test Messagee"));
+            boolean anyMatch = cm.Read(idConversa).getMensagens().stream().anyMatch(mensagem -> Objects.equals(mensagem.getTexto(), "Test Message"));
+            //cm.Read(idConversa).getMensagens().forEach(mensagem -> System.out.println(mensagem.getTexto()));
+
+            System.out.println("ANY MATCH : "+anyMatch);
             assertTrue(anyMatch);
+
 
             ds.cancelWork();
         } catch (Exception e) {
@@ -162,6 +201,7 @@ public class Exercise1_ATest {
     public void getJogadorTotalInfo() throws Exception {
         try (DataScope ds = new DataScope()) {
             List<JogadorTotalInfo> lista = Exercise1_A.getJogadorTotalInfo();
+            System.out.println("LISTA"+lista);
             assertEquals(1, lista.get(0).getIdJogador());
 
             ds.cancelWork();

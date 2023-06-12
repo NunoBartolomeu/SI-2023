@@ -3,14 +3,17 @@ package exercises;
 import com.sun.codemodel.JStatement;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.ParameterMode;
+import jakarta.persistence.Query;
 import jakarta.persistence.StoredProcedureQuery;
 import model.DataScope;
 import model.jogador_total_info.JogadorTotalInfo;
 import model.jogador_total_info.JogadorTotalInfoRepository;
 
+import java.math.BigDecimal;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.Types;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Exercise1_A {
@@ -115,22 +118,27 @@ public class Exercise1_A {
     }
 
     // Exercise G - PontosJogoPorJogador
-    public static List<Object[]> pontosJogoPorJogador(String referenciaJogo) throws Exception {
+    public static List<Extras.JogadorPontuacao> pontosJogoPorJogador(String referenciaJogo) throws Exception {
         try (DataScope ds = new DataScope()) {
             EntityManager em = ds.getEntityManager();
 
-            StoredProcedureQuery query = em.createStoredProcedureQuery("PontosJogoPorJogador");
-            query.registerStoredProcedureParameter(1, String.class, ParameterMode.IN);
+            Query query = em.createNativeQuery("SELECT * FROM PontosJogoPorJogador(?)");
             query.setParameter(1, referenciaJogo);
-            query.execute();
+
+            List<Object[]> resultList = query.getResultList();
+            List<Extras.JogadorPontuacao> result = new ArrayList<>();
+            for (Object[] o : resultList){
+                result.add(0, new Extras.JogadorPontuacao((int) o[0], (BigDecimal) o[1]));
+            }
 
             ds.validateWork();
-            return (List<Object[]>) query.getResultList();
+            return result;
         } catch (Exception e) {
             System.out.println(e.getMessage());
             throw e;
         }
     }
+
 
     // Exercise H - associarCracha
     public static void associarCracha(int jogadorId, String jogoId, String crachaNome) throws Exception {
@@ -202,14 +210,13 @@ public class Exercise1_A {
         try (DataScope ds = new DataScope()) {
             EntityManager em = ds.getEntityManager();
 
-            StoredProcedureQuery query = em.createStoredProcedureQuery("enviarMensagem");
-            query.registerStoredProcedureParameter(1, Integer.class, ParameterMode.IN);
-            query.registerStoredProcedureParameter(2, Integer.class, ParameterMode.IN);
-            query.registerStoredProcedureParameter(3, String.class, ParameterMode.IN);
-            query.setParameter(1, jogadorId);
-            query.setParameter(2, conversaId);
-            query.setParameter(3, mensagemTexto);
-            query.execute();
+            Connection connection = em.unwrap(Connection.class);
+            try (CallableStatement statement = connection.prepareCall("CALL enviarMensagem(?, ?, ?)")) {
+                statement.setInt(1, jogadorId);
+                statement.setInt(2, conversaId);
+                statement.setString(3, mensagemTexto);
+                statement.execute();
+            }
 
             ds.validateWork();
         } catch (Exception e) {
