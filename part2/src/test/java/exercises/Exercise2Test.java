@@ -6,7 +6,6 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class Exercise2Test {
-
     @Test
     public void aumentarPontosEm20PorcentoOtimista() throws Exception {
         Exercise2.reiniciarPontos("LOL1234567", "begin", 10);
@@ -32,7 +31,6 @@ public class Exercise2Test {
         }
 
         int pontos = Exercise2.getPontos("LOL1234567", "begin");
-        //System.out.println("PONTOS : "+pontos);
         assertEquals(12, pontos);
     }
 
@@ -61,7 +59,6 @@ public class Exercise2Test {
         }
 
         int pontos = Exercise2.getPontos("LOL1234567", "begin");
-        //System.out.println("PONTOS : "+pontos);
         assertEquals(14, pontos);
     }
 }

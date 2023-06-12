@@ -31,17 +31,11 @@ public class JogadorTotalInfoRepository implements Repository<JogadorTotalInfo, 
     }
 
     @Override
-    public void Add(JogadorTotalInfo entity) {
-
-    }
+    public void Add(JogadorTotalInfo entity) {}
 
     @Override
-    public void Delete(JogadorTotalInfo entity) {
-
-    }
+    public void Delete(JogadorTotalInfo entity) {}
 
     @Override
-    public void Save(JogadorTotalInfo e) {
-
-    }
+    public void Save(JogadorTotalInfo e) {}
 }

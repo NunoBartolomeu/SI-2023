@@ -3,7 +3,6 @@ package model.compra;
 import jakarta.persistence.*;
 import model.jogador.Jogador;
 import model.jogo.Jogo;
-import org.eclipse.persistence.annotations.CompositeMember;
 
 import java.util.Date;
 

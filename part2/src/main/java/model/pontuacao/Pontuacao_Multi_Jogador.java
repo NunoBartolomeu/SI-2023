@@ -3,9 +3,7 @@ package model.pontuacao;
 import jakarta.persistence.*;
 import model.jogador.Jogador;
 import model.partida_multijogador.PartidaMultijogador;
-
 import java.io.Serializable;
-
 
 @Entity(name = "pontuacoes_multi_jogador")
 @Table(name = "pontuacoes_multi_jogador")
@@ -28,12 +26,6 @@ public class Pontuacao_Multi_Jogador implements Serializable {
     private Jogador jogador;
 
     private int pontos;
-/*
-    public PartidaMultijogador getPartida() { return partida; }
-
-    public void setPartida(PartidaMultijogador partida) { this.partida = partida; }
-
- */
 
     public PontuacaoId getId(){ return this.id; }
 
